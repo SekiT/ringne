@@ -13,9 +13,6 @@ module.exports = {
     },
   },
   rules: {
-    // We use bitwise operators in this project
-    'no-bitwise': ['error', { allow: ['&', '|', '>>', '<<'] }],
-
     // Defining constructor function requires { Name: function() { ... }}
     'object-shorthand': ['error', 'properties'],
     'func-names': ['error', 'as-needed'],
