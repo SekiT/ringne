@@ -13,7 +13,7 @@ module.exports = {
     },
   },
   rules: {
-    // Defining constructor function requires { Name: function() { ... }}
+    // Defining constructor function requires { Name: function() { ... } }
     'object-shorthand': ['error', 'properties'],
     'func-names': ['error', 'as-needed'],
 
