@@ -2,7 +2,9 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #999;
+  background-color: #666;
   font-family: serif;
   user-select: none;
+  width: 100vw;
+  height: 100vh;
 }

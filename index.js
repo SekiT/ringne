@@ -5,7 +5,7 @@ import titlePhase from './phase/title';
 
 const { render, html } = dependencies.uhtml;
 
-render(document.getElementById('root'), html`${
+render(document.body, html`${
   [
   ].map((view) => view.render())
 }`);
