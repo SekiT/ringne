@@ -6,9 +6,13 @@ const {
   pi, cos, sin, document,
 } = dependencies.globals;
 
+export const boardRadius = 200;
+export const canvasWidth = boardRadius * 2 + 10;
+export const center = canvasWidth / 2;
+
 const element = document.createElement('canvas');
-element.width = 410;
-element.height = 410;
+element.width = canvasWidth;
+element.height = canvasWidth;
 Object.assign(element.style, {
   position: 'absolute',
   top: '50%',
@@ -31,69 +35,85 @@ windowSize.subscribe(({ width: w, height: h }) => {
   canvasView.update(() => ({ width }));
 });
 
-// Tentative drawings
+const pi2 = pi * 2;
 
-// Background
-context.beginPath();
-context.fillStyle = 'black';
-context.arc(205, 205, 200, 0, 2 * pi);
-context.fill();
-context.closePath();
+export const drawBackground = () => {
+  context.save();
+  context.beginPath();
+  context.fillStyle = 'black';
+  context.arc(center, center, boardRadius, 0, pi2);
+  context.fill();
+  context.closePath();
+  context.restore();
+};
 
-// Start/Goal line
-context.beginPath();
-context.strokeStyle = 'white';
-context.lineWidth = 1;
-context.moveTo(205, 205);
-context.lineTo(405, 205);
-context.stroke();
-context.closePath();
+export const drawTape = () => {
+  context.save();
+  context.beginPath();
+  context.strokeStyle = 'white';
+  context.lineWidth = 1;
+  context.moveTo(center, center);
+  context.lineTo(center + boardRadius, center);
+  context.stroke();
+  context.closePath();
+  context.restore();
+};
 
-const playerAngle = -pi / 6;
-const playerRadius = 100;
+export const drawGuide = (angle) => {
+  context.save();
+  context.beginPath();
+  context.strokeStyle = 'red';
+  context.lineWidth = 1;
+  context.moveTo(center, center);
+  context.lineTo(center + boardRadius * cos(angle), center + boardRadius * sin(angle));
+  context.stroke();
+  context.closePath();
+  context.restore();
+};
 
-const px = 205 + playerRadius * cos(playerAngle);
-const py = 205 + playerRadius * sin(playerAngle);
+export const drawPlayer = (x, y) => {
+  context.save();
+  context.beginPath();
+  const gradient = context.createRadialGradient(x, y, 0, x, y, 20);
+  gradient.addColorStop(0, 'red');
+  gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
+  context.fillStyle = gradient;
+  context.arc(x, y, 20, 0, pi2);
+  context.fill();
+  context.closePath();
+  context.restore();
+};
 
-// Guide line
-context.beginPath();
-context.strokeStyle = 'red';
-context.lineWidth = 1;
-context.moveTo(205, 205);
-context.lineTo(205 + 200 * cos(playerAngle), 205 + 200 * sin(playerAngle));
-context.stroke();
-context.closePath();
+export const drawCenterDot = () => {
+  context.save();
+  context.beginPath();
+  context.fillStyle = 'white';
+  context.arc(center, center, 3, 0, pi2);
+  context.fill();
+  context.closePath();
+  context.restore();
+};
 
-// Player
-context.beginPath();
-const gradient = context.createRadialGradient(px, py, 0, px, py, 20);
-gradient.addColorStop(0, 'red');
-gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-context.fillStyle = gradient;
-context.arc(px, py, 20, 0, 2 * pi);
-context.fill();
-context.closePath();
+export const drawOutline = () => {
+  context.save();
+  context.beginPath();
+  context.setLineDash([10, 10]);
+  context.strokeStyle = 'white';
+  context.lineWidth = 3;
+  context.arc(center, center, boardRadius, 0, -pi2, true);
+  context.stroke();
+  context.closePath();
+  context.restore();
+};
 
-// Center dot
-context.beginPath();
-context.fillStyle = 'white';
-context.arc(205, 205, 3, 0, 2 * pi);
-context.fill();
-context.closePath();
-
-// Outline
-context.beginPath();
-context.setLineDash([10, 10]);
-context.strokeStyle = 'white';
-context.lineWidth = 3;
-context.arc(205, 205, 200, 0, -2 * pi, true);
-context.stroke();
-context.closePath();
-
-context.beginPath();
-context.setLineDash([10, 10]);
-context.strokeStyle = 'magenta';
-context.lineWidth = 3;
-context.arc(205, 205, 200, 0, -0.68 * pi, true);
-context.stroke();
-context.closePath();
+export const drawEventGauge = (rate) => {
+  context.save();
+  context.beginPath();
+  context.setLineDash([10, 10]);
+  context.strokeStyle = 'magenta';
+  context.lineWidth = 3;
+  context.arc(center, center, boardRadius, 0, -rate * pi2, true);
+  context.stroke();
+  context.closePath();
+  context.restore();
+};
