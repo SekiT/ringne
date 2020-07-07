@@ -1,8 +1,10 @@
 import ids from './ids';
 import title from './title';
+import main from './main';
 
 const idToPhaseGenerator = new Map([
   [ids.title, title],
+  [ids.main, main],
 ]);
 
 export const initialState = () => ({

@@ -1,3 +1,4 @@
 export default {
   title: {},
+  main: {},
 };
