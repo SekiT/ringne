@@ -2,9 +2,7 @@ import { view } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
-const {
-  pi, cos, sin, createElement,
-} = dependencies.globals;
+const { pi, createElement } = dependencies.globals;
 
 const element = createElement('canvas');
 element.width = 410;
@@ -68,15 +66,17 @@ context.closePath();
 
 // Outline
 context.beginPath();
+context.setLineDash([10, 10]);
 context.strokeStyle = 'white';
 context.lineWidth = 3;
-const l = 100;
-const w = pi / l;
-for (let i = 0; i < l; i += 2) {
-  const a1 = i * 2 * w;
-  const a2 = a1 + w * 2;
-  context.moveTo(205 + 200 * cos(a1), 205 + 200 * sin(a1));
-  context.arc(205, 205, 200, a1, a2);
-}
+context.arc(205, 205, 200, 0, -2 * pi, true);
+context.stroke();
+context.closePath();
+
+context.beginPath();
+context.setLineDash([10, 10]);
+context.strokeStyle = 'magenta';
+context.lineWidth = 3;
+context.arc(205, 205, 200, 0, -0.68 * pi, true);
 context.stroke();
 context.closePath();
