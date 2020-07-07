@@ -5,6 +5,7 @@ export default {
   globals: {
     now: Date.now,
     window,
+    createElement: document.createElement,
     setTimeout,
     random: Math.random,
     DocumentFragment,
