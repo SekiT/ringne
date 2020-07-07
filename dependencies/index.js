@@ -10,7 +10,7 @@ export default {
     now: Date.now,
     window,
     setTimeout,
-    createElement: document.createElement,
+    document,
     DocumentFragment,
   },
 };

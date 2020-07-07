@@ -3,10 +3,10 @@ import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
 const {
-  pi, cos, sin, createElement,
+  pi, cos, sin, document,
 } = dependencies.globals;
 
-const element = createElement('canvas');
+const element = document.createElement('canvas');
 element.width = 410;
 element.height = 410;
 Object.assign(element.style, {
