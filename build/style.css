@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-image: radial-gradient(circle farthest-side, black, #666);
+  background-image: radial-gradient(circle farthest-corner, black, #666);
   font-family: serif;
   user-select: none;
   width: 100vw;
