@@ -1,5 +1,6 @@
 import {
-  context, center, drawTape, drawGuide, drawPlayer, drawOutline, drawCenterDot, drawBackground, drawEventGauge,
+  center,
+  drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import dependencies from 'dependencies';
 import ids from './ids';
@@ -7,13 +8,13 @@ import ids from './ids';
 const { cos, sin } = dependencies.globals;
 
 export default () => ({
-  level, playerAngle, playerRadius, deaths,
+  playerAngle, playerRadius,
 }) => {
   drawBackground();
   drawTape();
   drawGuide(playerAngle);
-  const px = center + playerRadius * cos(playerAngle);
-  const py = center + playerRadius * sin(playerAngle);
+  const px = center + playerRadius * cos(-playerAngle);
+  const py = center + playerRadius * sin(-playerAngle);
   drawPlayer(px, py);
   drawCenterDot();
   drawOutline();
@@ -21,6 +22,6 @@ export default () => ({
   return {
     nextId: ids.main,
     nextArgs: [],
-    stateUpdate: {},
+    stateUpdate: { playerAngle: playerAngle + 0.007 },
   };
 };

@@ -65,7 +65,7 @@ export const drawGuide = (angle) => {
   context.strokeStyle = 'red';
   context.lineWidth = 1;
   context.moveTo(center, center);
-  context.lineTo(center + boardRadius * cos(angle), center + boardRadius * sin(angle));
+  context.lineTo(center + boardRadius * cos(-angle), center + boardRadius * sin(-angle));
   context.stroke();
   context.closePath();
   context.restore();
