@@ -6,6 +6,12 @@ export default {
     html: shadow(() => {}),
   },
   globals: {
+    pi: Math.PI,
+    min: Math.min,
+    max: Math.max,
+    cos: Math.cos,
+    sin: Math.sin,
+    random: shadow(Math.random),
     now: shadow(Date.now),
     setTimeout: shadow(setTimeout),
     window: shadow({
@@ -13,7 +19,9 @@ export default {
       innerHeight: 0,
       addEventListener: () => {},
     }),
-    random: shadow(Math.random),
+    document: {
+      createElement: shadow(() => {}),
+    },
     DocumentFragment: shadow({ C: function () {} }.C),
   },
 };

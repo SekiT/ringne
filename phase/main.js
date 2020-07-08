@@ -1,22 +1,30 @@
+import dependencies from 'dependencies';
 import {
-  center,
+  center, boardRadius,
   context, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
-import dependencies from 'dependencies';
+import getInputs from '@/state/input';
 import ids from './ids';
 
-const { pi, cos, sin } = dependencies.globals;
+const {
+  pi, cos, sin, min, max,
+} = dependencies.globals;
 
 export default () => ({
   playerAngle, playerRadius,
 }) => {
+  const {
+    inner, outer, quick, brake,
+  } = getInputs();
+  const pa = playerAngle + 0.007 + (quick - brake) * 0.005;
+  const pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
   clearCanvas();
   drawBackground();
   drawTape();
   drawGuide(playerAngle);
-  const px = center + playerRadius * cos(-playerAngle);
-  const py = center + playerRadius * sin(-playerAngle);
+  const px = center + pr * cos(-pa);
+  const py = center + pr * sin(-pa);
   drawPlayer(px, py);
   // Test to draw orbs
   for (let i = 0; i < 200; i += 1) {
@@ -44,6 +52,6 @@ export default () => ({
   } : {
     nextId: ids.main,
     nextArgs: [],
-    stateUpdate: { playerAngle: playerAngle + 0.007 },
+    stateUpdate: { playerAngle: pa, playerRadius: pr },
   };
 };
