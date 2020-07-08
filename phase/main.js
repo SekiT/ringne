@@ -5,14 +5,16 @@ import {
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import getInputs from '@/state/input';
+import enemyIdToMotion from '@/enemy/index';
+import { swimOrb } from '@/enemy/orb';
 import ids from './ids';
 
 const {
-  pi, cos, sin, min, max,
+  cos, sin, min, max, random,
 } = dependencies.globals;
 
 export default (pauseTime = 0) => ({
-  playerAngle, playerRadius,
+  playerAngle, playerRadius, enemies,
 }) => {
   const {
     inner, outer, quick, brake, pause,
@@ -33,28 +35,34 @@ export default (pauseTime = 0) => ({
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
-  // Test to draw orbs
-  for (let i = 0; i < 200; i += 1) {
-    const a = Math.random() * pi * 2;
-    const r = Math.random() * 200;
-    const x = center + r * cos(a);
-    const y = center + r * sin(a);
-    context.save();
-    context.beginPath();
-    context.fillStyle = 'white';
-    context.strokeStyle = 'lime';
-    context.arc(x, y, 5, 0, 2 * pi);
-    context.fill();
-    context.stroke();
-    context.closePath();
-    context.restore();
+  // TODO: Execute stage function
+  const { nextEnemies, hit } = enemies.reduce((acc, enemy) => {
+    const {
+      nextEnemies: addedEnemies,
+      hit: hitForThis,
+    } = enemyIdToMotion.get(enemy.id)(enemy, context, px, py);
+    return { nextEnemies: [...acc.nextEnemies, ...addedEnemies], hit: acc.hit || hitForThis };
+  }, { nextEnemies: [], hit: false });
+  // Add enemy for debugging
+  if (random() < 0.05) {
+    nextEnemies.push(
+      swimOrb(random() * Math.PI * 2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
+    );
   }
   drawCenterDot();
   drawOutline();
   drawEventGauge(0.29);
-  return {
+  return hit ? {
+    nextId: ids.title,
+    nextArgs: [],
+    stateUpdate: {},
+  } : {
     nextId: ids.main,
     nextArgs: [pauseTime + 1],
-    stateUpdate: { playerAngle: pa, playerRadius: pr },
+    stateUpdate: {
+      playerAngle: pa,
+      playerRadius: pr,
+      enemies: nextEnemies,
+    },
   };
 };
