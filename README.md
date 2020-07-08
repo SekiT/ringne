@@ -8,6 +8,6 @@ Evade orbs and attacks from enemies!
 
 ## Control
 
-- WASD or arrow keys to move
+- WASD, arrow keys, or touch the corresponding area in the screen to move
 - P to pause
 - ESC to quit and return to title screen
