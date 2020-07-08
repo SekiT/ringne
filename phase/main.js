@@ -1,5 +1,6 @@
 import {
   center,
+  context, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import dependencies from 'dependencies';
@@ -10,6 +11,7 @@ const { cos, sin } = dependencies.globals;
 export default () => ({
   playerAngle, playerRadius,
 }) => {
+  clearCanvas();
   drawBackground();
   drawTape();
   drawGuide(playerAngle);

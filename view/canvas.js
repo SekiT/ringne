@@ -35,6 +35,10 @@ windowSize.subscribe(({ width: w, height: h }) => {
   canvasView.update(() => ({ width }));
 });
 
+export const clearCanvas = () => {
+  context.clearRect(0, 0, canvasWidth, canvasWidth);
+};
+
 const pi2 = pi * 2;
 
 export const drawBackground = () => {
