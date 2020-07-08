@@ -18,6 +18,7 @@ Object.assign(element.style, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  clipPath: 'circle(49%)',
 });
 
 export const context = element.getContext('2d');
