@@ -24,14 +24,6 @@ window.addEventListener('touchmove', handleTouch);
 window.addEventListener('touchend', handleTouch);
 window.addEventListener('touchcancel', handleTouch);
 
-let windowWidth = 0;
-let windowHeight = 0;
-
-windowSize.subscribe(({ width, height }) => {
-  windowWidth = width;
-  windowHeight = height;
-});
-
 const inputFromTouches = (ts, ww, wh) => {
   const aspectRatio = wh / ww;
   return ts.reduce((input, { clientX: x, clientY: y }) => {
@@ -45,6 +37,14 @@ const inputFromTouches = (ts, ww, wh) => {
     };
   }, {});
 };
+
+let windowWidth = 0;
+let windowHeight = 0;
+
+windowSize.subscribe(({ width, height }) => {
+  windowWidth = width;
+  windowHeight = height;
+});
 
 export default () => {
   const touchInputs = inputFromTouches(touches, windowWidth, windowHeight);
