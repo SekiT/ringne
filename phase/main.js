@@ -10,8 +10,9 @@ import enemyIdToMotion from '@/enemy/index';
 import ids from './ids';
 
 const {
-  cos, sin, min, max,
+  pi, cos, sin, min, max,
 } = dependencies.globals;
+const pi2 = pi * 2;
 
 const moveEnemies = (enemies, px, py) => (
   enemies.reduce((acc, enemy) => {
@@ -24,7 +25,7 @@ const moveEnemies = (enemies, px, py) => (
 );
 
 export default (pauseTime = 0) => ({
-  level,
+  level: previousLevel,
   playerAngle: previousPA,
   playerRadius: previousPR,
   enemies: previousEnemies,
@@ -39,7 +40,9 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  const pa = previousPA + 0.007 + (quick - brake) * 0.005;
+  const levelUp = previousPA >= pi2;
+  const level = previousLevel + (levelUp ? 1 : 0);
+  const pa = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
   const pr = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
   clearCanvas();
   drawBackground();
@@ -48,11 +51,13 @@ export default (pauseTime = 0) => ({
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
-  const { enemies } = stageIndex(level)({ px, py, enemies: previousEnemies });
+  const { enemies } = stageIndex(level)({
+    level, px, py, enemies: previousEnemies,
+  });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   drawCenterDot();
   drawOutline();
-  drawEventGauge(0.29);
+  drawEventGauge(0);
   return hit ? {
     nextId: ids.title,
     nextArgs: [],
@@ -61,6 +66,7 @@ export default (pauseTime = 0) => ({
     nextId: ids.main,
     nextArgs: [pauseTime + 1],
     stateUpdate: {
+      level,
       playerAngle: pa,
       playerRadius: pr,
       enemies: nextEnemies,
