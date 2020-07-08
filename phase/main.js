@@ -11,12 +11,19 @@ const {
   pi, cos, sin, min, max,
 } = dependencies.globals;
 
-export default () => ({
+export default (pauseTime = 0) => ({
   playerAngle, playerRadius,
 }) => {
   const {
-    inner, outer, quick, brake,
+    inner, outer, quick, brake, pause,
   } = getInputs();
+  if (pause && pauseTime > 10) {
+    return {
+      nextId: ids.pause,
+      nextArgs: [0],
+      stateUpdate: {},
+    };
+  }
   const pa = playerAngle + 0.007 + (quick - brake) * 0.005;
   const pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
   clearCanvas();
@@ -45,13 +52,9 @@ export default () => ({
   drawCenterDot();
   drawOutline();
   drawEventGauge(0.29);
-  return playerAngle > pi * 2 ? {
-    nextId: ids.title,
-    nextArgs: [],
-    stateUpdate: {},
-  } : {
+  return {
     nextId: ids.main,
-    nextArgs: [],
+    nextArgs: [pauseTime + 1],
     stateUpdate: { playerAngle: pa, playerRadius: pr },
   };
 };

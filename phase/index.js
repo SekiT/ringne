@@ -2,10 +2,12 @@ import { boardRadius } from '@/view/canvas';
 import ids from './ids';
 import title from './title';
 import main from './main';
+import pause from './pause';
 
 const idToPhaseGenerator = new Map([
   [ids.title, title],
   [ids.main, main],
+  [ids.pause, pause],
 ]);
 
 export const initialState = () => ({
