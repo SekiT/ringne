@@ -9,7 +9,7 @@ export default (state) => {
   const enemies = [
     state.enemies,
     random() >= 0.03 + state.level * 0.02 ? [] : [
-      swimOrb(random() * pi2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
+      swimOrb(random() * pi2, random() * boardRadius, -random() * 0.02, 6 + random() * 4),
     ],
     random() >= -0.04 + state.level * 0.02 ? [] : [
       linearOrb(
