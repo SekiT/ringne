@@ -4,6 +4,7 @@ import {
   context, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
+import levelView from '@/view/level';
 import getInputs from '@/state/input';
 import stageIndex from '@/stage/index';
 import enemyIdToMotion from '@/enemy/index';
@@ -44,6 +45,7 @@ export default (pauseTime = 0) => ({
   const level = previousLevel + (levelUp ? 1 : 0);
   const pa = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
   const pr = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
+  levelView.update(() => ({ level, playerAngle: pa }));
   clearCanvas();
   drawBackground();
   drawTape();
