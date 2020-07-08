@@ -1,4 +1,4 @@
-import { center } from '@/view/canvas';
+import { center, boardRadius } from '@/view/canvas';
 import dependencies from 'dependencies';
 import ids from './ids';
 
@@ -57,12 +57,16 @@ export const moveSwimOrb = ({
     renderShadow(context, time, x, y, width, 'lime');
   }
   if (time >= 15) {
-    const opacity = min((time - 15) / 30, 1);
+    const opacity = min(min((time - 15) / 30, 1), (300 - time) / 30);
     renderOrb(context, x, y, width, 'white', 'lime', opacity);
   }
   return {
-    nextEnemies: [swimOrb(angle + (time < 45 ? 0 : speed), radius, speed, width, time + 1)],
-    hit: time < 45 ? false : hitTestOrb(px, py, x, y, width),
+    nextEnemies: time >= 300
+      ? []
+      : [swimOrb(angle + (time < 45 ? 0 : speed), radius, speed, width, time + 1)],
+    hit: time < 45 || time > 270
+      ? false
+      : hitTestOrb(px, py, x, y, width),
   };
 };
 
@@ -88,10 +92,22 @@ export const moveLinearOrb = ({
     const opacity = min((time - 15) / 30, 1);
     renderOrb(context, x, y, width, fillColor, strokeColor, opacity);
   }
-  const nextX = time < 45 ? x : x + speed * cos(angle);
-  const nextY = time < 45 ? y : y + speed * sin(angle);
-  return {
+  if (time < 45) {
+    return {
+      nextEnemies: [linearOrb(x, y, angle, speed, width, fillColor, strokeColor, time + 1)],
+      hit: false,
+    };
+  }
+  const nextX = x + speed * cos(angle);
+  const nextY = y + speed * sin(angle);
+  const dx = nextX - center;
+  const dy = nextY - center;
+  const dr = boardRadius + width / 2;
+  return dx * dx + dy * dy > dr * dr ? {
+    nextEnemies: [],
+    hit: false,
+  } : {
     nextEnemies: [linearOrb(nextX, nextY, angle, speed, width, fillColor, strokeColor, time + 1)],
-    hit: time < 45 ? false : hitTestOrb(px, py, x, y, width),
+    hit: hitTestOrb(px, py, x, y, width),
   };
 };
