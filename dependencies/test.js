@@ -9,6 +9,7 @@ export default {
     pi: Math.PI,
     min: Math.min,
     max: Math.max,
+    trunc: Math.trunc,
     cos: Math.cos,
     sin: Math.sin,
     random: shadow(Math.random),

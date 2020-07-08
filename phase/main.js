@@ -5,12 +5,12 @@ import {
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import getInputs from '@/state/input';
+import stageIndex from '@/stage/index';
 import enemyIdToMotion from '@/enemy/index';
-import { swimOrb, linearOrb } from '@/enemy/orb';
 import ids from './ids';
 
 const {
-  pi, cos, sin, min, max, random,
+  cos, sin, min, max,
 } = dependencies.globals;
 
 const moveEnemies = (enemies, px, py) => (
@@ -24,7 +24,10 @@ const moveEnemies = (enemies, px, py) => (
 );
 
 export default (pauseTime = 0) => ({
-  playerAngle, playerRadius, enemies,
+  level,
+  playerAngle: previousPA,
+  playerRadius: previousPR,
+  enemies: previousEnemies,
 }) => {
   const {
     inner, outer, quick, brake, pause,
@@ -36,36 +39,17 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  const pa = playerAngle + 0.007 + (quick - brake) * 0.005;
-  const pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
+  const pa = previousPA + 0.007 + (quick - brake) * 0.005;
+  const pr = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
   clearCanvas();
   drawBackground();
   drawTape();
-  drawGuide(playerAngle);
+  drawGuide(pa);
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
-  // TODO: Execute stage function
+  const { enemies } = stageIndex(level)({ px, py, enemies: previousEnemies });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
-  // Add enemy for debugging
-  if (random() < 0.1) {
-    nextEnemies.push(
-      swimOrb(random() * pi * 2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
-    );
-  }
-  if (random() < 0.1) {
-    nextEnemies.push(
-      linearOrb(
-        center + (2 * random() - 1) * boardRadius,
-        center + (2 * random() - 1) * boardRadius,
-        random() * pi * 2,
-        1 + random(),
-        6 + random() * 4,
-        'white',
-        'blue',
-      ),
-    );
-  }
   drawCenterDot();
   drawOutline();
   drawEventGauge(0.29);
