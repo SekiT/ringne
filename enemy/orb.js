@@ -15,10 +15,11 @@ const hitTestOrb = (px, py, x, y, width) => {
   return dx * dx + dy * dy <= dr * dr;
 };
 
-const renderShadow = (context, time, x, y, width) => {
+const renderShadow = (context, time, x, y, width, color) => {
   context.save();
   context.beginPath();
-  context.fillStyle = 'rgba(0, 255, 0, 0.5)';
+  context.globalAlpha = 0.5;
+  context.fillStyle = color;
   context.arc(x, y, width * (2 - time / 30), 0, pi2);
   context.fill();
   context.closePath();
@@ -53,7 +54,7 @@ export const moveSwimOrb = ({
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
   if (time <= 30) {
-    renderShadow(context, time, x, y, width);
+    renderShadow(context, time, x, y, width, 'lime');
   }
   if (time >= 15) {
     const opacity = min((time - 15) / 30, 1);
@@ -61,7 +62,7 @@ export const moveSwimOrb = ({
   }
   return {
     nextEnemies: [swimOrb(angle + (time < 45 ? 0 : speed), radius, speed, width, time + 1)],
-    hit: time <= 45 ? false : hitTestOrb(px, py, x, y, width),
+    hit: time < 45 ? false : hitTestOrb(px, py, x, y, width),
   };
 };
 
@@ -77,20 +78,20 @@ export const linearOrb = (x, y, angle, speed, width, fillColor, strokeColor, tim
   strokeColor,
 });
 
-export const moveLinearOrb = () => ({
+export const moveLinearOrb = ({
   time, x, y, angle, speed, width, fillColor, strokeColor,
 }, context, px, py) => {
   if (time <= 30) {
-    renderShadow(context, time, x, y, width);
+    renderShadow(context, time, x, y, width, strokeColor);
   }
   if (time >= 15) {
     const opacity = min((time - 15) / 30, 1);
     renderOrb(context, x, y, width, fillColor, strokeColor, opacity);
   }
-  const nextX = x + speed * cos(angle);
-  const nextY = y + speed * sin(angle);
+  const nextX = time < 45 ? x : x + speed * cos(angle);
+  const nextY = time < 45 ? y : y + speed * sin(angle);
   return {
-    nextEnemies: [linearOrb(nextX, nextY, angle, speed, width, time + 1)],
-    hit: time <= 45 ? false : hitTestOrb(px, py, x, y, width),
+    nextEnemies: [linearOrb(nextX, nextY, angle, speed, width, fillColor, strokeColor, time + 1)],
+    hit: time < 45 ? false : hitTestOrb(px, py, x, y, width),
   };
 };

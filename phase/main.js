@@ -6,11 +6,11 @@ import {
 } from '@/view/canvas';
 import getInputs from '@/state/input';
 import enemyIdToMotion from '@/enemy/index';
-import { swimOrb } from '@/enemy/orb';
+import { swimOrb, linearOrb } from '@/enemy/orb';
 import ids from './ids';
 
 const {
-  cos, sin, min, max, random,
+  pi, cos, sin, min, max, random,
 } = dependencies.globals;
 
 export default (pauseTime = 0) => ({
@@ -44,9 +44,22 @@ export default (pauseTime = 0) => ({
     return { nextEnemies: [...acc.nextEnemies, ...addedEnemies], hit: acc.hit || hitForThis };
   }, { nextEnemies: [], hit: false });
   // Add enemy for debugging
-  if (random() < 0.05) {
+  if (random() < 0.02) {
     nextEnemies.push(
-      swimOrb(random() * Math.PI * 2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
+      swimOrb(random() * pi * 2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
+    );
+  }
+  if (random() < 0.02) {
+    nextEnemies.push(
+      linearOrb(
+        center + (2 * random() - 1) * boardRadius,
+        center + (2 * random() - 1) * boardRadius,
+        random() * pi * 2,
+        1 + random(),
+        6 + random() * 4,
+        'white',
+        'blue',
+      ),
     );
   }
   drawCenterDot();
