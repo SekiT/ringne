@@ -44,12 +44,12 @@ export default (pauseTime = 0) => ({
     return { nextEnemies: [...acc.nextEnemies, ...addedEnemies], hit: acc.hit || hitForThis };
   }, { nextEnemies: [], hit: false });
   // Add enemy for debugging
-  if (random() < 0.02) {
+  if (random() < 0.1) {
     nextEnemies.push(
       swimOrb(random() * pi * 2, random() * boardRadius, random() * 0.02, 6 + random() * 4),
     );
   }
-  if (random() < 0.02) {
+  if (random() < 0.1) {
     nextEnemies.push(
       linearOrb(
         center + (2 * random() - 1) * boardRadius,
