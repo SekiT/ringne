@@ -13,6 +13,16 @@ const {
   pi, cos, sin, min, max, random,
 } = dependencies.globals;
 
+const moveEnemies = (enemies, px, py) => (
+  enemies.reduce((acc, enemy) => {
+    const { nextEnemies, hit } = enemyIdToMotion.get(enemy.id)(enemy, context, px, py);
+    return {
+      nextEnemies: [...acc.nextEnemies, ...nextEnemies],
+      hit: acc.hit || hit,
+    };
+  }, { nextEnemies: [], hit: false })
+);
+
 export default (pauseTime = 0) => ({
   playerAngle, playerRadius, enemies,
 }) => {
@@ -36,13 +46,7 @@ export default (pauseTime = 0) => ({
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
   // TODO: Execute stage function
-  const { nextEnemies, hit } = enemies.reduce((acc, enemy) => {
-    const {
-      nextEnemies: addedEnemies,
-      hit: hitForThis,
-    } = enemyIdToMotion.get(enemy.id)(enemy, context, px, py);
-    return { nextEnemies: [...acc.nextEnemies, ...addedEnemies], hit: acc.hit || hitForThis };
-  }, { nextEnemies: [], hit: false });
+  const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   // Add enemy for debugging
   if (random() < 0.1) {
     nextEnemies.push(
