@@ -11,11 +11,11 @@ import eventView from './view/event';
 const { render, html } = dependencies.uhtml;
 
 render(document.body, html`
-  ${canvasView.render()},
-  ${levelView.render()},
-  ${modeView.render()},
-  ${deathsView.render()},
-  ${eventView.render()},
+  ${canvasView.render()}
+  ${levelView.render()}
+  ${modeView.render()}
+  ${deathsView.render()}
+  ${eventView.render()}
 `);
 
 runPhase(indexPhase(mainPhase(), initialState()), idealTimeout);
