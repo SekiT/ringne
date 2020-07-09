@@ -1,9 +1,13 @@
 import { boardRadius } from '@/view/canvas';
 import mode from '@/stage/modes';
+import { pushTime } from '@/subject/fps';
+import dependencies from 'dependencies';
 import ids from './ids';
 import title from './title';
 import main from './main';
 import pause from './pause';
+
+const { now } = dependencies.globals;
 
 const idToPhaseGenerator = new Map([
   [ids.title, title],
@@ -22,6 +26,7 @@ export const initialState = () => ({
 });
 
 const indexPhase = (phase, state) => () => {
+  pushTime(now());
   const { nextId, nextArgs, stateUpdate } = phase(state);
   return indexPhase(idToPhaseGenerator.get(nextId)(...nextArgs), { ...state, ...stateUpdate });
 };
