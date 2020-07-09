@@ -1,4 +1,4 @@
-# 輪廻
+# 輪廻ー回向ー
 
 https://SekiT.github.io/ringne/
 
