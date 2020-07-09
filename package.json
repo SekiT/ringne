@@ -34,6 +34,6 @@
     "tape": "^5.0.1"
   },
   "dependencies": {
-    "lighterhtml": "^4.0.2"
+    "hyperhtml": "^2.33.0"
   }
 }

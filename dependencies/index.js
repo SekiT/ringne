@@ -1,7 +1,7 @@
-import { render, html } from 'lighterhtml';
+import { wire, bind } from 'hyperhtml';
 
 export default {
-  lighterhtml: { render, html },
+  hyperhtml: { wire, bind },
   globals: {
     pi: Math.PI,
     min: Math.min,

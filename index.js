@@ -8,14 +8,14 @@ import modeView from './view/mode';
 import deathsView from './view/deaths';
 import eventView from './view/event';
 
-const { render, html } = dependencies.lighterhtml;
+const { bind } = dependencies.hyperhtml;
 
-render(document.body, html`
+bind(document.body)`
   ${canvasView.render()}
   ${levelView.render()}
   ${modeView.render()}
   ${deathsView.render()}
   ${eventView.render()}
-`);
+`;
 
 runPhase(indexPhase(mainPhase(), initialState()), idealTimeout);

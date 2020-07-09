@@ -1,9 +1,9 @@
 import { shadow } from '@/lib/shadow';
 
 export default {
-  lighterhtml: {
-    render: shadow(() => {}),
-    html: shadow(() => {}),
+  hyperhtml: {
+    wire: shadow(() => {}),
+    bind: shadow(() => {}),
   },
   globals: {
     pi: Math.PI,

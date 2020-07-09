@@ -13,6 +13,9 @@ module.exports = {
     },
   },
   rules: {
+    // We should allow hyperHTML.bind at index.js
+    'no-unused-expressions': ['error', { allowTaggedTemplates: true }],
+
     // Defining constructor function requires { Name: function() { ... } }
     'object-shorthand': ['error', 'properties'],
     'func-names': ['error', 'as-needed'],
