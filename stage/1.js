@@ -3,8 +3,7 @@ import { swimOrb, linearOrb } from '@/enemy/orb';
 import dependencies from 'dependencies';
 import modes from './modes';
 
-const { pi, random } = dependencies.globals;
-const pi2 = pi * 2;
+const { pi2, random } = dependencies.globals;
 
 const swimOrbSpeed = new Map([
   [modes.easy, () => -0.008 * random()],

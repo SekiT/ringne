@@ -7,8 +7,7 @@ import {
 import { enemyIdToRenderer } from '@/enemy/index';
 import ids from './ids';
 
-const { pi, cos, sin } = dependencies.globals;
-const pi2 = pi * 2;
+const { pi2, cos, sin } = dependencies.globals;
 
 const drawDeadPlayer = (x, y, time) => {
   context.save();

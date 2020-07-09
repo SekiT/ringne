@@ -3,10 +3,8 @@ import dependencies from 'dependencies';
 import ids from './ids';
 
 const {
-  pi, min, cos, sin,
+  pi2, min, cos, sin,
 } = dependencies.globals;
-
-const pi2 = pi * 2;
 
 const hitTestOrb = (px, py, x, y, width) => {
   const dx = px - x;

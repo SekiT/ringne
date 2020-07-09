@@ -3,7 +3,7 @@ import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
 const {
-  pi, cos, sin, document,
+  pi2, cos, sin, document,
 } = dependencies.globals;
 
 export const boardRadius = 200;
@@ -39,8 +39,6 @@ windowSize.subscribe(({ width: w, height: h }) => {
 export const clearCanvas = () => {
   context.clearRect(0, 0, canvasWidth, canvasWidth);
 };
-
-const pi2 = pi * 2;
 
 export const drawBackground = () => {
   context.save();

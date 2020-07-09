@@ -13,9 +13,8 @@ import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import ids from './ids';
 
 const {
-  pi, cos, sin, min, max,
+  pi2, cos, sin, min, max,
 } = dependencies.globals;
-const pi2 = pi * 2;
 
 const moveEnemies = (enemies, px, py) => (
   enemies.reduce((acc, enemy) => {

@@ -2,8 +2,7 @@ import { view, toCssText } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
-const { pi, min, trunc } = dependencies.globals;
-const pi2 = pi * 2;
+const { pi2, min, trunc } = dependencies.globals;
 
 const initialState = {
   level: 1,

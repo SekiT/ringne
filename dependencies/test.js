@@ -7,6 +7,7 @@ export default {
   },
   globals: {
     pi: Math.PI,
+    pi2: Math.PI * 2,
     min: Math.min,
     max: Math.max,
     trunc: Math.trunc,
