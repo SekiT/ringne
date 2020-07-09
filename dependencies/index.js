@@ -14,6 +14,5 @@ export default {
     window,
     setTimeout,
     document,
-    DocumentFragment,
   },
 };

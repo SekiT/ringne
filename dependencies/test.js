@@ -23,6 +23,5 @@ export default {
     document: {
       createElement: shadow(() => {}),
     },
-    DocumentFragment: shadow({ C: function () {} }.C),
   },
 };
