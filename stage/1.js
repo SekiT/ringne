@@ -5,6 +5,12 @@ import modes from './modes';
 
 const { pi2, random } = dependencies.globals;
 
+const swimOrbProbabilty = new Map([
+  [modes.easy, (level) => 0.03 + level * 0.01],
+  [modes.normal, (level) => 0.03 + level * 0.015],
+  [modes.hard, (level) => 0.04 + level * 0.02],
+]);
+
 const swimOrbSpeed = new Map([
   [modes.easy, () => -0.008 * random()],
   [modes.normal, () => -0.01 * random()],
@@ -17,6 +23,12 @@ const orbSize = new Map([
   [modes.hard, () => 6 + random() * 4],
 ]);
 
+const linearOrbProbability = new Map([
+  [modes.easy, (level) => -0.05 + level * 0.01],
+  [modes.normal, (level) => -0.075 + level * 0.015],
+  [modes.hard, (level) => -0.1 + level * 0.02],
+]);
+
 const linearOrbSpeed = new Map([
   [modes.easy, () => 0.5 + random() * 0.5],
   [modes.normal, () => 0.7 + random() * 0.6],
@@ -26,7 +38,7 @@ const linearOrbSpeed = new Map([
 export default (mode, level, _, state) => {
   const enemies = [
     state.enemies,
-    random() >= 0.03 + level * 0.02 ? [] : [
+    random() >= swimOrbProbabilty.get(mode)(level) ? [] : [
       swimOrb(
         random() * pi2,
         random() * boardRadius,
@@ -34,7 +46,7 @@ export default (mode, level, _, state) => {
         orbSize.get(mode)(),
       ),
     ],
-    random() >= -0.1 + level * 0.02 ? [] : [
+    random() >= linearOrbProbability.get(mode)(level) ? [] : [
       linearOrb(
         center + (2 * random() - 1) * boardRadius,
         center + (2 * random() - 1) * boardRadius,
