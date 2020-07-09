@@ -6,6 +6,7 @@ import {
 } from '@/view/canvas';
 import levelView from '@/view/level';
 import modeView from '@/view/mode';
+import deathsView from '@/view/deaths';
 import getInputs from '@/state/input';
 import stageIndex from '@/stage/index';
 import enemyIdToMotion from '@/enemy/index';
@@ -32,6 +33,7 @@ export default (pauseTime = 0) => ({
   playerAngle: previousPA,
   playerRadius: previousPR,
   enemies: previousEnemies,
+  deaths,
 }) => {
   const {
     inner, outer, quick, brake, pause,
@@ -63,10 +65,13 @@ export default (pauseTime = 0) => ({
   drawCenterDot();
   drawOutline();
   drawEventGauge(0);
+  if (hit) {
+    deathsView.update(() => ({ deaths: deaths + 1 }));
+  }
   return hit ? {
     nextId: ids.title,
     nextArgs: [],
-    stateUpdate: { level },
+    stateUpdate: { level, deaths: deaths + 1 },
   } : {
     nextId: ids.main,
     nextArgs: [pauseTime + 1],
