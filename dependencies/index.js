@@ -1,7 +1,7 @@
-import { render, html } from 'uhtml';
+import { render, html } from 'lighterhtml';
 
 export default {
-  uhtml: { render, html },
+  lighterhtml: { render, html },
   globals: {
     pi: Math.PI,
     min: Math.min,

@@ -1,7 +1,7 @@
 import { shadow } from '@/lib/shadow';
 
 export default {
-  uhtml: {
+  lighterhtml: {
     render: shadow(() => {}),
     html: shadow(() => {}),
   },

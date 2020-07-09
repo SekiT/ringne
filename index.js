@@ -8,7 +8,7 @@ import modeView from './view/mode';
 import deathsView from './view/deaths';
 import eventView from './view/event';
 
-const { render, html } = dependencies.uhtml;
+const { render, html } = dependencies.lighterhtml;
 
 render(document.body, html`
   ${canvasView.render()}

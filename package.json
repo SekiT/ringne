@@ -34,6 +34,6 @@
     "tape": "^5.0.1"
   },
   "dependencies": {
-    "uhtml": "^2.0.1"
+    "lighterhtml": "^4.0.2"
   }
 }

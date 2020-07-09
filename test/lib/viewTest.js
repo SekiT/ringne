@@ -5,7 +5,7 @@ import {
 } from '@/lib/shadow';
 import { view, toCssText } from '@/lib/view';
 
-const { uhtml, globals: { DocumentFragment } } = dependencies;
+const { lighterhtml, globals: { DocumentFragment } } = dependencies;
 
 test('view.render renders template', (t) => {
   t.plan(4);
@@ -15,12 +15,12 @@ test('view.render renders template', (t) => {
   const numberProp = 3;
   const renderedHtml = '<div id="hello" .disabled="false">3</div>';
   mockConstructor(DocumentFragment, () => function C() { return fragment; });
-  mockFunction(uhtml.html, () => (fixedParts, ...variableParts) => {
+  mockFunction(lighterhtml.html, () => (fixedParts, ...variableParts) => {
     t.deepEqual(fixedParts, ['<div id=', ' .disabled=', '>', '</div>']);
     t.deepEqual(variableParts, [stringProp, booleanProp, numberProp]);
     return renderedHtml;
   });
-  mockFunction(uhtml.render, () => (where, what) => {
+  mockFunction(lighterhtml.render, () => (where, what) => {
     t.equal(where, fragment);
     t.equal(what, renderedHtml);
   });
@@ -29,8 +29,8 @@ test('view.render renders template', (t) => {
     (render) => ({ foo, bar, baz }) => render`<div id=${foo} .disabled=${bar}>${baz}</div>`,
   ).render();
   resetMock(DocumentFragment);
-  resetMock(uhtml.html);
-  resetMock(uhtml.render);
+  resetMock(lighterhtml.html);
+  resetMock(lighterhtml.render);
 });
 
 test('view.update updates partial or whole props and calls render', (t) => {
@@ -43,7 +43,7 @@ test('view.update updates partial or whole props and calls render', (t) => {
   const html1 = '<div style="display:none">bar1</div>';
   const html2 = '<div style="display:block">bar2</div>';
   mockConstructor(DocumentFragment, () => function C() { return fragment; });
-  mockFunctionSequence(uhtml.html, [
+  mockFunctionSequence(lighterhtml.html, [
     () => (fixedParts, ...variableParts) => {
       t.deepEqual(fixedParts, ['<div style=', '>', '</div>']);
       t.deepEqual(variableParts, [foo2, bar1]);
@@ -55,7 +55,7 @@ test('view.update updates partial or whole props and calls render', (t) => {
       return html2;
     },
   ]);
-  mockFunctionSequence(uhtml.render, [
+  mockFunctionSequence(lighterhtml.render, [
     () => (where, what) => {
       t.equal(where, fragment);
       t.equal(what, html1);
@@ -80,8 +80,8 @@ test('view.update updates partial or whole props and calls render', (t) => {
     return { foo: foo1, bar: bar2 };
   });
   resetMock(DocumentFragment);
-  resetMock(uhtml.html);
-  resetMock(uhtml.render);
+  resetMock(lighterhtml.html);
+  resetMock(lighterhtml.render);
 });
 
 test('toCssText converts object into cssText', (t) => {
