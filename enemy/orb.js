@@ -48,9 +48,9 @@ export const swimOrb = (angle, radius, speed, width, time = 0) => ({
   width,
 });
 
-export const moveSwimOrb = ({
-  time, angle, radius, speed, width,
-}, context, px, py) => {
+export const renderSwimOrb = (context, {
+  time, angle, radius, width,
+}) => {
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
   if (time <= 30) {
@@ -60,6 +60,13 @@ export const moveSwimOrb = ({
     const opacity = min(min((time - 15) / 30, 1), (300 - time) / 30);
     renderOrb(context, x, y, width, 'white', 'lime', opacity);
   }
+};
+
+export const moveSwimOrb = ({
+  time, angle, radius, speed, width,
+}, px, py) => {
+  const x = center + radius * cos(angle);
+  const y = center + radius * sin(angle);
   return {
     nextEnemies: time >= 300
       ? []
@@ -82,9 +89,9 @@ export const linearOrb = (x, y, angle, speed, width, fillColor, strokeColor, tim
   strokeColor,
 });
 
-export const moveLinearOrb = ({
-  time, x, y, angle, speed, width, fillColor, strokeColor,
-}, context, px, py) => {
+export const renderLinearOrb = (context, {
+  time, x, y, width, fillColor, strokeColor,
+}) => {
   if (time <= 30) {
     renderShadow(context, time, x, y, width, strokeColor);
   }
@@ -92,6 +99,11 @@ export const moveLinearOrb = ({
     const opacity = min((time - 15) / 30, 1);
     renderOrb(context, x, y, width, fillColor, strokeColor, opacity);
   }
+};
+
+export const moveLinearOrb = ({
+  time, x, y, angle, speed, width, fillColor, strokeColor,
+}, px, py) => {
   if (time < 45) {
     return {
       nextEnemies: [linearOrb(x, y, angle, speed, width, fillColor, strokeColor, time + 1)],

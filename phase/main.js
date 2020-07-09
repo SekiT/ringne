@@ -9,7 +9,7 @@ import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import getInputs from '@/state/input';
 import stageIndex from '@/stage/index';
-import enemyIdToMotion from '@/enemy/index';
+import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import ids from './ids';
 
 const {
@@ -19,7 +19,9 @@ const pi2 = pi * 2;
 
 const moveEnemies = (enemies, px, py) => (
   enemies.reduce((acc, enemy) => {
-    const { nextEnemies, hit } = enemyIdToMotion.get(enemy.id)(enemy, context, px, py);
+    const { id } = enemy;
+    const { nextEnemies, hit } = enemyIdToMotion.get(id)(enemy, px, py);
+    enemyIdToRenderer.get(id)(context, enemy);
     return {
       nextEnemies: [...acc.nextEnemies, ...nextEnemies],
       hit: acc.hit || hit,
