@@ -26,6 +26,7 @@ const moveEnemies = (enemies, px, py) => (
 );
 
 export default (pauseTime = 0) => ({
+  mode,
   level: previousLevel,
   playerAngle: previousPA,
   playerRadius: previousPR,
@@ -53,8 +54,8 @@ export default (pauseTime = 0) => ({
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
-  const { enemies } = stageIndex(level)({
-    level, px, py, enemies: previousEnemies,
+  const { enemies } = stageIndex(level)(mode, level, {
+    px, py, enemies: previousEnemies,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   drawCenterDot();
@@ -63,7 +64,7 @@ export default (pauseTime = 0) => ({
   return hit ? {
     nextId: ids.title,
     nextArgs: [],
-    stateUpdate: {},
+    stateUpdate: { level },
   } : {
     nextId: ids.main,
     nextArgs: [pauseTime + 1],

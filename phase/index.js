@@ -1,4 +1,5 @@
 import { boardRadius } from '@/view/canvas';
+import mode from '@/stage/modes';
 import ids from './ids';
 import title from './title';
 import main from './main';
@@ -12,7 +13,7 @@ const idToPhaseGenerator = new Map([
 
 export const initialState = () => ({
   level: 1,
-  difficulty: 0,
+  mode: mode.hard,
   playerAngle: 0,
   playerRadius: boardRadius / 2,
   playerInvisible: 0,
