@@ -6,6 +6,7 @@ import ids from './ids';
 import title from './title';
 import main from './main';
 import pause from './pause';
+import death from './death';
 
 const { now } = dependencies.globals;
 
@@ -13,6 +14,7 @@ const idToPhaseGenerator = new Map([
   [ids.title, title],
   [ids.main, main],
   [ids.pause, pause],
+  [ids.death, death],
 ]);
 
 export const initialState = () => ({
@@ -20,7 +22,7 @@ export const initialState = () => ({
   mode: mode.hard,
   playerAngle: 0,
   playerRadius: boardRadius / 2,
-  playerInvisible: 0,
+  playerInvincible: 0,
   deaths: 0,
   enemies: [],
 });

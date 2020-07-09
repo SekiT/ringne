@@ -34,6 +34,7 @@ export default (pauseTime = 0) => ({
   level: previousLevel,
   playerAngle: previousPA,
   playerRadius: previousPR,
+  playerInvincible,
   enemies: previousEnemies,
   deaths,
 }) => {
@@ -59,19 +60,22 @@ export default (pauseTime = 0) => ({
   drawGuide(pa);
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
-  drawPlayer(px, py);
+  if (playerInvincible % 2 === 0) {
+    drawPlayer(px, py);
+  }
   const { enemies } = stageIndex(level)(mode, level, levelUp, {
     px, py, enemies: previousEnemies,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
+  const dead = hit && playerInvincible === 0;
   drawCenterDot();
   drawOutline();
   drawEventGauge(0);
-  if (hit) {
+  if (dead) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
   }
-  return hit ? {
-    nextId: ids.title,
+  return dead ? {
+    nextId: ids.death,
     nextArgs: [],
     stateUpdate: { level, deaths: deaths + 1 },
   } : {
@@ -81,6 +85,7 @@ export default (pauseTime = 0) => ({
       level,
       playerAngle: pa,
       playerRadius: pr,
+      playerInvincible: max(playerInvincible - 1, 0),
       enemies: nextEnemies,
     },
   };
