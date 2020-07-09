@@ -11,7 +11,7 @@ export default (state) => {
     random() >= 0.03 + state.level * 0.02 ? [] : [
       swimOrb(random() * pi2, random() * boardRadius, -random() * 0.02, 6 + random() * 4),
     ],
-    random() >= -0.04 + state.level * 0.02 ? [] : [
+    random() >= -0.1 + state.level * 0.02 ? [] : [
       linearOrb(
         center + (2 * random() - 1) * boardRadius,
         center + (2 * random() - 1) * boardRadius,
