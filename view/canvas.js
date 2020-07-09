@@ -23,12 +23,12 @@ Object.assign(element.style, {
 
 export const context = element.getContext('2d');
 
-export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
+export const canvasView = view({ width: 0 }, () => ({ width }) => {
   Object.assign(element.style, {
     width: `${width}px`,
     height: `${width}px`,
   });
-  return render`${element}`;
+  return element;
 });
 
 windowSize.subscribe(({ width: w, height: h }) => {
