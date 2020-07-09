@@ -13,7 +13,7 @@ import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import ids from './ids';
 
 const {
-  pi2, cos, sin, min, max,
+  pi2, cos, sin, min, max, random,
 } = dependencies.globals;
 
 const moveEnemies = (enemies, px, py) => (
@@ -59,7 +59,7 @@ export default (pauseTime = 0) => ({
   drawGuide(pa);
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
-  if (playerInvincible % 2 === 0) {
+  if (playerInvincible === 0 || random() < 0.5) {
     drawPlayer(px, py);
   }
   const { enemies } = stageIndex(level)(mode, level, levelUp, {
