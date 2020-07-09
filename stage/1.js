@@ -24,7 +24,7 @@ const linearOrbSpeed = new Map([
   [modes.hard, () => 1 + random()],
 ]);
 
-export default (mode, level, state) => {
+export default (mode, level, _, state) => {
   const enemies = [
     state.enemies,
     random() >= 0.03 + level * 0.02 ? [] : [

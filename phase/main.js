@@ -58,7 +58,7 @@ export default (pauseTime = 0) => ({
   const px = center + pr * cos(-pa);
   const py = center + pr * sin(-pa);
   drawPlayer(px, py);
-  const { enemies } = stageIndex(level)(mode, level, {
+  const { enemies } = stageIndex(level)(mode, level, levelUp, {
     px, py, enemies: previousEnemies,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
