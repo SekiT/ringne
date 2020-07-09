@@ -37,7 +37,7 @@ const levelView = view(initialState, (render) => ({
   const progress = trunc((playerAngle / pi2) * 100);
   return render`
     <div style="${backgroundStyle}"></div>
-    <div style="${foregroundStyle}">Lv.${level}<br>${progress}%
+    <div style="${foregroundStyle}">Lv.${level}<br>${progress}%</div>
   `;
 });
 
