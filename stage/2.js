@@ -76,6 +76,9 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
     evt = none();
     nextTime = -eventReload.get(mode);
   }
+  if (levelUp && level === 21) {
+    return { enemies, nextStage: two(), evt: none() };
+  }
   return { enemies, nextStage: two(nextTime), evt };
 };
 
