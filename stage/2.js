@@ -5,6 +5,7 @@ import none from '@/event/none';
 import eventIds from '@/event/ids';
 import dependencies from 'dependencies';
 import modes from './modes';
+import three from './3';
 
 const { pi2, random } = dependencies.globals;
 
@@ -77,7 +78,7 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
     nextTime = -eventReload.get(mode);
   }
   if (levelUp && level === 21) {
-    return { enemies, nextStage: two(), evt: none() };
+    return { enemies, nextStage: three(), evt: none() };
   }
   return { enemies, nextStage: two(nextTime), evt };
 };
