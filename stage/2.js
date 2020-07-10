@@ -8,6 +8,12 @@ import modes from './modes';
 
 const { pi2, random } = dependencies.globals;
 
+const swimOrbFrequency = new Map([
+  [modes.easy, (level) => 30 - level * 2],
+  [modes.normal, (level) => 27 - level * 2],
+  [modes.hard, (level) => 13 - level],
+]);
+
 const swimOrbSpeed = new Map([
   [modes.easy, () => -0.008 * random()],
   [modes.normal, () => -0.01 * random()],
@@ -20,24 +26,36 @@ const orbSize = new Map([
   [modes.hard, () => 6 + random() * 4],
 ]);
 
+const rotateSpeed = new Map([
+  [modes.easy, () => 0.02],
+  [modes.normal, () => 0.02],
+  [modes.hard, () => 0.05],
+]);
+
+const rotateDuration = new Map([
+  [modes.easy, () => pi2 / 0.01],
+  [modes.normal, () => pi2 / 0.01],
+  [modes.hard, () => pi2 / 0.025],
+]);
+
 const two = (time = 0) => (mode, level, levelUp, state) => {
   const enemies = [
     state.enemies,
-    random() >= 0.07 ? [] : [
+    time % swimOrbFrequency.get(mode)(level - 10) === 0 ? [
       swimOrb(
         random() * pi2,
         random() * boardRadius,
         swimOrbSpeed.get(mode)(),
         orbSize.get(mode)(),
       ),
-    ],
+    ] : [],
   ].flat();
   const { id, eventTime, duration } = state.evt;
   let evt;
   let nextTime;
   if (id === eventIds.none) {
     if (time === 30) {
-      evt = rotate(random() < 0.5 ? -0.02 : 0.02, pi2 / 0.01);
+      evt = rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode)(level), rotateDuration.get(mode)(level));
       nextTime = time + 1;
     } else {
       evt = state.evt;

@@ -24,7 +24,7 @@ export const initialState = () => ({
   mode: mode.hard,
   stage: one(),
   evt: none(),
-  playerAngle: 6,
+  playerAngle: 0,
   playerRadius: boardRadius / 2,
   playerInvincible: 0,
   deaths: 0,
