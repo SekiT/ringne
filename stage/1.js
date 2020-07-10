@@ -1,9 +1,11 @@
 import { center, boardRadius } from '@/view/canvas';
 import { swimOrb, linearOrb } from '@/enemy/orb';
+import enemyIds from '@/enemy/ids';
 import dependencies from 'dependencies';
 import modes from './modes';
+import two from './2';
 
-const { pi2, random } = dependencies.globals;
+const { pi2, max, random } = dependencies.globals;
 
 const swimOrbProbabilty = new Map([
   [modes.easy, (level) => 0.03 + level * 0.01],
@@ -35,7 +37,16 @@ const linearOrbSpeed = new Map([
   [modes.hard, () => 1 + random()],
 ]);
 
-export default (mode, level, _, state) => {
+const vanishSwimOrb = (enemy) => (
+  enemy.id === enemyIds.swimOrb
+    ? [{ ...enemy, time: max(enemy.time, 270) }]
+    : []
+);
+
+const one = (time = 0) => (mode, level, levelUp, state) => {
+  if (levelUp && level === 11) {
+    return { enemies: state.enemies.flatMap(vanishSwimOrb), nextStage: two() };
+  }
   const enemies = [
     state.enemies,
     random() >= swimOrbProbabilty.get(mode)(level) ? [] : [
@@ -58,5 +69,7 @@ export default (mode, level, _, state) => {
       ),
     ],
   ].flat();
-  return { ...state, enemies };
+  return { enemies, nextStage: one(time + 1) };
 };
+
+export default one;

@@ -4,11 +4,10 @@ import {
   context, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
+import getInputs from '@/state/input';
 import levelView from '@/view/level';
 import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
-import getInputs from '@/state/input';
-import stageIndex from '@/stage/index';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import ids from './ids';
 
@@ -31,6 +30,7 @@ const moveEnemies = (enemies, px, py) => (
 export default (pauseTime = 0) => ({
   mode,
   level: previousLevel,
+  stage,
   playerAngle: previousPA,
   playerRadius: previousPR,
   playerInvincible,
@@ -62,7 +62,7 @@ export default (pauseTime = 0) => ({
   if (playerInvincible === 0 || random() < 0.5) {
     drawPlayer(px, py);
   }
-  const { enemies } = stageIndex(level)(mode, level, levelUp, {
+  const { nextStage, enemies } = stage(mode, level, levelUp, {
     px, py, enemies: previousEnemies,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
@@ -76,12 +76,18 @@ export default (pauseTime = 0) => ({
   return dead ? {
     nextId: ids.death,
     nextArgs: [],
-    stateUpdate: { level, deaths: deaths + 1 },
+    stateUpdate: {
+      level,
+      stage: nextStage,
+      deaths: deaths + 1,
+      enemies: nextEnemies,
+    },
   } : {
     nextId: ids.main,
     nextArgs: [pauseTime + 1],
     stateUpdate: {
       level,
+      stage: nextStage,
       playerAngle: pa,
       playerRadius: pr,
       playerInvincible: max(playerInvincible - 1, 0),
