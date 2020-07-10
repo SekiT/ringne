@@ -32,10 +32,16 @@ const rotateSpeed = new Map([
   [modes.hard, () => 0.05],
 ]);
 
-const rotateDuration = new Map([
-  [modes.easy, () => pi2 / 0.01],
-  [modes.normal, () => pi2 / 0.01],
-  [modes.hard, () => pi2 / 0.025],
+const rotateCount = new Map([
+  [modes.easy, (level) => (level > 5 ? 2 : 1)],
+  [modes.normal, (level) => (level > 5 ? 3 : 2)],
+  [modes.hard, (level) => (level > 5 ? 4 : 2)],
+]);
+
+const eventReload = new Map([
+  [modes.easy, 600],
+  [modes.normal, 300],
+  [modes.hard, 0],
 ]);
 
 const two = (time = 0) => (mode, level, levelUp, state) => {
@@ -55,7 +61,9 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
   let nextTime;
   if (id === eventIds.none) {
     if (time === 30) {
-      evt = rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode)(level), rotateDuration.get(mode)(level));
+      const speed = rotateSpeed.get(mode)(level);
+      const count = rotateCount.get(mode)(level - 11);
+      evt = rotate((random() < 0.5 ? -1 : 1) * speed, (pi2 / speed) * count);
       nextTime = time + 1;
     } else {
       evt = state.evt;
@@ -66,7 +74,7 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
     nextTime = time + 1;
   } else {
     evt = none();
-    nextTime = -600;
+    nextTime = -eventReload.get(mode);
   }
   return { enemies, nextStage: two(nextTime), evt };
 };
