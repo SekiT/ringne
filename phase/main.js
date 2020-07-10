@@ -8,7 +8,9 @@ import getInputs from '@/state/input';
 import levelView from '@/view/level';
 import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
+import eventView from '@/view/event';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
+import eventIds from '@/event/ids';
 import ids from './ids';
 
 const {
@@ -31,6 +33,7 @@ export default (pauseTime = 0) => ({
   mode,
   level: previousLevel,
   stage,
+  evt: previousEvt,
   playerAngle: previousPA,
   playerRadius: previousPR,
   playerInvincible,
@@ -49,10 +52,17 @@ export default (pauseTime = 0) => ({
   }
   const levelUp = previousPA >= pi2;
   const level = previousLevel + (levelUp ? 1 : 0);
-  const pa = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
-  const pr = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
+  const paBeforeEffect = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
+  const prBeforeEffect = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
+  const eventActive = previousEvt.waitTime >= previousEvt.wait;
+  const { pa, pr } = eventActive
+    ? previousEvt.inputEffect({
+      pa: paBeforeEffect, pr: prBeforeEffect, inner, outer, quick, brake,
+    }, previousEvt)
+    : { pa: paBeforeEffect, pr: prBeforeEffect };
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
+  eventView.update(() => ({ name: previousEvt.name }));
   clearCanvas();
   drawBackground();
   drawTape();
@@ -62,14 +72,25 @@ export default (pauseTime = 0) => ({
   if (playerInvincible === 0 || random() < 0.5) {
     drawPlayer(px, py);
   }
-  const { nextStage, enemies } = stage(mode, level, levelUp, {
-    px, py, enemies: previousEnemies,
+  const { nextStage, enemies, evt } = stage(mode, level, levelUp, {
+    px, py, enemies: previousEnemies, evt: previousEvt,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   const dead = hit && playerInvincible === 0;
   drawCenterDot();
   drawOutline();
-  drawEventGauge(0);
+  if (evt.id !== eventIds.none) {
+    drawEventGauge(eventActive ? (1 - evt.eventTime / evt.duration) : evt.waitTime / evt.wait);
+  }
+  const nextProps = eventActive
+    ? evt.afterEffect(evt.props, evt.eventTime, context)
+    : evt.props;
+  const nextEvt = {
+    ...evt,
+    waitTime: evt.waitTime + 1,
+    eventTime: eventActive ? evt.eventTime + 1 : 0,
+    props: nextProps,
+  };
   if (dead) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
   }
@@ -81,6 +102,7 @@ export default (pauseTime = 0) => ({
       stage: nextStage,
       deaths: deaths + 1,
       enemies: nextEnemies,
+      evt: nextEvt,
     },
   } : {
     nextId: ids.main,
@@ -92,6 +114,7 @@ export default (pauseTime = 0) => ({
       playerRadius: pr,
       playerInvincible: max(playerInvincible - 1, 0),
       enemies: nextEnemies,
+      evt: nextEvt,
     },
   };
 };

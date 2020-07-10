@@ -45,7 +45,7 @@ const vanishSwimOrb = (enemy) => (
 
 const one = (time = 0) => (mode, level, levelUp, state) => {
   if (levelUp && level === 11) {
-    return { enemies: state.enemies.flatMap(vanishSwimOrb), nextStage: two() };
+    return { enemies: state.enemies.flatMap(vanishSwimOrb), nextStage: two(), evt: state.evt };
   }
   const enemies = [
     state.enemies,
@@ -69,7 +69,7 @@ const one = (time = 0) => (mode, level, levelUp, state) => {
       ),
     ],
   ].flat();
-  return { enemies, nextStage: one(time + 1) };
+  return { enemies, nextStage: one(time + 1), evt: state.evt };
 };
 
 export default one;

@@ -1,5 +1,8 @@
 import { boardRadius } from '@/view/canvas';
 import { swimOrb } from '@/enemy/orb';
+import rotate from '@/event/rotate';
+import none from '@/event/none';
+import eventIds from '@/event/ids';
 import dependencies from 'dependencies';
 import modes from './modes';
 
@@ -29,7 +32,25 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
       ),
     ],
   ].flat();
-  return { enemies, nextStage: two(time + 1) };
+  const { id, eventTime, duration } = state.evt;
+  let evt;
+  let nextTime;
+  if (id === eventIds.none) {
+    if (time === 30) {
+      evt = rotate(random() < 0.5 ? -0.02 : 0.02, pi2 / 0.01);
+      nextTime = time + 1;
+    } else {
+      evt = state.evt;
+      nextTime = time + 1;
+    }
+  } else if (id === eventIds.rotate && eventTime < duration) {
+    evt = state.evt;
+    nextTime = time + 1;
+  } else {
+    evt = none();
+    nextTime = -600;
+  }
+  return { enemies, nextStage: two(nextTime), evt };
 };
 
 export default two;
