@@ -10,20 +10,19 @@ export const boardRadius = 200;
 export const canvasWidth = boardRadius * 2 + 10;
 export const center = canvasWidth / 2;
 
-const element = document.createElement('canvas');
-element.width = canvasWidth;
-element.height = canvasWidth;
-Object.assign(element.style, {
+const canvasElement = document.createElement('canvas');
+canvasElement.width = canvasWidth;
+canvasElement.height = canvasWidth;
+Object.assign(canvasElement.style, {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
 });
 
-export const canvasContext = element.getContext('2d');
-canvasContext.clip(canvasContext.arc(center, center, boardRadius, 0, pi2));
+export const canvasContext = canvasElement.getContext('2d');
 
-const outlineElement = element.cloneNode();
+const outlineElement = canvasElement.cloneNode();
 const outlineContext = outlineElement.getContext('2d');
 
 export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
@@ -31,9 +30,9 @@ export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
     width: `${width}px`,
     height: `${width}px`,
   };
-  Object.assign(element.style, additionalStyle);
+  Object.assign(canvasElement.style, additionalStyle);
   Object.assign(outlineElement.style, additionalStyle);
-  return render`${element}${outlineElement}`;
+  return render`${canvasElement}${outlineElement}`;
 });
 
 windowSize.subscribe(({ width: w, height: h }) => {
@@ -42,8 +41,9 @@ windowSize.subscribe(({ width: w, height: h }) => {
 });
 
 export const clearCanvas = () => {
-  canvasContext.clearRect(0, 0, canvasWidth, canvasWidth);
-  outlineContext.clearRect(0, 0, canvasWidth, canvasWidth);
+  canvasElement.width = canvasWidth;
+  outlineElement.width = canvasWidth;
+  canvasContext.clip(canvasContext.arc(center, center, boardRadius, 0, pi2));
 };
 
 export const drawBackground = () => {
