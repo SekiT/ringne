@@ -9,6 +9,10 @@ const { min, trunc } = dependencies.globals;
 const initialState = {
   mode: modes.normal,
   fps: 60,
+  appearance: 0,
+  x: 0,
+  y: 0,
+  w: 0,
 };
 
 const modeToText = new Map([
@@ -18,7 +22,7 @@ const modeToText = new Map([
 ]);
 
 const modeView = view(initialState, (render) => ({
-  mode, fpsText, x, y, w,
+  mode, fpsText, appearance, x, y, w,
 }) => {
   const positionStyle = {
     position: 'absolute',
@@ -27,10 +31,12 @@ const modeView = view(initialState, (render) => ({
     width: `${w}px`,
     height: `${w}px`,
   };
+  const ap = appearance * 100;
+  const ap2 = ap / 2;
   const backgroundStyle = toCssText({
     ...positionStyle,
     backgroundColor: '#696',
-    clipPath: 'polygon(0 50%, 50% 100%, 100% 100%, 0 0)',
+    clipPath: `polygon(0 0, 0 50%, ${ap2}% ${50 + ap2}%, ${ap}% ${ap}%)`,
   });
   const textStyle = toCssText({
     position: 'absolute',
@@ -38,6 +44,7 @@ const modeView = view(initialState, (render) => ({
     left: `${w / 10}px`,
     color: 'white',
     fontSize: `${w / 5}px`,
+    opacity: appearance,
   });
   return render`
     <div style="${backgroundStyle}"></div>

@@ -7,13 +7,14 @@ const { pi2, min, trunc } = dependencies.globals;
 const initialState = {
   level: 1,
   playerAngle: 0,
+  appearance: 0,
   x: 0,
   y: 0,
   w: 0,
 };
 
 const levelView = view(initialState, (render) => ({
-  level, playerAngle, x, y, w,
+  level, playerAngle, appearance, x, y, w,
 }) => {
   const positionStyle = {
     position: 'absolute',
@@ -22,16 +23,19 @@ const levelView = view(initialState, (render) => ({
     width: `${w}px`,
     height: `${w}px`,
   };
+  const ap = appearance * 100;
+  const ap2 = ap / 2;
   const backgroundStyle = toCssText({
     ...positionStyle,
     backgroundColor: '#966',
-    clipPath: 'polygon(50% 0, 0 50%, 0 100%, 100% 0)',
+    clipPath: `polygon(100% 0, 50% 0, ${50 - ap2}% ${ap2}%, ${100 - ap}% ${ap}%)`,
   });
   const foregroundStyle = toCssText({
     ...positionStyle,
     color: 'white',
     fontSize: `${w / 5}px`,
     margin: `${w / 10}px`,
+    opacity: appearance,
   });
   const progress = trunc((playerAngle / pi2) * 100);
   return render`

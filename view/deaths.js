@@ -6,13 +6,14 @@ const { min } = dependencies.globals;
 
 const initialState = {
   deaths: 0,
+  appearance: 0,
   x: 0,
   y: 0,
   w: 0,
 };
 
 const deathsView = view(initialState, (render) => ({
-  deaths, x, y, w,
+  deaths, appearance, x, y, w,
 }) => {
   const positionStyle = {
     position: 'absolute',
@@ -21,10 +22,12 @@ const deathsView = view(initialState, (render) => ({
     width: `${w}px`,
     height: `${w}px`,
   };
+  const ap = appearance * 100;
+  const ap2 = ap / 2;
   const backgroundStyle = toCssText({
     ...positionStyle,
     backgroundColor: '#669',
-    clipPath: 'polygon(50% 100%, 100% 50%, 100% 0, 0 100%)',
+    clipPath: `polygon(50% 100%, ${50 + ap2}% ${100 - ap2}%, ${ap}% ${100 - ap}%, 0 100%)`,
   });
   const textStyle = toCssText({
     position: 'absolute',
@@ -33,6 +36,7 @@ const deathsView = view(initialState, (render) => ({
     textAlign: 'right',
     fontSize: `${w / 5}px`,
     color: 'white',
+    opacity: appearance,
   });
   return render`
     <div style="${backgroundStyle}"></div>

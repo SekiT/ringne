@@ -5,14 +5,15 @@ import dependencies from 'dependencies';
 const { min } = dependencies.globals;
 
 const initialState = {
-  name: undefined,
+  name: '-',
+  appearance: 0,
   x: 0,
   y: 0,
   w: 0,
 };
 
 const eventView = view(initialState, (render) => ({
-  name, x, y, w,
+  name, appearance, x, y, w,
 }) => {
   const positionStyle = {
     position: 'absolute',
@@ -21,10 +22,12 @@ const eventView = view(initialState, (render) => ({
     width: `${w}px`,
     height: `${w}px`,
   };
+  const ap = appearance * 100;
+  const ap2 = ap / 2;
   const backgroundStyle = toCssText({
     ...positionStyle,
     backgroundColor: '#969',
-    clipPath: 'polygon(50% 0, 100% 50%, 100% 100%, 0 0)',
+    clipPath: `polygon(100% 50%, ${100 - ap2}% ${50 - ap2}%, ${100 - ap}% ${100 - ap}%, 100% 100%)`,
   });
   const textStyle = toCssText({
     position: 'absolute',
@@ -33,6 +36,7 @@ const eventView = view(initialState, (render) => ({
     textAlign: 'right',
     fontSize: `${w / 5}px`,
     color: 'white',
+    opacity: appearance,
   });
   return render`
     <div style="${backgroundStyle}"></div>
