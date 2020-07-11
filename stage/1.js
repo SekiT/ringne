@@ -5,7 +5,9 @@ import dependencies from 'dependencies';
 import modes from './modes';
 import two from './2';
 
-const { pi2, max, random } = dependencies.globals;
+const {
+  pi, pi2, max, random,
+} = dependencies.globals;
 
 const orbSize = new Map([
   [modes.easy, () => 6 + random() * 2],
@@ -51,7 +53,7 @@ const one = (time = 0) => (mode, level, levelUp, state) => {
     state.enemies,
     time % swimOrbFrequency.get(mode)(level) === 0 ? [
       swimOrb(
-        random() * pi2,
+        -state.pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
         swimOrbSpeed.get(mode)(),
         orbSize.get(mode)(),

@@ -2,12 +2,12 @@ import { boardRadius } from '@/view/canvas';
 import { swimOrb } from '@/enemy/orb';
 import rotate from '@/event/rotate';
 import none from '@/event/none';
-import eventIds from '@/event/ids';
 import dependencies from 'dependencies';
+import eventIds from '../event/ids';
 import modes from './modes';
 import three from './3';
 
-const { pi2, random } = dependencies.globals;
+const { pi, pi2, random } = dependencies.globals;
 
 const swimOrbFrequency = new Map([
   [modes.easy, (level) => 30 - level * 2],
@@ -50,7 +50,7 @@ const two = (time = 0) => (mode, level, levelUp, state) => {
     state.enemies,
     time % swimOrbFrequency.get(mode)(level - 10) === 0 ? [
       swimOrb(
-        random() * pi2,
+        -state.pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
         swimOrbSpeed.get(mode)(),
         orbSize.get(mode)(),
