@@ -85,7 +85,7 @@ export default (pauseTime = 0) => ({
     drawPlayer(px, py);
   }
   const { nextStage, enemies, evt } = stage(mode, level, levelUp, {
-    px, py, pa, pr, enemies: previousEnemies, evt: previousEvt,
+    px, py, pa, pr, playerInvincible, enemies: previousEnemies, evt: previousEvt,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   const dead = hit && playerInvincible === 0;

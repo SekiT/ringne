@@ -6,7 +6,7 @@ import modes from './modes';
 import two from './2';
 
 const {
-  pi, pi2, max, random,
+  pi, pi2, max, cos, sin, random,
 } = dependencies.globals;
 
 const orbSize = new Map([
@@ -45,15 +45,31 @@ const vanishSwimOrb = (enemy) => (
     : []
 );
 
+const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
+  const { x, y } = enemy.id === enemyIds.linearOrb ? enemy : {
+    x: center + enemy.radius * cos(enemy.angle),
+    y: center + enemy.radius * sin(enemy.angle),
+  };
+  const dx = x - px;
+  const dy = y - py;
+  const dr = 60 - playerInvincible;
+  return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
+};
+
 const one = (time = 0) => (mode, level, levelUp, state) => {
+  const {
+    enemies, evt, px, py, pa, playerInvincible,
+  } = state;
   if (levelUp && level === 11) {
-    return { enemies: state.enemies.flatMap(vanishSwimOrb), nextStage: two(), evt: state.evt };
+    return { enemies: enemies.flatMap(vanishSwimOrb), nextStage: two(), evt };
   }
-  const enemies = [
-    state.enemies,
+  const nextEnemies = [
+    playerInvincible > 0
+      ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
+      : enemies,
     time % swimOrbFrequency.get(mode)(level) === 0 ? [
       swimOrb(
-        -state.pa + 0.4 + random() * pi * 1.6,
+        -pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
         swimOrbSpeed.get(mode)(),
         orbSize.get(mode)(),
@@ -71,7 +87,7 @@ const one = (time = 0) => (mode, level, levelUp, state) => {
       ),
     ] : [],
   ].flat();
-  return { enemies, nextStage: one(time + 1), evt: state.evt };
+  return { enemies: nextEnemies, nextStage: one(time + 1), evt };
 };
 
 export default one;
