@@ -103,13 +103,13 @@ export const drawCenterDot = () => {
   canvasContext.restore();
 };
 
-export const drawOutline = () => {
+export const drawOutline = (angle = -pi2) => {
   outlineContext.save();
   outlineContext.beginPath();
   outlineContext.setLineDash([10, 10]);
   outlineContext.strokeStyle = 'white';
   outlineContext.lineWidth = 3;
-  outlineContext.arc(center, center, boardRadius, 0, -pi2, true);
+  outlineContext.arc(center, center, boardRadius, 0, angle, true);
   outlineContext.stroke();
   outlineContext.closePath();
   outlineContext.restore();
