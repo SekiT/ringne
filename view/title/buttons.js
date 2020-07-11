@@ -17,8 +17,8 @@ const onClick = (id, param) => () => pushClick(id, param);
 const containerStyle = (opacity) => toCssText({
   position: 'absolute',
   left: '50%',
-  top: '70%',
-  transform: 'translate(-50%, -50%)',
+  top: '60%',
+  transform: 'translate(-50%, 0)',
   textAlign: 'center',
   fontFamily: 'serif',
   opacity,
@@ -34,10 +34,10 @@ const startButtonStyle = (fontSize) => toCssText({
 });
 
 const modeButtonStyle = (selected, fontSize) => toCssText({
-  margin: '0 5px',
+  margin: '10px 5px',
   outline: 'none',
   border: `2px solid ${selected ? 'white' : 'transparent'}`,
-  fontSize: `${fontSize}px`,
+  fontSize: `${fontSize * 0.8}px`,
   color: 'white',
   backgroundColor: 'transparent',
 });
