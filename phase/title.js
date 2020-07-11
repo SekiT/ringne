@@ -1,7 +1,8 @@
 import {
   canvasContext as context, center, canvasWidth, clearCanvas,
 } from '@/view/canvas';
-import buttonsView from '@/view/title/buttons';
+import startButtonsView from '@/view/title/startButtons';
+import modeButtonsView from '@/view/title/modeButtons';
 import levelView from '@/view/level';
 import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
@@ -47,7 +48,8 @@ export default (time = 0) => ({ mode }) => {
   drawTitle(min(time / 60, 1));
   const opacity = min(max((time - 75) / 30, 0), 1);
   drawSubtitle(opacity);
-  buttonsView.update(() => ({ opacity }));
+  startButtonsView.update(() => ({ opacity }));
+  modeButtonsView.update(() => ({ opacity }));
   if (time >= 75) {
     const [nextMode, startWhat] = getClicks().reduce(
       ([m, w], { id, param }) => (
@@ -56,7 +58,7 @@ export default (time = 0) => ({ mode }) => {
       [mode, null],
     );
     resetClicks();
-    buttonsView.update(() => ({ mode: nextMode }));
+    modeButtonsView.update(() => ({ mode: nextMode }));
     if (startWhat === null) {
       return {
         nextId: ids.title,
@@ -64,7 +66,8 @@ export default (time = 0) => ({ mode }) => {
         stateUpdate: { mode: nextMode },
       };
     }
-    buttonsView.update(() => ({ opacity: 0 }));
+    startButtonsView.update(() => ({ opacity: 0 }));
+    modeButtonsView.update(() => ({ opacity: 0 }));
     return {
       nextId: ids.start,
       nextArgs: [],

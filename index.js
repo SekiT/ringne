@@ -8,7 +8,8 @@ import levelView from './view/level';
 import modeView from './view/mode';
 import deathsView from './view/deaths';
 import eventView from './view/event';
-import titleButtonsView from './view/title/buttons';
+import startButtonsView from './view/title/startButtons';
+import modeButtonsView from './view/title/modeButtons';
 
 const { bind } = dependencies.hyperhtml;
 
@@ -18,7 +19,8 @@ bind(document.body)`
   ${modeView.render()}
   ${deathsView.render()}
   ${eventView.render()}
-  ${titleButtonsView.render()}
+  ${startButtonsView.render()}
+  ${modeButtonsView.render()}
 `;
 
 runPhase(indexPhase(titlePhase(), initialState()), idealTimeout);
