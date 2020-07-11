@@ -54,5 +54,6 @@ export default () => {
     quick: keys.w || keys.ArrowUp || touchInputs.up || false,
     brake: keys.s || keys.ArrowDown || touchInputs.down || false,
     pause: keys.p || false,
+    escape: keys.Escape || false,
   };
 };

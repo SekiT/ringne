@@ -12,6 +12,7 @@ import eventView from '@/view/event';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import eventIds from '@/event/ids';
 import ids from './ids';
+import initialState from './initialState';
 
 const {
   pi2, cos, sin, min, max, random,
@@ -41,8 +42,18 @@ export default (pauseTime = 0) => ({
   deaths,
 }) => {
   const {
-    inner, outer, quick, brake, pause,
+    inner, outer, quick, brake, pause, escape,
   } = getInputs();
+  if (escape) {
+    return {
+      nextId: ids.title,
+      nextArgs: [],
+      stateUpdate: {
+        ...initialState(),
+        mode,
+      },
+    };
+  }
   if (pause && pauseTime > 10) {
     return {
       nextId: ids.pause,

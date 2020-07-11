@@ -1,6 +1,7 @@
 import dependencies from './dependencies';
 import { runPhase, idealTimeout } from './lib/runPhase';
-import indexPhase, { initialState } from './phase/index';
+import indexPhase from './phase/index';
+import initialState from './phase/initialState';
 import titlePhase from './phase/title';
 import { canvasView } from './view/canvas';
 import levelView from './view/level';
