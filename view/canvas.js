@@ -56,25 +56,26 @@ export const drawBackground = () => {
   canvasContext.restore();
 };
 
-export const drawTape = () => {
+export const drawTape = (rate = 1) => {
   canvasContext.save();
   canvasContext.beginPath();
   canvasContext.strokeStyle = 'white';
   canvasContext.lineWidth = 1;
   canvasContext.moveTo(center, center);
-  canvasContext.lineTo(center + boardRadius, center);
+  canvasContext.lineTo(center + rate * boardRadius, center);
   canvasContext.stroke();
   canvasContext.closePath();
   canvasContext.restore();
 };
 
-export const drawGuide = (angle) => {
+export const drawGuide = (angle, rate = 1) => {
   canvasContext.save();
   canvasContext.beginPath();
   canvasContext.strokeStyle = 'red';
   canvasContext.lineWidth = 1;
   canvasContext.moveTo(center, center);
-  canvasContext.lineTo(center + boardRadius * cos(-angle), center + boardRadius * sin(-angle));
+  const r = rate * boardRadius;
+  canvasContext.lineTo(center + r * cos(-angle), center + r * sin(-angle));
   canvasContext.stroke();
   canvasContext.closePath();
   canvasContext.restore();
