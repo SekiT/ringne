@@ -45,12 +45,12 @@ export default (time = 0) => ({ mode }) => {
     eventView.update(() => ({ appearance: 0 }));
   }
   clearCanvas();
-  drawTitle(min(time / 60, 1));
-  const opacity = min(max((time - 75) / 30, 0), 1);
+  drawTitle(min(time / 60, (165 - time) / 60, 1));
+  const opacity = max(min((time - 75) / 30, (165 - time) / 60, 1), 0);
   drawSubtitle(opacity);
   startButtonsView.update(() => ({ opacity }));
   modeButtonsView.update(() => ({ opacity }));
-  if (time >= 75) {
+  if (time === 105) {
     const [nextMode, startWhat] = getClicks().reduce(
       ([m, w], { id, param }) => (
         id === buttonIds.mode ? [param, w] : [m, id]
@@ -59,23 +59,18 @@ export default (time = 0) => ({ mode }) => {
     );
     resetClicks();
     modeButtonsView.update(() => ({ mode: nextMode }));
-    if (startWhat === null) {
-      return {
-        nextId: ids.title,
-        nextArgs: [time + 1],
-        stateUpdate: { mode: nextMode },
-      };
-    }
-    startButtonsView.update(() => ({ opacity: 0 }));
-    modeButtonsView.update(() => ({ opacity: 0 }));
     return {
-      nextId: ids.start,
-      nextArgs: [],
+      nextId: ids.title,
+      nextArgs: [startWhat === null ? 105 : 106],
       stateUpdate: { mode: nextMode },
     };
   }
   resetClicks();
-  return {
+  return time === 165 ? {
+    nextId: ids.start,
+    nextArgs: [],
+    stateUpdate: {},
+  } : {
     nextId: ids.title,
     nextArgs: [time + 1],
     stateUpdate: {},
