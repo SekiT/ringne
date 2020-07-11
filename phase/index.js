@@ -21,7 +21,7 @@ const idToPhaseGenerator = new Map([
 
 export const initialState = () => ({
   level: 1,
-  mode: mode.hard,
+  mode: mode.normal,
   stage: one(),
   evt: none(),
   playerAngle: 0,
