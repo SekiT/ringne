@@ -10,7 +10,7 @@ import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
-import eventIds from '@/event/ids';
+import eventIds from '../event/ids';
 import ids from './ids';
 import initialState from './initialState';
 
