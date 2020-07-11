@@ -20,7 +20,8 @@ const drawTitle = (opacity) => {
   context.shadowColor = 'rgba(255, 255, 255, 0.5)';
   context.shadowBlur = 10;
   context.font = `${canvasWidth / 4}px serif`;
-  context.fillText('輪廻', center - canvasWidth / 4, center - canvasWidth / 10);
+  context.textAlign = 'center';
+  context.fillText('輪廻', center, center - canvasWidth / 10);
   context.closePath();
   context.restore();
 };
@@ -32,7 +33,8 @@ const drawSubtitle = (opacity) => {
   context.shadowColor = 'rgba(255, 255, 255, 0.5)';
   context.shadowBlur = 10;
   context.font = `${canvasWidth / 10}px serif`;
-  context.fillText('−回向−', center - canvasWidth / 6, center + canvasWidth / 30);
+  context.textAlign = 'center';
+  context.fillText('−回向−', center, center + canvasWidth / 30);
   context.closePath();
   context.restore();
 };
