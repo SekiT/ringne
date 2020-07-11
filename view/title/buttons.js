@@ -27,14 +27,14 @@ const containerStyle = (opacity) => toCssText({
 const startButtonStyle = (fontSize) => toCssText({
   outline: 'none',
   border: 'none',
-  margin: '5px 0 10px',
+  margin: `${fontSize / 4}px 0 ${fontSize / 2}px`,
   fontSize: `${fontSize}px`,
   color: 'white',
   backgroundColor: 'transparent',
 });
 
 const modeButtonStyle = (selected, fontSize) => toCssText({
-  margin: '10px 5px',
+  margin: `${fontSize}px ${fontSize / 4}px`,
   outline: 'none',
   border: `2px solid ${selected ? 'white' : 'transparent'}`,
   fontSize: `${fontSize * 0.8}px`,
