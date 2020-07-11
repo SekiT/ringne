@@ -2,11 +2,11 @@ import levelView from '@/view/level';
 import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
-import { clearCanvas } from '@/view/canvas';
+import { clearCanvas, drawOutline } from '@/view/canvas';
 import dependencies from 'dependencies';
 import ids from './ids';
 
-const { min } = dependencies.globals;
+const { pi2, min } = dependencies.globals;
 
 export default (time = 0) => ({
   level, mode,
@@ -21,7 +21,8 @@ export default (time = 0) => ({
   deathsView.update(() => ({ appearance }));
   eventView.update(() => ({ appearance }));
   clearCanvas();
-  return time <= 30 ? {
+  drawOutline(-(time / 180) * pi2);
+  return time < 180 ? {
     nextId: ids.start,
     nextArgs: [time + 1],
     stateUpdate: {},
