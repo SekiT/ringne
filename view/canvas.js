@@ -3,7 +3,7 @@ import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
 const {
-  pi2, cos, sin, document,
+  pi2, min, cos, sin, document,
 } = dependencies.globals;
 
 export const boardRadius = 200;
@@ -37,7 +37,7 @@ export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
 });
 
 windowSize.subscribe(({ width: w, height: h }) => {
-  const width = Math.min(w * 0.7, h * 0.7);
+  const width = min(w, h) * 0.7;
   canvasView.update(() => ({ width }));
 });
 
