@@ -18,17 +18,22 @@ Object.assign(element.style, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  clipPath: 'circle(49%)',
 });
 
-export const context = element.getContext('2d');
+export const canvasContext = element.getContext('2d');
+canvasContext.clip(canvasContext.arc(center, center, boardRadius, 0, pi2));
 
-export const canvasView = view({ width: 0 }, () => ({ width }) => {
-  Object.assign(element.style, {
+const outlineElement = element.cloneNode();
+const outlineContext = outlineElement.getContext('2d');
+
+export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
+  const additionalStyle = {
     width: `${width}px`,
     height: `${width}px`,
-  });
-  return element;
+  };
+  Object.assign(element.style, additionalStyle);
+  Object.assign(outlineElement.style, additionalStyle);
+  return render`${element}${outlineElement}`;
 });
 
 windowSize.subscribe(({ width: w, height: h }) => {
@@ -37,86 +42,87 @@ windowSize.subscribe(({ width: w, height: h }) => {
 });
 
 export const clearCanvas = () => {
-  context.clearRect(0, 0, canvasWidth, canvasWidth);
+  canvasContext.clearRect(0, 0, canvasWidth, canvasWidth);
+  outlineContext.clearRect(0, 0, canvasWidth, canvasWidth);
 };
 
 export const drawBackground = () => {
-  context.save();
-  context.beginPath();
-  context.fillStyle = 'black';
-  context.arc(center, center, boardRadius, 0, pi2);
-  context.fill();
-  context.closePath();
-  context.restore();
+  canvasContext.save();
+  canvasContext.beginPath();
+  canvasContext.fillStyle = 'black';
+  canvasContext.arc(center, center, boardRadius, 0, pi2);
+  canvasContext.fill();
+  canvasContext.closePath();
+  canvasContext.restore();
 };
 
 export const drawTape = () => {
-  context.save();
-  context.beginPath();
-  context.strokeStyle = 'white';
-  context.lineWidth = 1;
-  context.moveTo(center, center);
-  context.lineTo(center + boardRadius, center);
-  context.stroke();
-  context.closePath();
-  context.restore();
+  canvasContext.save();
+  canvasContext.beginPath();
+  canvasContext.strokeStyle = 'white';
+  canvasContext.lineWidth = 1;
+  canvasContext.moveTo(center, center);
+  canvasContext.lineTo(center + boardRadius, center);
+  canvasContext.stroke();
+  canvasContext.closePath();
+  canvasContext.restore();
 };
 
 export const drawGuide = (angle) => {
-  context.save();
-  context.beginPath();
-  context.strokeStyle = 'red';
-  context.lineWidth = 1;
-  context.moveTo(center, center);
-  context.lineTo(center + boardRadius * cos(-angle), center + boardRadius * sin(-angle));
-  context.stroke();
-  context.closePath();
-  context.restore();
+  canvasContext.save();
+  canvasContext.beginPath();
+  canvasContext.strokeStyle = 'red';
+  canvasContext.lineWidth = 1;
+  canvasContext.moveTo(center, center);
+  canvasContext.lineTo(center + boardRadius * cos(-angle), center + boardRadius * sin(-angle));
+  canvasContext.stroke();
+  canvasContext.closePath();
+  canvasContext.restore();
 };
 
 export const drawPlayer = (x, y) => {
-  context.save();
-  context.beginPath();
-  const gradient = context.createRadialGradient(x, y, 0, x, y, 20);
+  canvasContext.save();
+  canvasContext.beginPath();
+  const gradient = canvasContext.createRadialGradient(x, y, 0, x, y, 20);
   gradient.addColorStop(0, 'red');
   gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-  context.fillStyle = gradient;
-  context.arc(x, y, 20, 0, pi2);
-  context.fill();
-  context.closePath();
-  context.restore();
+  canvasContext.fillStyle = gradient;
+  canvasContext.arc(x, y, 20, 0, pi2);
+  canvasContext.fill();
+  canvasContext.closePath();
+  canvasContext.restore();
 };
 
 export const drawCenterDot = () => {
-  context.save();
-  context.beginPath();
-  context.fillStyle = 'white';
-  context.arc(center, center, 3, 0, pi2);
-  context.fill();
-  context.closePath();
-  context.restore();
+  canvasContext.save();
+  canvasContext.beginPath();
+  canvasContext.fillStyle = 'white';
+  canvasContext.arc(center, center, 3, 0, pi2);
+  canvasContext.fill();
+  canvasContext.closePath();
+  canvasContext.restore();
 };
 
 export const drawOutline = () => {
-  context.save();
-  context.beginPath();
-  context.setLineDash([10, 10]);
-  context.strokeStyle = 'white';
-  context.lineWidth = 3;
-  context.arc(center, center, boardRadius, 0, -pi2, true);
-  context.stroke();
-  context.closePath();
-  context.restore();
+  outlineContext.save();
+  outlineContext.beginPath();
+  outlineContext.setLineDash([10, 10]);
+  outlineContext.strokeStyle = 'white';
+  outlineContext.lineWidth = 3;
+  outlineContext.arc(center, center, boardRadius, 0, -pi2, true);
+  outlineContext.stroke();
+  outlineContext.closePath();
+  outlineContext.restore();
 };
 
 export const drawEventGauge = (rate) => {
-  context.save();
-  context.beginPath();
-  context.setLineDash([10, 10]);
-  context.strokeStyle = 'magenta';
-  context.lineWidth = 3;
-  context.arc(center, center, boardRadius, 0, -rate * pi2, true);
-  context.stroke();
-  context.closePath();
-  context.restore();
+  outlineContext.save();
+  outlineContext.beginPath();
+  outlineContext.setLineDash([10, 10]);
+  outlineContext.strokeStyle = 'magenta';
+  outlineContext.lineWidth = 3;
+  outlineContext.arc(center, center, boardRadius, 0, -rate * pi2, true);
+  outlineContext.stroke();
+  outlineContext.closePath();
+  outlineContext.restore();
 };

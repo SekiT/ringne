@@ -1,7 +1,7 @@
 import dependencies from 'dependencies';
 import {
   center, boardRadius,
-  context, clearCanvas,
+  canvasContext, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import getInputs from '@/state/input';
@@ -21,7 +21,7 @@ const moveEnemies = (enemies, px, py) => (
   enemies.reduce((acc, enemy) => {
     const { id } = enemy;
     const { nextEnemies, hit } = enemyIdToMotion.get(id)(enemy, px, py);
-    enemyIdToRenderer.get(id)(context, enemy);
+    enemyIdToRenderer.get(id)(canvasContext, enemy);
     return {
       nextEnemies: [...acc.nextEnemies, ...nextEnemies],
       hit: acc.hit || hit,
@@ -83,7 +83,7 @@ export default (pauseTime = 0) => ({
     drawEventGauge(eventActive ? (1 - evt.eventTime / evt.duration) : evt.waitTime / evt.wait);
   }
   const nextProps = eventActive
-    ? evt.afterEffect(evt.props, evt.eventTime, context)
+    ? evt.afterEffect(evt.props, evt.eventTime, canvasContext)
     : evt.props;
   const nextEvt = {
     ...evt,
