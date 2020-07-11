@@ -1,7 +1,7 @@
 import {
   canvasContext as context, center, canvasWidth, clearCanvas,
 } from '@/view/canvas';
-import modeButtonsView from '@/view/title/mode';
+import buttonsView from '@/view/title/buttons';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
 import dependencies from 'dependencies';
 import ids from './ids';
@@ -37,7 +37,7 @@ export default (time = 0) => ({ mode }) => {
   drawTitle(min(time / 60, 1));
   const opacity = min(max((time - 75) / 30, 0), 1);
   drawSubtitle(opacity);
-  modeButtonsView.update(() => ({ opacity }));
+  buttonsView.update(() => ({ opacity }));
   if (time >= 75) {
     const [nextMode, startWhat] = getClicks().reduce(
       ([m, w], { id, param }) => (
@@ -46,7 +46,7 @@ export default (time = 0) => ({ mode }) => {
       [mode, null],
     );
     resetClicks();
-    modeButtonsView.update(() => ({ mode: nextMode }));
+    buttonsView.update(() => ({ mode: nextMode }));
     if (startWhat === null) {
       return {
         nextId: ids.title,
@@ -54,6 +54,8 @@ export default (time = 0) => ({ mode }) => {
         stateUpdate: { mode: nextMode },
       };
     }
+    // TODO: go to start phase
+    buttonsView.update(() => ({ opacity: 0 }));
     return {
       nextId: ids.main,
       nextArgs: [],
