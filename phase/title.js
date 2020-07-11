@@ -2,6 +2,10 @@ import {
   canvasContext as context, center, canvasWidth, clearCanvas,
 } from '@/view/canvas';
 import buttonsView from '@/view/title/buttons';
+import levelView from '@/view/level';
+import modeView from '@/view/mode';
+import deathsView from '@/view/deaths';
+import eventView from '@/view/event';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
 import dependencies from 'dependencies';
 import ids from './ids';
@@ -33,6 +37,12 @@ const drawSubtitle = (opacity) => {
 };
 
 export default (time = 0) => ({ mode }) => {
+  if (time === 0) {
+    levelView.update(() => ({ appearance: 0 }));
+    modeView.update(() => ({ appearance: 0 }));
+    deathsView.update(() => ({ appearance: 0 }));
+    eventView.update(() => ({ appearance: 0 }));
+  }
   clearCanvas();
   drawTitle(min(time / 60, 1));
   const opacity = min(max((time - 75) / 30, 0), 1);
@@ -54,10 +64,9 @@ export default (time = 0) => ({ mode }) => {
         stateUpdate: { mode: nextMode },
       };
     }
-    // TODO: go to start phase
     buttonsView.update(() => ({ opacity: 0 }));
     return {
-      nextId: ids.main,
+      nextId: ids.start,
       nextArgs: [],
       stateUpdate: { mode: nextMode },
     };

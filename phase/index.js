@@ -2,6 +2,7 @@ import { pushTime } from '@/subject/fps';
 import dependencies from 'dependencies';
 import ids from './ids';
 import title from './title';
+import start from './start';
 import main from './main';
 import pause from './pause';
 import death from './death';
@@ -10,6 +11,7 @@ const { now } = dependencies.globals;
 
 const idToPhaseGenerator = new Map([
   [ids.title, title],
+  [ids.start, start],
   [ids.main, main],
   [ids.pause, pause],
   [ids.death, death],
