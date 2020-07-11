@@ -10,7 +10,6 @@ import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
-import eventIds from '../event/ids';
 import ids from './ids';
 import initialState from './initialState';
 
@@ -90,9 +89,7 @@ export default (pauseTime = 0) => ({
   const dead = hit && playerInvincible === 0;
   drawCenterDot();
   drawOutline();
-  if (evt.id !== eventIds.none) {
-    drawEventGauge(eventActive ? (1 - evt.eventTime / evt.duration) : evt.waitTime / evt.wait);
-  }
+  drawEventGauge(eventActive ? (1 - evt.eventTime / evt.duration) : evt.waitTime / evt.wait);
   const nextProps = eventActive
     ? evt.afterEffect(evt.props, evt.eventTime, canvasContext)
     : evt.props;

@@ -37,6 +37,9 @@ export default (time = 0) => ({
   playerAngle,
   playerRadius,
   enemies,
+  evt: {
+    wait, waitTime, eventTime, duration,
+  },
 }) => {
   clearCanvas();
   drawBackground();
@@ -48,7 +51,7 @@ export default (time = 0) => ({
   enemies.forEach((enemy) => enemyIdToRenderer.get(enemy.id)(canvasContext, enemy));
   drawCenterDot();
   drawOutline();
-  drawEventGauge(0);
+  drawEventGauge(waitTime >= wait ? (1 - eventTime / duration) : waitTime / wait);
   drawDeathMask(px, py, time);
   return time < 90 ? {
     nextId: ids.death,
