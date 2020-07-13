@@ -43,7 +43,8 @@ const startButtonsView = view(initialState, (render) => ({
       style=${startButtonStyle(fontSize, startOpacity)}
       onClick=${onClick(buttonIds.start)}>Start Game</button><br>
     <button
-      style=${startButtonStyle(fontSize, practiceOpacity)}><s>Practice</s></button><br>
+      style=${startButtonStyle(fontSize, practiceOpacity)}
+      onClick=${onClick(buttonIds.practice)}>Practice</button><br>
   </div>
 `);
 

@@ -32,6 +32,7 @@ const moveEnemies = (enemies, px, py) => (
 export default (pauseTime = 0) => ({
   mode,
   level: previousLevel,
+  practice,
   stage,
   evt: previousEvt,
   playerAngle: previousPA,
@@ -64,6 +65,13 @@ export default (pauseTime = 0) => ({
   }
   const levelUp = previousPA >= pi2;
   const level = previousLevel + (levelUp ? 1 : 0);
+  if (practice && levelUp && level % 10 === 1) {
+    return {
+      nextId: ids.title,
+      nextArgs: [],
+      stateUpdate: {},
+    };
+  }
   const paBeforeEffect = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
   const prBeforeEffect = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
   const eventActive = previousEvt.waitTime >= previousEvt.wait;

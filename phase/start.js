@@ -40,7 +40,7 @@ export default (time = 0) => ({
   levelView.update(() => ({ appearance }));
   modeView.update(() => ({ appearance }));
   deathsView.update(() => ({ appearance }));
-  eventView.update(() => ({ appearance }));
+  eventView.update(() => ({ appearance, name: '-' }));
   clearCanvas();
   drawBackground();
   drawTape(min(time / 30, 1));

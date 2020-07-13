@@ -9,6 +9,7 @@ import modeView from './view/mode';
 import deathsView from './view/deaths';
 import eventView from './view/event';
 import startButtonsView from './view/title/startButtons';
+import stageButtonsView from './view/title/stageButtons';
 import modeButtonsView from './view/title/modeButtons';
 
 const { bind } = dependencies.hyperhtml;
@@ -20,6 +21,7 @@ bind(document.body)`
   ${deathsView.render()}
   ${eventView.render()}
   ${startButtonsView.render()}
+  ${stageButtonsView.render()}
   ${modeButtonsView.render()}
 `;
 

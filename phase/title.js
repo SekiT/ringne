@@ -8,8 +8,10 @@ import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
+import one from '@/stage/1';
 import dependencies from 'dependencies';
 import ids from './ids';
+import initialState from './initialState';
 
 const {
   min, max, round, random,
@@ -41,7 +43,7 @@ const drawSubtitle = (opacity) => {
   context.restore();
 };
 
-export default (time = 0) => ({ mode, practice }) => {
+export default (time = 0) => ({ mode, level, practice }) => {
   if (time === 0) {
     levelView.update(() => ({ appearance: 0 }));
     modeView.update(() => ({ appearance: 0 }));
@@ -74,12 +76,15 @@ export default (time = 0) => ({ mode, practice }) => {
   }
   resetClicks();
   return time === 165 ? {
-    nextId: ids.start,
+    nextId: practice ? ids.practice : ids.start,
     nextArgs: [],
-    stateUpdate: {},
+    stateUpdate: {
+      level: practice ? 1 : level,
+      stage: one(),
+    },
   } : {
     nextId: ids.title,
     nextArgs: [time + 1],
-    stateUpdate: {},
+    stateUpdate: time === 0 ? { ...initialState(), mode } : {},
   };
 };

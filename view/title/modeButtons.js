@@ -54,7 +54,7 @@ export default modeButtonsView;
 
 windowSize.subscribe(({ width, height }) => {
   const minWidth = min(width, height);
-  const top = height / 2 + minWidth * 0.3;
+  const top = height / 2 + minWidth * 0.25;
   const fontSize = minWidth * 0.026;
   modeButtonsView.update(() => ({ top, fontSize }));
 });

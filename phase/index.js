@@ -3,6 +3,7 @@ import dependencies from 'dependencies';
 import ids from './ids';
 import title from './title';
 import start from './start';
+import practice from './practice';
 import main from './main';
 import pause from './pause';
 import death from './death';
@@ -12,6 +13,7 @@ const { now } = dependencies.globals;
 const idToPhaseGenerator = new Map([
   [ids.title, title],
   [ids.start, start],
+  [ids.practice, practice],
   [ids.main, main],
   [ids.pause, pause],
   [ids.death, death],
