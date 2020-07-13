@@ -11,7 +11,9 @@ import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
 import dependencies from 'dependencies';
 import ids from './ids';
 
-const { min, max } = dependencies.globals;
+const {
+  min, max, round, random,
+} = dependencies.globals;
 
 const drawTitle = (opacity) => {
   context.save();
@@ -39,7 +41,7 @@ const drawSubtitle = (opacity) => {
   context.restore();
 };
 
-export default (time = 0) => ({ mode }) => {
+export default (time = 0) => ({ mode, practice }) => {
   if (time === 0) {
     levelView.update(() => ({ appearance: 0 }));
     modeView.update(() => ({ appearance: 0 }));
@@ -50,8 +52,11 @@ export default (time = 0) => ({ mode }) => {
   drawTitle(min(time / 60, (165 - time) / 60, 1));
   const opacity = max(min((time - 75) / 30, (165 - time) / 60, 1), 0);
   drawSubtitle(opacity);
-  startButtonsView.update(() => ({ opacity }));
-  modeButtonsView.update(() => ({ opacity }));
+  startButtonsView.update(() => ({
+    startOpacity: (time > 105 && !practice ? round(random()) : 1) * opacity,
+    practiceOpacity: (time > 105 && practice ? round(random()) : 1) * opacity,
+  }));
+  modeButtonsView.update(() => ({ opacity: time > 105 && practice ? 1 : opacity }));
   if (time === 105) {
     const [nextMode, startWhat] = getClicks().reduce(
       ([m, w], { id, param }) => (
@@ -64,7 +69,7 @@ export default (time = 0) => ({ mode }) => {
     return {
       nextId: ids.title,
       nextArgs: [startWhat === null ? 105 : 106],
-      stateUpdate: { mode: nextMode },
+      stateUpdate: { mode: nextMode, practice: startWhat === buttonIds.practice },
     };
   }
   resetClicks();

@@ -8,6 +8,7 @@ export default {
     min: Math.min,
     max: Math.max,
     trunc: Math.trunc,
+    round: Math.round,
     cos: Math.cos,
     sin: Math.sin,
     random: Math.random,

@@ -7,14 +7,15 @@ import dependencies from 'dependencies';
 const { min } = dependencies.globals;
 
 const initialState = {
-  opacity: 0,
+  startOpacity: 0,
+  practiceOpacity: 0,
   mode: modes.normal,
   fontSize: 0,
 };
 
 const onClick = (id) => () => pushClick(id);
 
-const containerStyle = (opacity, top, fontSize) => toCssText({
+const containerStyle = (top, fontSize) => toCssText({
   position: 'absolute',
   left: '50%',
   top: `${top}px`,
@@ -22,25 +23,27 @@ const containerStyle = (opacity, top, fontSize) => toCssText({
   textAlign: 'center',
   lineHeight: `${fontSize * 1.5}px`,
   fontFamily: 'serif',
-  opacity,
 });
 
-const startButtonStyle = (fontSize) => toCssText({
+const startButtonStyle = (fontSize, opacity) => toCssText({
   outline: 'none',
   border: 'none',
   margin: `${fontSize / 4}px 0 ${fontSize / 2}px`,
   fontSize: `${fontSize}px`,
   color: 'white',
   backgroundColor: 'transparent',
+  opacity,
 });
 
-const startButtonsView = view(initialState, (render) => ({ opacity, top, fontSize }) => render`
-  <div style=${containerStyle(opacity, top, fontSize)}>
+const startButtonsView = view(initialState, (render) => ({
+  startOpacity, practiceOpacity, top, fontSize,
+}) => render`
+  <div style=${containerStyle(top, fontSize)}>
     <button
-      style=${startButtonStyle(fontSize)}
+      style=${startButtonStyle(fontSize, startOpacity)}
       onClick=${onClick(buttonIds.start)}>Start Game</button><br>
     <button
-      style=${startButtonStyle(fontSize)}><s>Practice</s></button><br>
+      style=${startButtonStyle(fontSize, practiceOpacity)}><s>Practice</s></button><br>
   </div>
 `);
 
