@@ -47,8 +47,8 @@ export default (time = 0) => ({ mode, level, practice }) => {
   if (time === 0) {
     levelView.update(() => ({ appearance: 0 }));
     modeView.update(() => ({ appearance: 0 }));
-    deathsView.update(() => ({ appearance: 0 }));
-    eventView.update(() => ({ appearance: 0 }));
+    deathsView.update(() => ({ appearance: 0, deaths: 0 }));
+    eventView.update(() => ({ appearance: 0, name: '-' }));
   }
   clearCanvas();
   drawTitle(min(time / 60, (165 - time) / 60, 1));
