@@ -6,6 +6,7 @@ import none from '@/event/none';
 export default () => ({
   level: 1,
   mode: mode.normal,
+  practice: false,
   stage: one(),
   evt: none(),
   playerAngle: 0,
