@@ -45,7 +45,7 @@ const drawSubtitle = (opacity) => {
 
 export default (time = 0) => ({ mode, level, practice }) => {
   if (time === 0) {
-    levelView.update(() => ({ appearance: 0 }));
+    levelView.update(() => ({ appearance: 0, playerAngle: 0 }));
     modeView.update(() => ({ appearance: 0 }));
     deathsView.update(() => ({ appearance: 0, deaths: 0 }));
     eventView.update(() => ({ appearance: 0, name: '-' }));
