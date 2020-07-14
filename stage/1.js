@@ -3,7 +3,7 @@ import { swimOrb, linearOrb } from '@/enemy/orb';
 import enemyIds from '@/enemy/ids';
 import dependencies from 'dependencies';
 import modes from './modes';
-import two from './2';
+import stage2 from './2';
 
 const {
   pi, pi2, max, cos, sin, random,
@@ -56,12 +56,12 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const one = (time = 0) => (mode, level, levelUp, state) => {
+const stage1 = (time = 0) => (mode, level, levelUp, state) => {
   const {
     enemies, evt, px, py, pa, playerInvincible,
   } = state;
   if (levelUp && level === 11) {
-    return { enemies: enemies.flatMap(vanishSwimOrb), nextStage: two(), evt };
+    return { enemies: enemies.flatMap(vanishSwimOrb), nextStage: stage2(), evt };
   }
   const nextEnemies = [
     playerInvincible > 0
@@ -87,7 +87,7 @@ const one = (time = 0) => (mode, level, levelUp, state) => {
       ),
     ] : [],
   ].flat();
-  return { enemies: nextEnemies, nextStage: one(time + 1), evt };
+  return { enemies: nextEnemies, nextStage: stage1(time + 1), evt };
 };
 
-export default one;
+export default stage1;

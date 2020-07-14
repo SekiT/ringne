@@ -85,7 +85,7 @@ const spawnLazerOrNot = (mode, level, lf, la) => {
   return { lazers: [], nextLf: lf + 1, nextLa: la };
 };
 
-const three = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
+const stage3 = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
   enemies, px, py, pa, playerInvincible,
 }) => {
   const { lazers, nextLf, nextLa } = spawnLazerOrNot(mode, level - 20, lf, la);
@@ -106,8 +106,8 @@ const three = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
   return {
     enemies: nextEnemies,
     evt: none(),
-    nextStage: three(time + 1, nextLf, nextLa),
+    nextStage: stage3(time + 1, nextLf, nextLa),
   };
 };
 
-export default three;
+export default stage3;

@@ -5,7 +5,7 @@ import none from '@/event/none';
 import dependencies from 'dependencies';
 import eventIds from '../event/ids';
 import modes from './modes';
-import three from './3';
+import stage3 from './3';
 
 const {
   pi, pi2, max, cos, sin, random,
@@ -54,7 +54,7 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const two = (time = 0) => (mode, level, levelUp, {
+const stage2 = (time = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
 }) => {
   const nextEnemies = [
@@ -93,11 +93,11 @@ const two = (time = 0) => (mode, level, levelUp, {
   if (levelUp && level === 21) {
     return {
       enemies: nextEnemies.map((enemy) => ({ ...enemy, time: max(enemy.time, 270) })),
-      nextStage: three(),
+      nextStage: stage3(),
       evt: none(),
     };
   }
-  return { enemies: nextEnemies, nextStage: two(nextTime), evt: nextEvt };
+  return { enemies: nextEnemies, nextStage: stage2(nextTime), evt: nextEvt };
 };
 
-export default two;
+export default stage2;

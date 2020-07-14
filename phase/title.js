@@ -8,7 +8,7 @@ import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
-import one from '@/stage/1';
+import stage1 from '@/stage/1';
 import dependencies from 'dependencies';
 import ids from './ids';
 import initialState from './initialState';
@@ -80,7 +80,7 @@ export default (time = 0) => ({ mode, level, practice }) => {
     nextArgs: [],
     stateUpdate: {
       level: practice ? 1 : level,
-      stage: one(),
+      stage: stage1(),
     },
   } : {
     nextId: ids.title,
