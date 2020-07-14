@@ -8,9 +8,7 @@ const afterEffect = (props, eventTime, context) => {
   context.translate(center, center);
   context.rotate(eventTime * props.speed);
   context.translate(-center, -center);
-  context.beginPath();
   context.drawImage(context.canvas, 0, 0);
-  context.closePath();
   context.restore();
   return props;
 };

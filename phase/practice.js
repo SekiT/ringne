@@ -2,14 +2,15 @@ import stageButtonsView from '@/view/title/stageButtons';
 import modeButtonsView from '@/view/title/modeButtons';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
 import getInputs from '@/state/input';
-import one from '@/stage/1';
-import two from '@/stage/2';
+import stage1 from '@/stage/1';
+import stage2 from '@/stage/2';
+import stage3 from '@/stage/3';
 import dependencies from 'dependencies';
 import ids from './ids';
 
 const { min } = dependencies.globals;
 
-const stages = [one, two];
+const stages = [stage1, stage2, stage3];
 
 export default (time = 0, selected = null) => ({ mode }) => {
   stageButtonsView.update(() => ({ selected, opacity: min(time / 30, (60 - time) / 30) }));
@@ -36,7 +37,7 @@ export default (time = 0, selected = null) => ({ mode }) => {
       stateUpdate: {
         mode: nextMode,
         level: nextSelected && (nextSelected - 1) * 10 + 1,
-        stage: (stages[nextSelected - 1] || one)(),
+        stage: (stages[nextSelected - 1] || stage1)(),
       },
     };
   }

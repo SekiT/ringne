@@ -10,6 +10,7 @@ export default {
     pi2: Math.PI * 2,
     min: Math.min,
     max: Math.max,
+    abs: Math.abs,
     trunc: Math.trunc,
     round: Math.round,
     cos: Math.cos,

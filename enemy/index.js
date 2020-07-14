@@ -2,13 +2,16 @@ import ids from './ids';
 import {
   renderSwimOrb, moveSwimOrb, renderLinearOrb, moveLinearOrb,
 } from './orb';
+import { renderLazer, moveLazer } from './lazer';
 
 export const enemyIdToMotion = new Map([
   [ids.swimOrb, moveSwimOrb],
   [ids.linearOrb, moveLinearOrb],
+  [ids.lazer, moveLazer],
 ]);
 
 export const enemyIdToRenderer = new Map([
   [ids.swimOrb, renderSwimOrb],
   [ids.linearOrb, renderLinearOrb],
+  [ids.lazer, renderLazer],
 ]);
