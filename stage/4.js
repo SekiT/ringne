@@ -1,5 +1,6 @@
 import { center, boardRadius } from '@/view/canvas';
-import { swimOrb } from '@/enemy/orb';
+import enemyIds from '@/enemy/ids';
+import { swimOrb, linearOrb } from '@/enemy/orb';
 import gravity from '@/event/gravity';
 import none from '@/event/none';
 import dependencies from 'dependencies';
@@ -7,7 +8,7 @@ import eventIds from '../event/ids';
 import modes from './modes';
 
 const {
-  pi, max, cos, sin, random,
+  pi, pi2, min, max, cos, sin, random,
 } = dependencies.globals;
 
 const swimOrbFrequency = new Map([
@@ -19,7 +20,7 @@ const swimOrbFrequency = new Map([
 const swimOrbSpeed = new Map([
   [modes.easy, () => -0.008 * random()],
   [modes.normal, () => -0.01 * random()],
-  [modes.hard, () => -0.02 * random()],
+  [modes.hard, () => -0.018 * random()],
 ]);
 
 const orbSize = new Map([
@@ -30,8 +31,8 @@ const orbSize = new Map([
 
 const createEvent = new Map([
   [modes.easy, (level) => gravity(0.5 + level * 0.05, 200)],
-  [modes.normal, (level) => gravity(0.5 + level * 0.07, 200)],
-  [modes.hard, (level) => gravity(0.5 + level * 0.1, 200)],
+  [modes.normal, (level) => gravity(0.5 + level * 0.08, 200)],
+  [modes.hard, (level) => gravity(0.5 + level * 0.12, 200)],
 ]);
 
 const eventReload = new Map([
@@ -41,9 +42,14 @@ const eventReload = new Map([
 ]);
 
 const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
-  const dx = center + enemy.radius * cos(enemy.angle) - px;
-  const dy = center + enemy.radius * sin(enemy.angle) - py;
   const dr = 60 - playerInvincible;
+  const { dx, dy } = enemy.id === enemyIds.swimOrb ? {
+    dx: center + enemy.radius * cos(enemy.angle) - px,
+    dy: center + enemy.radius * sin(enemy.angle) - py,
+  } : {
+    dx: enemy.x - px,
+    dy: enemy.y - py,
+  };
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
@@ -57,11 +63,14 @@ const stage4 = (time = 0) => (mode, level, levelUp, {
     time % swimOrbFrequency.get(mode)(level - 30) === 0 ? [
       swimOrb(
         -pa + 0.4 + random() * pi * 1.6,
-        boardRadius * (0.7 + random() * 0.3),
+        boardRadius * min(0.7 + random() * 0.4, 1),
         swimOrbSpeed.get(mode)(),
         orbSize.get(mode)(),
       ),
     ] : [],
+    mode !== modes.easy && level >= 36 && time % (560 - level * 10) === 0 ? [...new Array(10)].map(
+      (_, i) => linearOrb(center, center, (i / 10) * pi2 + time, 2, 7, 'white', 'blue'),
+    ) : [],
   ].flat();
   const { id, eventTime, duration } = evt;
   let nextEvt;
