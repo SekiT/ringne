@@ -13,13 +13,13 @@ const {
 const orbFrequency = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
-  [modes.hard, (level) => 13 - level],
+  [modes.hard, (level) => 14 - level],
 ]);
 
 const orbSpeed = new Map([
   [modes.easy, () => -0.008 * random()],
   [modes.normal, () => -0.01 * random()],
-  [modes.hard, () => -0.02 * random()],
+  [modes.hard, () => -0.01 * random()],
 ]);
 
 const orbSize = new Map([
