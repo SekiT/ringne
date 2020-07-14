@@ -75,11 +75,17 @@ export default (pauseTime = 0) => ({
   const paBeforeEffect = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
   const prBeforeEffect = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
   const eventActive = previousEvt.waitTime >= previousEvt.wait;
-  const { pa, pr } = eventActive
+  const { pa, pr, enemies: enemiesAfterEffect } = eventActive
     ? previousEvt.inputEffect({
-      pa: paBeforeEffect, pr: prBeforeEffect, inner, outer, quick, brake,
+      inner,
+      outer,
+      quick,
+      brake,
+      pa: paBeforeEffect,
+      pr: prBeforeEffect,
+      enemies: previousEnemies,
     }, previousEvt)
-    : { pa: paBeforeEffect, pr: prBeforeEffect };
+    : { pa: paBeforeEffect, pr: prBeforeEffect, enemies: previousEnemies };
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
   eventView.update(() => ({ name: previousEvt.name }));
@@ -93,7 +99,7 @@ export default (pauseTime = 0) => ({
     drawPlayer(px, py);
   }
   const { nextStage, enemies, evt } = stage(mode, level, levelUp, {
-    px, py, pa, pr, playerInvincible, enemies: previousEnemies, evt: previousEvt,
+    px, py, pa, pr, playerInvincible, enemies: enemiesAfterEffect, evt: previousEvt,
   });
   const { nextEnemies, hit } = moveEnemies(enemies, px, py);
   const dead = hit && playerInvincible === 0;

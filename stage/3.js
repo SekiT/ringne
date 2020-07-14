@@ -5,9 +5,10 @@ import { lazer } from '@/enemy/lazer';
 import { swimOrb } from '@/enemy/orb';
 import dependencies from 'dependencies';
 import modes from './modes';
+import stage4 from './4';
 
 const {
-  pi, cos, sin, random,
+  pi, max, cos, sin, random,
 } = dependencies.globals;
 
 const orbFrequency = new Map([
@@ -103,6 +104,13 @@ const stage3 = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
     ] : [],
     lazers,
   ].flat();
+  if (levelUp && level === 31) {
+    return {
+      enemies: nextEnemies.map((enemy) => ({ ...enemy, time: max(enemy.time, 270) })),
+      evt: none(),
+      nextStage: stage4(),
+    };
+  }
   return {
     enemies: nextEnemies,
     evt: none(),
