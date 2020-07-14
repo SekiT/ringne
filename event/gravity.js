@@ -7,7 +7,7 @@ const { max } = dependencies.globals;
 
 const pullSwimOrb = (enemy, gravity) => {
   const { radius, time } = enemy;
-  if (time < 30 || time >= 270) {
+  if (time < 30) {
     return enemy;
   }
   return radius === 0
