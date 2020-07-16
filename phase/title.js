@@ -65,7 +65,7 @@ export default (time = 0) => ({ mode, level, practice }) => {
         if (id === buttonIds.mode) {
           return [param, w];
         }
-        if (id === buttonIds.start) {
+        if ([buttonIds.start, buttonIds.practice].includes(id)) {
           return [m, id];
         }
         return [m, w];
