@@ -14,7 +14,7 @@ const {
 const swimOrbFrequency = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
-  [modes.hard, (level) => 15 - level],
+  [modes.hard, (level) => 16 - level],
 ]);
 
 const swimOrbSpeed = new Map([
