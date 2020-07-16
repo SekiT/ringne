@@ -6,6 +6,7 @@ import none from '@/event/none';
 import dependencies from 'dependencies';
 import eventIds from '../event/ids';
 import modes from './modes';
+import stage5 from './5';
 
 const {
   pi, pi2, min, max, cos, sin, random,
@@ -93,7 +94,7 @@ const stage4 = (time = 0) => (mode, level, levelUp, {
   if (levelUp && level === 41) {
     return {
       enemies: nextEnemies.map((enemy) => ({ ...enemy, time: max(enemy.time, 270) })),
-      nextStage: stage4(),
+      nextStage: stage5(),
       evt: none(),
     };
   }
