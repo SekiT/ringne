@@ -64,8 +64,7 @@ export default (pauseTime = 0) => ({
   }
   let pa = playerAngle + 0.007 + (quick - brake) * 0.005;
   let pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
-  const eventActive = previousEvt.waitTime >= previousEvt.wait;
-  const effectResult = eventActive
+  const effectResult = previousEvt.waitTime >= previousEvt.wait
     ? previousEvt.inputEffect({
       inner, outer, quick, brake, pa, pr, enemies,
     }, previousEvt)
@@ -104,6 +103,7 @@ export default (pauseTime = 0) => ({
   const {
     eventTime, duration, waitTime, wait, afterEffect, props,
   } = evt;
+  const eventActive = waitTime >= wait;
   drawEventGauge(eventActive ? (1 - eventTime / duration) : waitTime / wait);
   const nextEvt = {
     ...evt,
