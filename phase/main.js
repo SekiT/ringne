@@ -62,10 +62,8 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  let pa = playerAngle;
-  let pr = playerRadius;
-  pa = pa + 0.007 + (quick - brake) * 0.005;
-  pr = min(max(pr + (outer - inner) * 2, 10), boardRadius - 10);
+  let pa = playerAngle + 0.007 + (quick - brake) * 0.005;
+  let pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
   const eventActive = previousEvt.waitTime >= previousEvt.wait;
   const effectResult = eventActive
     ? previousEvt.inputEffect({
@@ -101,23 +99,19 @@ export default (pauseTime = 0) => ({
   });
   const { evt } = stageResult;
   const { nextEnemies, hit } = moveEnemies(stageResult.enemies, px, py);
-  const dead = hit && playerInvincible === 0;
   drawCenterDot();
   drawOutline();
   const {
     eventTime, duration, waitTime, wait, afterEffect, props,
   } = evt;
   drawEventGauge(eventActive ? (1 - eventTime / duration) : waitTime / wait);
-  const nextProps = eventActive
-    ? afterEffect(props, eventTime, canvasContext)
-    : props;
   const nextEvt = {
     ...evt,
     waitTime: waitTime + 1,
     eventTime: eventActive ? eventTime + 1 : 0,
-    props: nextProps,
+    props: eventActive ? afterEffect(props, eventTime, canvasContext) : props,
   };
-  if (dead) {
+  if (hit && playerInvincible === 0) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
     return {
       nextId: ids.death,
