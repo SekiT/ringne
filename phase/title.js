@@ -61,9 +61,15 @@ export default (time = 0) => ({ mode, level, practice }) => {
   modeButtonsView.update(() => ({ opacity: time > 105 && practice ? 1 : opacity }));
   if (time === 105) {
     const [nextMode, startWhat] = getClicks().reduce(
-      ([m, w], { id, param }) => (
-        id === buttonIds.mode ? [param, w] : [m, id]
-      ),
+      ([m, w], { id, param }) => {
+        if (id === buttonIds.mode) {
+          return [param, w];
+        }
+        if (id === buttonIds.start) {
+          return [m, id];
+        }
+        return [m, w];
+      },
       [mode, null],
     );
     resetClicks();
