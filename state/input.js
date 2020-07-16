@@ -33,7 +33,7 @@ const inputFromTouches = (ts, ww, wh) => {
       left: input.left || (leftDown && leftUp),
       right: input.right || (!leftDown && !leftUp),
       up: input.up || (!leftDown && leftUp),
-      down: input.down || (leftDown && (!leftUp)),
+      down: input.down || (leftDown && !leftUp),
     };
   }, {});
 };
