@@ -35,10 +35,10 @@ export default (pauseTime = 0) => ({
   practice,
   stage,
   evt: previousEvt,
-  playerAngle: previousPA,
-  playerRadius: previousPR,
+  playerAngle,
+  playerRadius,
   playerInvincible,
-  enemies: previousEnemies,
+  enemies,
   deaths,
 }) => {
   const {
@@ -62,7 +62,19 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  const levelUp = previousPA >= pi2;
+  let pa = playerAngle;
+  let pr = playerRadius;
+  pa = pa + 0.007 + (quick - brake) * 0.005;
+  pr = min(max(pr + (outer - inner) * 2, 10), boardRadius - 10);
+  const eventActive = previousEvt.waitTime >= previousEvt.wait;
+  const effectResult = eventActive
+    ? previousEvt.inputEffect({
+      inner, outer, quick, brake, pa, pr, enemies,
+    }, previousEvt)
+    : { pa, pr, enemies };
+  pa = effectResult.pa;
+  pr = effectResult.pr;
+  const levelUp = pa >= pi2;
   const level = previousLevel + (levelUp ? 1 : 0);
   if (practice && levelUp && level % 10 === 1) {
     return {
@@ -71,20 +83,7 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  const paBeforeEffect = previousPA + 0.007 + (quick - brake) * 0.005 + (levelUp ? -pi2 : 0);
-  const prBeforeEffect = min(max(previousPR + (outer - inner) * 2, 10), boardRadius - 10);
-  const eventActive = previousEvt.waitTime >= previousEvt.wait;
-  const { pa, pr, enemies: enemiesAfterEffect } = eventActive
-    ? previousEvt.inputEffect({
-      inner,
-      outer,
-      quick,
-      brake,
-      pa: paBeforeEffect,
-      pr: prBeforeEffect,
-      enemies: previousEnemies,
-    }, previousEvt)
-    : { pa: paBeforeEffect, pr: prBeforeEffect, enemies: previousEnemies };
+  pa -= levelUp ? pi2 : 0;
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
   eventView.update(() => ({ name: previousEvt.name }));
@@ -97,42 +96,47 @@ export default (pauseTime = 0) => ({
   if (playerInvincible === 0 || random() < 0.5) {
     drawPlayer(px, py);
   }
-  const { nextStage, enemies, evt } = stage(mode, level, levelUp, {
-    px, py, pa, pr, playerInvincible, enemies: enemiesAfterEffect, evt: previousEvt,
+  const stageResult = stage(mode, level, levelUp, {
+    px, py, pa, pr, playerInvincible, enemies: effectResult.enemies, evt: previousEvt,
   });
-  const { nextEnemies, hit } = moveEnemies(enemies, px, py);
+  const { evt } = stageResult;
+  const { nextEnemies, hit } = moveEnemies(stageResult.enemies, px, py);
   const dead = hit && playerInvincible === 0;
   drawCenterDot();
   drawOutline();
-  drawEventGauge(eventActive ? (1 - evt.eventTime / evt.duration) : evt.waitTime / evt.wait);
+  const {
+    eventTime, duration, waitTime, wait, afterEffect, props,
+  } = evt;
+  drawEventGauge(eventActive ? (1 - eventTime / duration) : waitTime / wait);
   const nextProps = eventActive
-    ? evt.afterEffect(evt.props, evt.eventTime, canvasContext)
-    : evt.props;
+    ? afterEffect(props, eventTime, canvasContext)
+    : props;
   const nextEvt = {
     ...evt,
-    waitTime: evt.waitTime + 1,
-    eventTime: eventActive ? evt.eventTime + 1 : 0,
+    waitTime: waitTime + 1,
+    eventTime: eventActive ? eventTime + 1 : 0,
     props: nextProps,
   };
   if (dead) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
+    return {
+      nextId: ids.death,
+      nextArgs: [],
+      stateUpdate: {
+        level,
+        stage: stageResult.nextStage,
+        deaths: deaths + 1,
+        enemies: nextEnemies,
+        evt: nextEvt,
+      },
+    };
   }
-  return dead ? {
-    nextId: ids.death,
-    nextArgs: [],
-    stateUpdate: {
-      level,
-      stage: nextStage,
-      deaths: deaths + 1,
-      enemies: nextEnemies,
-      evt: nextEvt,
-    },
-  } : {
+  return {
     nextId: ids.main,
     nextArgs: [pauseTime + 1],
     stateUpdate: {
       level,
-      stage: nextStage,
+      stage: stageResult.nextStage,
       playerAngle: pa,
       playerRadius: pr,
       playerInvincible: max(playerInvincible - 1, 0),
