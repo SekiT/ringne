@@ -45,7 +45,6 @@ export default (pauseTime = 0) => ({
     inner, outer, quick, brake, pause, escape,
   } = getInputs();
   if (escape) {
-    canvasContext.resetTransform();
     clearCanvas();
     return {
       nextId: ids.title,
