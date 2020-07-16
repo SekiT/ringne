@@ -16,6 +16,7 @@ const initialState = {
 const onClick = (mode) => () => pushClick(buttonIds.mode, mode);
 
 const containerStyle = (opacity, top) => toCssText({
+  display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
   top: `${top}px`,

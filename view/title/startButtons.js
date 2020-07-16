@@ -4,7 +4,7 @@ import { buttonIds, pushClick } from '@/state/buttonClicks';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
-const { min } = dependencies.globals;
+const { min, max } = dependencies.globals;
 
 const initialState = {
   startOpacity: 0,
@@ -15,7 +15,8 @@ const initialState = {
 
 const onClick = (id) => () => pushClick(id);
 
-const containerStyle = (top, fontSize) => toCssText({
+const containerStyle = (top, fontSize, opacity) => toCssText({
+  display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
   top: `${top}px`,
@@ -38,7 +39,7 @@ const startButtonStyle = (fontSize, opacity) => toCssText({
 const startButtonsView = view(initialState, (render) => ({
   startOpacity, practiceOpacity, top, fontSize,
 }) => render`
-  <div style=${containerStyle(top, fontSize)}>
+  <div style=${containerStyle(top, fontSize, max(startOpacity, practiceOpacity))}>
     <button
       style=${startButtonStyle(fontSize, startOpacity)}
       onClick=${onClick(buttonIds.start)}>Start Game</button><br>

@@ -15,6 +15,7 @@ const initialState = {
 const onClick = (number) => () => pushClick(buttonIds.stage, number);
 
 const titleStyle = (opacity, fontSize) => toCssText({
+  display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
   top: '20%',
@@ -27,6 +28,7 @@ const titleStyle = (opacity, fontSize) => toCssText({
 });
 
 const containerStyle = (opacity) => toCssText({
+  display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
   top: '50%',
