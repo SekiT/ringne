@@ -41,7 +41,7 @@ export const renderLandolt = (context, {
 const doesDisappear = (x, y, radius) => {
   const dx = x - center;
   const dy = y - center;
-  return radius > Math.sqrt(dx * dx + dy * dy) + boardRadius;
+  return radius > Math.sqrt(dx * dx + dy * dy) + boardRadius * 2;
 };
 
 const hitTest = (x, y, angle, radius, holeWidth, lineWidth, px, py) => {
