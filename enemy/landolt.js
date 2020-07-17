@@ -38,10 +38,10 @@ export const renderLandolt = (context, {
   context.restore();
 };
 
-const doesDisappear = (x, y, radius) => {
+const doesDisappear = (x, y, radius, width) => {
   const dx = x - center;
   const dy = y - center;
-  return radius > Math.sqrt(dx * dx + dy * dy) + boardRadius * 2;
+  return radius > Math.sqrt(dx * dx + dy * dy) + boardRadius + width * 2;
 };
 
 const hitTest = (x, y, angle, radius, holeWidth, lineWidth, px, py) => {
@@ -64,7 +64,7 @@ export const moveLandolt = (enemy, px, py) => {
     x, y, angle, radius, angleSpeed, radiusSpeed, holeWidth, lineWidth,
   } = enemy;
   return {
-    nextEnemies: doesDisappear(x, y, radius) ? [] : [
+    nextEnemies: doesDisappear(x, y, radius, lineWidth) ? [] : [
       { ...enemy, angle: angle + angleSpeed, radius: radius + radiusSpeed },
     ],
     hit: hitTest(x, y, angle, radius, holeWidth, lineWidth, px, py),
