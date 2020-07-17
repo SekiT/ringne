@@ -31,7 +31,7 @@ const orbSize = new Map([
 const landoltWait = new Map([
   [modes.easy, (level) => 500 - level * 20],
   [modes.normal, (level) => 300 - level * 30],
-  [modes.hard, (level) => 260 - level * 40],
+  [modes.hard, (level) => 250 - level * 30],
 ]);
 
 const landoltParams = new Map([
