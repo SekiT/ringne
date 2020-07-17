@@ -1,18 +1,14 @@
 import getInputs from '@/state/input';
 import ids from './ids';
 
-export default (time) => () => {
-  const { pause } = getInputs();
-  if (time > 10 && pause) {
-    return {
-      nextId: ids.main,
-      nextArgs: [0],
-      stateUpdate: {},
-    };
-  }
-  return {
+export default (time) => () => (
+  time > 10 && getInputs().pause ? {
+    nextId: ids.main,
+    nextArgs: [0],
+    stateUpdate: {},
+  } : {
     nextId: ids.pause,
     nextArgs: [time + 1],
     stateUpdate: {},
-  };
-};
+  }
+);
