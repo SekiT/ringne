@@ -83,7 +83,6 @@ export default (pauseTime = 0) => ({
   pa -= levelUp ? pi2 : 0;
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
-  eventView.update(() => ({ name: previousEvt.name }));
   clearCanvas();
   drawBackground();
   drawTape();
@@ -111,6 +110,7 @@ export default (pauseTime = 0) => ({
     eventTime: eventActive ? eventTime + 1 : 0,
     props: eventActive ? afterEffect(props, eventTime, canvasContext) : props,
   };
+  eventView.update(() => ({ name: nextEvt.name }));
   if (hit && playerInvincible === 0) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
     return {
