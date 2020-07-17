@@ -12,7 +12,7 @@ const {
   pi, pi2, min, max, cos, sin, random,
 } = dependencies.globals;
 
-const swimOrbFrequency = new Map([
+const swimOrbWait = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
   [modes.hard, (level) => 16 - level],
@@ -54,14 +54,16 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const stage4 = (time = 0) => (mode, level, levelUp, {
+const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
 }) => {
+  const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(level - 30);
+  const addLinearOrb = mode !== modes.easy && level >= 36 && linearOrbTime >= (560 - level * 10);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    time % swimOrbFrequency.get(mode)(level - 30) === 0 ? [
+    addSwimOrb ? [
       swimOrb(
         -pa + 0.4 + random() * pi * 1.6,
         boardRadius * min(0.7 + random() * 0.4, 1),
@@ -69,27 +71,27 @@ const stage4 = (time = 0) => (mode, level, levelUp, {
         orbSize.get(mode)(),
       ),
     ] : [],
-    mode !== modes.easy && level >= 36 && time % (560 - level * 10) === 0 ? [...new Array(10)].map(
-      (_, i) => linearOrb(center, center, (i / 10) * pi2 + time, 2, 7, 'white', 'blue'),
+    addLinearOrb ? new Array(10).fill(random() * pi2).map(
+      (a, i) => linearOrb(center, center, (i / 10) * pi2 + a, 2, 7, 'white', 'blue'),
     ) : [],
   ].flat();
   const { id, eventTime, duration } = evt;
   let nextEvt;
-  let nextTime;
+  let nextEvtTime;
   if (id === eventIds.none) {
-    if (time === 30) {
+    if (evtTime === 30) {
       nextEvt = createEvent.get(mode)(level - 30);
-      nextTime = time + 1;
+      nextEvtTime = evtTime + 1;
     } else {
       nextEvt = evt;
-      nextTime = time + 1;
+      nextEvtTime = evtTime + 1;
     }
   } else if (eventTime < duration) {
     nextEvt = evt;
-    nextTime = time + 1;
+    nextEvtTime = evtTime + 1;
   } else {
     nextEvt = none();
-    nextTime = -eventReload.get(mode);
+    nextEvtTime = -eventReload.get(mode);
   }
   if (levelUp && level === 41) {
     return {
@@ -98,7 +100,15 @@ const stage4 = (time = 0) => (mode, level, levelUp, {
       evt: none(),
     };
   }
-  return { enemies: nextEnemies, nextStage: stage4(nextTime), evt: nextEvt };
+  return {
+    enemies: nextEnemies,
+    nextStage: stage4(
+      addSwimOrb ? 0 : swimOrbTime + 1,
+      addLinearOrb ? 0 : linearOrbTime + 1,
+      nextEvtTime,
+    ),
+    evt: nextEvt,
+  };
 };
 
 export default stage4;

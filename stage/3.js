@@ -11,7 +11,7 @@ const {
   pi, max, cos, sin, random,
 } = dependencies.globals;
 
-const orbFrequency = new Map([
+const orbWait = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
   [modes.hard, (level) => 14 - level],
@@ -86,15 +86,16 @@ const spawnLazerOrNot = (mode, level, lf, la) => {
   return { lazers: [], nextLf: lf + 1, nextLa: la };
 };
 
-const stage3 = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
+const stage3 = (orbTime = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
   enemies, px, py, pa, playerInvincible,
 }) => {
+  const addSwimOrb = orbTime >= orbWait.get(mode)(level - 20);
   const { lazers, nextLf, nextLa } = spawnLazerOrNot(mode, level - 20, lf, la);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    time % orbFrequency.get(mode)(level - 20) === 0 ? [
+    addSwimOrb ? [
       swimOrb(
         -pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
@@ -114,7 +115,7 @@ const stage3 = (time = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
   return {
     enemies: nextEnemies,
     evt: none(),
-    nextStage: stage3(time + 1, nextLf, nextLa),
+    nextStage: stage3(addSwimOrb ? 0 : orbTime + 1, nextLf, nextLa),
   };
 };
 

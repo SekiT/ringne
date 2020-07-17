@@ -11,7 +11,7 @@ const {
   pi, pi2, max, cos, sin, random,
 } = dependencies.globals;
 
-const swimOrbFrequency = new Map([
+const swimOrbWait = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
   [modes.hard, (level) => 13 - level],
@@ -54,14 +54,15 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const stage2 = (time = 0) => (mode, level, levelUp, {
+const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
 }) => {
+  const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(level - 10);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    time % swimOrbFrequency.get(mode)(level - 10) === 0 ? [
+    addSwimOrb ? [
       swimOrb(
         -pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
@@ -72,23 +73,22 @@ const stage2 = (time = 0) => (mode, level, levelUp, {
   ].flat();
   const { id, eventTime, duration } = evt;
   let nextEvt;
-  let nextTime;
+  let nextEvtTime;
   if (id === eventIds.none) {
-    if (time === 30) {
+    if (evtTime === 30) {
       const speed = rotateSpeed.get(mode)(level);
       const count = rotateCount.get(mode)(level - 11);
       nextEvt = rotate((random() < 0.5 ? -1 : 1) * speed, (pi2 / speed) * count);
-      nextTime = time + 1;
     } else {
       nextEvt = evt;
-      nextTime = time + 1;
     }
+    nextEvtTime = evtTime + 1;
   } else if (id === eventIds.rotate && eventTime < duration) {
     nextEvt = evt;
-    nextTime = time + 1;
+    nextEvtTime = evtTime + 1;
   } else {
     nextEvt = none();
-    nextTime = -eventReload.get(mode);
+    nextEvtTime = -eventReload.get(mode);
   }
   if (levelUp && level === 21) {
     return {
@@ -97,7 +97,11 @@ const stage2 = (time = 0) => (mode, level, levelUp, {
       evt: none(),
     };
   }
-  return { enemies: nextEnemies, nextStage: stage2(nextTime), evt: nextEvt };
+  return {
+    enemies: nextEnemies,
+    nextStage: stage2(addSwimOrb ? 0 : swimOrbTime + 1, nextEvtTime),
+    evt: nextEvt,
+  };
 };
 
 export default stage2;

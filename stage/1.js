@@ -15,7 +15,7 @@ const orbSize = new Map([
   [modes.hard, () => 6 + random() * 4],
 ]);
 
-const swimOrbFrequency = new Map([
+const swimOrbWait = new Map([
   [modes.easy, (level) => 30 - level * 2],
   [modes.normal, (level) => 27 - level * 2],
   [modes.hard, (level) => 13 - level],
@@ -29,8 +29,8 @@ const swimOrbSpeed = new Map([
 
 const addOrNotLinearOrb = new Map([
   [modes.easy, () => false],
-  [modes.normal, (level, time) => level > 5 && time % (30 - level * 2) === 0],
-  [modes.hard, (level, time) => level > 5 && time % (27 - level * 2) === 0],
+  [modes.normal, (level, time) => level > 5 && time >= 30 - level * 2],
+  [modes.hard, (level, time) => level > 5 && time >= 27 - level * 2],
 ]);
 
 const linearOrbSpeed = new Map([
@@ -56,18 +56,20 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const stage1 = (time = 0) => (mode, level, levelUp, state) => {
+const stage1 = (swimOrbTime = 0, linearOrbTime = 0) => (mode, level, levelUp, state) => {
   const {
     enemies, evt, px, py, pa, playerInvincible,
   } = state;
   if (levelUp && level === 11) {
     return { enemies: enemies.flatMap(vanishSwimOrb), nextStage: stage2(), evt };
   }
+  const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(level);
+  const addLinearOrb = addOrNotLinearOrb.get(mode)(level, linearOrbTime);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    time % swimOrbFrequency.get(mode)(level) === 0 ? [
+    addSwimOrb ? [
       swimOrb(
         -pa + 0.4 + random() * pi * 1.6,
         random() * boardRadius,
@@ -75,7 +77,7 @@ const stage1 = (time = 0) => (mode, level, levelUp, state) => {
         orbSize.get(mode)(),
       ),
     ] : [],
-    addOrNotLinearOrb.get(mode)(level, time) ? [
+    addLinearOrb ? [
       linearOrb(
         center + (2 * random() - 1) * 20,
         center + (2 * random() - 1) * 20,
@@ -87,7 +89,11 @@ const stage1 = (time = 0) => (mode, level, levelUp, state) => {
       ),
     ] : [],
   ].flat();
-  return { enemies: nextEnemies, nextStage: stage1(time + 1), evt };
+  return {
+    enemies: nextEnemies,
+    nextStage: stage1(addSwimOrb ? 0 : swimOrbTime + 1, addLinearOrb ? 0 : linearOrbTime + 1),
+    evt,
+  };
 };
 
 export default stage1;
