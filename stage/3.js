@@ -37,60 +37,30 @@ const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
   return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
 };
 
-const spawnLazerOrNot = (mode, level, lf, la) => {
-  if (mode === modes.easy) {
-    if (lf >= 300 - level * 10) {
-      return {
-        lazers: [
-          lazer(
-            center + 0.7 * boardRadius * cos(la),
-            center + 0.7 * boardRadius * sin(la),
-            la + pi * (0.9 + random() * 0.2),
-          ),
-        ],
-        nextLf: 0,
-        nextLa: la + pi / 3,
-      };
-    }
-  }
-  if (mode === modes.normal) {
-    if (lf >= 200 - level * 10) {
-      return {
-        lazers: [
-          lazer(
-            center + 0.8 * boardRadius * cos(la),
-            center + 0.8 * boardRadius * sin(la),
-            la + pi * (0.9 + random() * 0.2),
-          ),
-        ],
-        nextLf: 0,
-        nextLa: la + pi / 3,
-      };
-    }
-  }
-  if (mode === modes.hard) {
-    if (lf >= 150 - level * 10) {
-      return {
-        lazers: [
-          lazer(
-            center + 0.95 * boardRadius * cos(la),
-            center + 0.95 * boardRadius * sin(la),
-            la + pi * (0.8 + random() * 0.4),
-          ),
-        ],
-        nextLf: 0,
-        nextLa: la + pi / 3,
-      };
-    }
-  }
-  return { lazers: [], nextLf: lf + 1, nextLa: la };
-};
+const lazerParams = new Map([
+  [modes.easy, {
+    wait: (level) => 300 - level * 10,
+    radius: 0.7,
+    angle: (la) => la + pi * (0.9 + random() * 0.2),
+  }],
+  [modes.normal, {
+    wait: (level) => 200 - level * 10,
+    radius: 0.8,
+    angle: (la) => la + pi * (0.9 + random() * 0.2),
+  }],
+  [modes.hard, {
+    wait: (level) => 150 - level * 10,
+    radius: 0.95,
+    angle: (la) => la + pi * (0.8 + random() * 0.4),
+  }],
+]);
 
-const stage3 = (orbTime = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
+const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) => (mode, level, levelUp, {
   enemies, px, py, pa, playerInvincible,
 }) => {
   const addSwimOrb = orbTime >= orbWait.get(mode)(level - 20);
-  const { lazers, nextLf, nextLa } = spawnLazerOrNot(mode, level - 20, lf, la);
+  const { wait, radius, angle } = lazerParams.get(mode);
+  const addLazer = lazerTime >= wait(level - 20);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
@@ -103,7 +73,13 @@ const stage3 = (orbTime = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
         orbSize.get(mode)(),
       ),
     ] : [],
-    lazers,
+    addLazer ? [
+      lazer(
+        center + radius * boardRadius * cos(lazerAngle),
+        center + radius * boardRadius * sin(lazerAngle),
+        angle(lazerAngle),
+      ),
+    ] : [],
   ].flat();
   if (levelUp && level === 31) {
     return {
@@ -115,7 +91,11 @@ const stage3 = (orbTime = 0, lf = 0, la = pi / 3) => (mode, level, levelUp, {
   return {
     enemies: nextEnemies,
     evt: none(),
-    nextStage: stage3(addSwimOrb ? 0 : orbTime + 1, nextLf, nextLa),
+    nextStage: stage3(
+      addSwimOrb ? 0 : orbTime + 1,
+      addLazer ? 0 : lazerTime + 1,
+      addLazer ? lazerAngle + pi / 3 : lazerAngle,
+    ),
   };
 };
 
