@@ -39,10 +39,8 @@ const linearOrbSpeed = new Map([
   [modes.hard, () => 1 + random()],
 ]);
 
-const vanishSwimOrb = (enemy) => (
-  enemy.id === enemyIds.swimOrb
-    ? [{ ...enemy, time: max(enemy.time, 270) }]
-    : []
+const vanishOrAgeEnemy = (enemy) => (
+  enemy.id === enemyIds.swimOrb ? [{ ...enemy, time: max(enemy.time, 270) }] : []
 );
 
 const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
@@ -61,7 +59,7 @@ const stage1 = (swimOrbTime = 0, linearOrbTime = 0) => (mode, level, levelUp, st
     enemies, evt, px, py, pa, playerInvincible,
   } = state;
   if (levelUp && level === 11) {
-    return { enemies: enemies.flatMap(vanishSwimOrb), nextStage: stage2(), evt };
+    return { enemies: enemies.flatMap(vanishOrAgeEnemy), nextStage: stage2(), evt };
   }
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(level);
   const addLinearOrb = addOrNotLinearOrb.get(mode)(level, linearOrbTime);
