@@ -1,10 +1,10 @@
 import { center, boardRadius } from '@/view/canvas';
 import none from '@/event/none';
-import enemyIds from '@/enemy/ids';
 import { swimOrb } from '@/enemy/orb';
 import { landolt } from '@/enemy/landolt';
 import dependencies from 'dependencies';
 import modes from './modes';
+import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
 
 const {
   pi, pi2, cos, sin, random,
@@ -47,14 +47,6 @@ const makeLandolt = (mode, level, angle) => {
   return landolt(x, y, random() * pi2, 1, random() < 0.5 ? 0.03 : -0.03, speed, hole, width);
 };
 
-const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
-  if (enemy.id !== enemyIds.swimOrb) { return [enemy]; }
-  const dx = center + enemy.radius * cos(enemy.angle) - px;
-  const dy = center + enemy.radius * sin(enemy.angle) - py;
-  const dr = 60 - playerInvincible;
-  return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
-};
-
 const stage5 = (swimOrbTime = 0, landoltTime = 100) => (mode, level, levelUp, {
   enemies, pa, px, py, playerInvincible,
 }) => {
@@ -74,7 +66,11 @@ const stage5 = (swimOrbTime = 0, landoltTime = 100) => (mode, level, levelUp, {
     ] : [],
     addLandolt ? [makeLandolt(mode, level, pi - pa)] : [],
   ].flat();
-  return {
+  return levelUp && level % 10 === 1 ? {
+    enemies: vanishOrAgeEnemies(nextEnemies),
+    nextStage: stage5(),
+    evt: none(),
+  } : {
     enemies: nextEnemies,
     nextStage: stage5(addSwimOrb ? 0 : swimOrbTime + 1, addLandolt ? 0 : landoltTime + 1),
     evt: none(),

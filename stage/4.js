@@ -1,15 +1,15 @@
 import { center, boardRadius } from '@/view/canvas';
-import enemyIds from '@/enemy/ids';
 import { swimOrb, linearOrb } from '@/enemy/orb';
 import gravity from '@/event/gravity';
 import none from '@/event/none';
 import dependencies from 'dependencies';
 import eventIds from '../event/ids';
 import modes from './modes';
+import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
 import stage5 from './5';
 
 const {
-  pi, pi2, min, max, cos, sin, random,
+  pi, pi2, min, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -41,18 +41,6 @@ const eventReload = new Map([
   [modes.normal, 300],
   [modes.hard, 0],
 ]);
-
-const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
-  const dr = 60 - playerInvincible;
-  const { dx, dy } = enemy.id === enemyIds.swimOrb ? {
-    dx: center + enemy.radius * cos(enemy.angle) - px,
-    dy: center + enemy.radius * sin(enemy.angle) - py,
-  } : {
-    dx: enemy.x - px,
-    dy: enemy.y - py,
-  };
-  return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
-};
 
 const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
@@ -95,7 +83,7 @@ const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level
   }
   if (levelUp && level === 41) {
     return {
-      enemies: nextEnemies.map((enemy) => ({ ...enemy, time: max(enemy.time, 270) })),
+      enemies: vanishOrAgeEnemies(nextEnemies),
       nextStage: stage5(),
       evt: none(),
     };

@@ -1,14 +1,14 @@
 import { center, boardRadius } from '@/view/canvas';
 import none from '@/event/none';
-import enemyIds from '@/enemy/ids';
 import { lazer } from '@/enemy/lazer';
 import { swimOrb } from '@/enemy/orb';
 import dependencies from 'dependencies';
 import modes from './modes';
+import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
 import stage4 from './4';
 
 const {
-  pi, max, cos, sin, random,
+  pi, cos, sin, random,
 } = dependencies.globals;
 
 const orbWait = new Map([
@@ -28,14 +28,6 @@ const orbSize = new Map([
   [modes.normal, () => 6 + random() * 3],
   [modes.hard, () => 6 + random() * 4],
 ]);
-
-const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
-  if (enemy.id !== enemyIds.swimOrb) { return [enemy]; }
-  const dx = center + enemy.radius * cos(enemy.angle) - px;
-  const dy = center + enemy.radius * sin(enemy.angle) - py;
-  const dr = 60 - playerInvincible;
-  return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
-};
 
 const lazerParams = new Map([
   [modes.easy, {
@@ -83,7 +75,7 @@ const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) => (mode, level
   ].flat();
   if (levelUp && level === 31) {
     return {
-      enemies: nextEnemies.map((enemy) => ({ ...enemy, time: max(enemy.time, 270) })),
+      enemies: vanishOrAgeEnemies(nextEnemies),
       evt: none(),
       nextStage: stage4(),
     };
