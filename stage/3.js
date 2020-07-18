@@ -73,14 +73,11 @@ const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) => (mode, level
       ),
     ] : [],
   ].flat();
-  if (levelUp && level === 31) {
-    return {
-      enemies: vanishOrAgeEnemies(nextEnemies),
-      evt: none(),
-      nextStage: stage4(),
-    };
-  }
-  return {
+  return levelUp && level % 10 === 1 ? {
+    enemies: vanishOrAgeEnemies(nextEnemies),
+    evt: none(),
+    nextStage: stage4(),
+  } : {
     enemies: nextEnemies,
     evt: none(),
     nextStage: stage3(

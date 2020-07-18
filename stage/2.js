@@ -82,14 +82,11 @@ const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
     nextEvt = none();
     nextEvtTime = -eventReload.get(mode);
   }
-  if (levelUp && level === 21) {
-    return {
-      enemies: vanishOrAgeEnemies(nextEnemies),
-      nextStage: stage3(),
-      evt: none(),
-    };
-  }
-  return {
+  return levelUp && level % 10 === 1 ? {
+    enemies: vanishOrAgeEnemies(nextEnemies),
+    nextStage: stage3(),
+    evt: none(),
+  } : {
     enemies: nextEnemies,
     nextStage: stage2(addSwimOrb ? 0 : swimOrbTime + 1, nextEvtTime),
     evt: nextEvt,

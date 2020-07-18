@@ -72,7 +72,9 @@ const stage1 = (swimOrbTime = 0, linearOrbTime = 0) => (mode, level, levelUp, st
       ),
     ] : [],
   ].flat();
-  return {
+  return levelUp && level % 10 === 1 ? {
+    enemies: vanishOrAgeEnemies(enemies), nextStage: stage2(), evt,
+  } : {
     enemies: nextEnemies,
     nextStage: stage1(addSwimOrb ? 0 : swimOrbTime + 1, addLinearOrb ? 0 : linearOrbTime + 1),
     evt,
