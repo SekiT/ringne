@@ -3,7 +3,7 @@ import dependencies from 'dependencies';
 import ids from './ids';
 
 const {
-  pi, max, cos, sin,
+  pi, max, sqrt, cos, sin,
 } = dependencies.globals;
 
 export const landolt = (x, y, angle, radius, angleSpeed, radiusSpeed, holeWidth, lineWidth) => ({
@@ -41,7 +41,7 @@ export const renderLandolt = (context, {
 const doesDisappear = (x, y, radius, width) => {
   const dx = x - center;
   const dy = y - center;
-  return radius > Math.sqrt(dx * dx + dy * dy) + boardRadius + width * 2;
+  return radius > sqrt(dx * dx + dy * dy) + boardRadius + width * 2;
 };
 
 const hitTest = (x, y, angle, radius, holeWidth, lineWidth, px, py) => {

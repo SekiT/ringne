@@ -10,6 +10,7 @@ export default {
     abs: Math.abs,
     trunc: Math.trunc,
     round: Math.round,
+    sqrt: Math.sqrt,
     cos: Math.cos,
     sin: Math.sin,
     random: Math.random,
