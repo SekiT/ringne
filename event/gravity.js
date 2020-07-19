@@ -27,7 +27,7 @@ const inputEffect = (state, { props: { gravity } }) => {
 };
 
 export default (gravity, duration) => makeEvent({
-  id: ids.rotate,
+  id: ids.gravity,
   name: '重力',
   wait: 300,
   duration,
