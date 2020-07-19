@@ -3,6 +3,7 @@ import { wire, bind } from 'hyperhtml';
 export default {
   hyperhtml: { wire, bind },
   globals: {
+    infinity: Number.POSITIVE_INFINITY,
     pi: Math.PI,
     pi2: Math.PI * 2,
     min: Math.min,

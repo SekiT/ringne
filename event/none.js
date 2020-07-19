@@ -1,5 +1,8 @@
+import dependencies from 'dependencies';
 import makeEvent from './makeEvent';
 import ids from './ids';
+
+const { infinity } = dependencies.globals;
 
 const afterEffect = (_props, _eventTime, context) => {
   context.resetTransform();
@@ -8,7 +11,7 @@ const afterEffect = (_props, _eventTime, context) => {
 export default () => makeEvent({
   id: ids.none,
   name: '-',
-  wait: Number.POSITIVE_INFINITY,
+  wait: infinity,
   duration: 0,
   props: {},
   afterEffect,
