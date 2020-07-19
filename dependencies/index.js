@@ -14,6 +14,7 @@ export default {
     sqrt: Math.sqrt,
     cos: Math.cos,
     sin: Math.sin,
+    atan2: Math.atan2,
     random: Math.random,
     now: Date.now,
     window,

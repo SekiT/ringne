@@ -62,15 +62,17 @@ export default (pauseTime = 0) => ({
       stateUpdate: {},
     };
   }
-  let pa = playerAngle + 0.007 + (quick - brake) * 0.005;
-  let pr = min(max(playerRadius + (outer - inner) * 2, 10), boardRadius - 10);
+  const stateBeforeEffect = {
+    inner, outer, quick, brake, pa: playerAngle, pr: playerRadius, enemies,
+  };
   const effectResult = previousEvt.waitTime >= previousEvt.wait
-    ? previousEvt.inputEffect({
-      inner, outer, quick, brake, pa, pr, enemies,
-    }, previousEvt)
-    : { pa, pr, enemies };
-  pa = effectResult.pa;
-  pr = effectResult.pr;
+    ? previousEvt.inputEffect(stateBeforeEffect, previousEvt)
+    : stateBeforeEffect;
+  let pa = effectResult.pa + 0.007 + (effectResult.quick - effectResult.brake) * 0.005;
+  const pr = min(
+    max(effectResult.pr + (effectResult.outer - effectResult.inner) * 2, 10),
+    boardRadius - 10,
+  );
   const levelUp = pa >= pi2;
   const level = previousLevel + (levelUp ? 1 : 0);
   if (practice && levelUp && level % 10 === 1) {

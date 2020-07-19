@@ -5,6 +5,7 @@ import { landolt } from '@/enemy/landolt';
 import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
+import stage6 from './6';
 
 const {
   pi, pi2, cos, sin, random,
@@ -68,7 +69,7 @@ const stage5 = (swimOrbTime = 0, landoltTime = 100) => (mode, level, levelUp, {
   ].flat();
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage5(),
+    nextStage: stage6(),
     evt: none(),
   } : {
     enemies: nextEnemies,

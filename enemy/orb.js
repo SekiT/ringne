@@ -37,38 +37,40 @@ const renderOrb = (context, x, y, width, fillColor, strokeColor, opacity) => {
   context.restore();
 };
 
-export const swimOrb = (angle, radius, speed, width, time = 0) => ({
+export const swimOrb = (angle, radius, speed, width, time = 0, color = 'lime') => ({
   id: ids.swimOrb,
   time,
   angle,
   radius,
   speed,
   width,
+  color,
 });
 
 export const renderSwimOrb = (context, {
-  time, angle, radius, width,
+  time, angle, radius, width, color,
 }) => {
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
   if (time <= 30) {
-    renderShadow(context, time, x, y, width, 'lime');
+    renderShadow(context, time, x, y, width, color);
   }
   if (time >= 15) {
     const opacity = min(min((time - 15) / 30, 1), (300 - time) / 30);
-    renderOrb(context, x, y, width, 'white', 'lime', opacity);
+    renderOrb(context, x, y, width, 'white', color, opacity);
   }
 };
 
-export const moveSwimOrb = ({
-  time, angle, radius, speed, width,
-}, px, py) => {
+export const moveSwimOrb = (enemy, px, py) => {
+  const {
+    time, angle, radius, speed, width,
+  } = enemy;
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
   return {
     nextEnemies: time >= 300
       ? []
-      : [swimOrb(angle + (time < 45 ? 0 : speed), radius, speed, width, time + 1)],
+      : [{ ...enemy, angle: angle + (time < 45 ? 0 : speed), time: time + 1 }],
     hit: time < 45 || time > 270
       ? false
       : hitTestOrb(px, py, x, y, width),
@@ -99,12 +101,13 @@ export const renderLinearOrb = (context, {
   }
 };
 
-export const moveLinearOrb = ({
-  time, x, y, angle, speed, width, fillColor, strokeColor,
-}, px, py) => {
+export const moveLinearOrb = (enemy, px, py) => {
+  const {
+    time, x, y, angle, speed, width,
+  } = enemy;
   if (time < 45) {
     return {
-      nextEnemies: [linearOrb(x, y, angle, speed, width, fillColor, strokeColor, time + 1)],
+      nextEnemies: [{ ...enemy, time: time + 1 }],
       hit: false,
     };
   }
@@ -117,7 +120,9 @@ export const moveLinearOrb = ({
     nextEnemies: [],
     hit: false,
   } : {
-    nextEnemies: [linearOrb(nextX, nextY, angle, speed, width, fillColor, strokeColor, time + 1)],
+    nextEnemies: [{
+      ...enemy, x: nextX, y: nextY, time: time + 1,
+    }],
     hit: hitTestOrb(px, py, x, y, width),
   };
 };
