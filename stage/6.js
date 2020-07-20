@@ -11,8 +11,8 @@ const { pi, random } = dependencies.globals;
 
 const orbWait = new Map([
   [modes.easy, (level) => 30 - level * 2],
-  [modes.normal, (level) => 27 - level * 2],
-  [modes.hard, (level) => 16 - level],
+  [modes.normal, (level) => 25 - level * 2],
+  [modes.hard, (level) => 15 - level],
 ]);
 
 const orbSpeed = new Map([
@@ -28,7 +28,7 @@ const orbSize = new Map([
 ]);
 
 const createEvent = new Map([
-  [modes.easy, (level) => swap(0.7, 100 + level * 10)],
+  [modes.easy, (level) => swap(1, 150 + level * 10)],
   [modes.normal, (level) => swap(1.5, 200 + level * 20)],
   [modes.hard, (level) => swap(2, 250 + level * 30)],
 ]);
