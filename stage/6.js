@@ -6,6 +6,7 @@ import swap from '@/event/swap';
 import { swimOrb } from '@/enemy/orb';
 import modes from './modes';
 import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
+import stage7 from './7';
 
 const { pi, random } = dependencies.globals;
 
@@ -76,7 +77,7 @@ const stage6 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   }
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage6(),
+    nextStage: stage7(),
     evt: none(),
   } : {
     enemies: nextEnemies,
