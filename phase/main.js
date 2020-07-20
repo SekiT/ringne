@@ -188,13 +188,26 @@ const handleDeath = (state) => {
   return {};
 };
 
-const toNextFrame = (state) => ({
+const toNextFrame = ({
+  pauseTime,
+  level, mode, practice, stage, evt,
+  playerAngle, playerRadius, playerInvincible,
+  deaths, enemies,
+}) => ({
   returns: {
     nextId: ids.main,
-    nextArgs: [state.pauseTime + 1],
+    nextArgs: [pauseTime + 1],
     stateUpdate: {
-      ...state,
-      playerInvincible: max(state.playerInvincible - 1, 0),
+      level,
+      mode,
+      practice,
+      stage,
+      evt,
+      playerAngle,
+      playerRadius,
+      playerInvincible: max(playerInvincible - 1, 0),
+      deaths,
+      enemies,
     },
   },
 });
