@@ -231,11 +231,12 @@ export default (pauseTime = 0) => (previousState) => [
   toNextFrame,
 ].reduce((acc, fun, index, arr) => {
   const { state, returns } = fun(acc);
-  if (returns) arr.splice(index);
-  return { ...acc, ...state, returns };
+  return returns
+    ? (arr.splice(index), returns)
+    : { ...acc, ...state };
 }, {
   ...previousState,
   pauseTime,
   pa: previousState.playerAngle,
   pr: previousState.playerRadius,
-}).returns;
+});
