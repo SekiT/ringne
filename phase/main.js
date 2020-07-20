@@ -74,6 +74,7 @@ const handleLevelUp = ({ practice, pa, level }) => {
     state: {
       pa: pa - (levelUp ? pi2 : 0),
       level: nextLevel,
+      levelUp,
     },
   };
 };
