@@ -180,7 +180,7 @@ const handleDeath = (state) => {
         nextArgs: [],
         stateUpdate: {
           ...state,
-          death: deaths + 1,
+          deaths: deaths + 1,
         },
       },
     };
