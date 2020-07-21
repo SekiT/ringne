@@ -18,7 +18,6 @@ const disableInputs = {
 const inputEffect = (state, { eventTime, duration, props: { speed } }) => {
   if (eventTime >= duration) {
     return {
-      ...state,
       enemies: state.enemies.map((enemy) => (
         enemy.id === enemyIds.swimOrb
           ? { ...enemy, color: 'lime' }
@@ -33,7 +32,6 @@ const inputEffect = (state, { eventTime, duration, props: { speed } }) => {
   const inputY = brake - quick;
   if (inputX === 0 && inputY === 0) {
     return {
-      ...state,
       ...disableInputs,
       enemies: enemies.map((enemy) => (
         enemy.id === enemyIds.swimOrb ? { ...enemy, color: 'red' } : enemy
@@ -46,7 +44,6 @@ const inputEffect = (state, { eventTime, duration, props: { speed } }) => {
   const dx = speed * cosd;
   const dy = speed * sind;
   return {
-    ...state,
     ...disableInputs,
     enemies: enemies.map((enemy) => {
       if (enemy.id !== enemyIds.swimOrb) return enemy;
