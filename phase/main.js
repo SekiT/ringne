@@ -171,7 +171,12 @@ const renameShortVariables = ({ pa, pr }) => ({
 });
 
 const handleDeath = (state) => {
-  const { hit, playerInvincible, deaths } = state;
+  const {
+    level, mode, practice, stage, evt,
+    playerAngle, playerRadius, playerInvincible,
+    deaths, enemies,
+    hit,
+  } = state;
   if (hit && playerInvincible === 0) {
     deathsView.update(() => ({ deaths: deaths + 1 }));
     return {
@@ -179,8 +184,16 @@ const handleDeath = (state) => {
         nextId: ids.death,
         nextArgs: [],
         stateUpdate: {
-          ...state,
+          level,
+          mode,
+          practice,
+          stage,
+          evt,
+          playerAngle,
+          playerRadius,
+          playerInvincible,
           deaths: deaths + 1,
+          enemies,
         },
       },
     };
