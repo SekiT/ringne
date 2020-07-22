@@ -4,16 +4,19 @@ import dependencies from 'dependencies';
 
 const { max, cos, sin } = dependencies.globals;
 
+const { swimOrb, linearOrb, orbToCenter } = enemyIds;
+
 export const vanishOrAgeEnemies = (enemies) => enemies.flatMap((enemy) => (
-  enemy.id === enemyIds.swimOrb ? [{ ...enemy, time: max(enemy.time, 270) }] : []
+  enemy.id === swimOrb ? [{ ...enemy, time: max(enemy.time, 270) }] : []
 ));
 
 export const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) => {
-  if ([enemyIds.swimOrb, enemyIds.linearOrb].includes(enemy.id)) {
-    const { x, y } = enemy.id === enemyIds.linearOrb ? enemy : {
-      x: center + enemy.radius * cos(enemy.angle),
-      y: center + enemy.radius * sin(enemy.angle),
-    };
+  const { id, angle, radius } = enemy;
+  if ([swimOrb, linearOrb, orbToCenter].includes(id)) {
+    const { x, y } = id === swimOrb ? {
+      x: center + radius * cos(angle),
+      y: center + radius * sin(angle),
+    } : enemy;
     const dx = x - px;
     const dy = y - py;
     const dr = 60 - playerInvincible;

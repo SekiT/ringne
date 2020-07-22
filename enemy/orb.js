@@ -3,7 +3,7 @@ import dependencies from 'dependencies';
 import ids from './ids';
 
 const {
-  pi2, min, cos, sin,
+  pi, pi2, min, cos, sin,
 } = dependencies.globals;
 
 export const hitTestOrb = (px, py, x, y, width) => {
@@ -125,4 +125,24 @@ export const moveLinearOrb = (enemy, px, py) => {
     }],
     hit: hitTestOrb(px, py, x, y, width),
   };
+};
+
+export const orbToCenter = (angle, speed, width, fillColor, strokeColor, time = 0) => ({
+  id: ids.orbToCenter,
+  time,
+  x: center + boardRadius * cos(angle),
+  y: center + boardRadius * sin(angle),
+  angle: angle + pi,
+  speed,
+  width,
+  fillColor,
+  strokeColor,
+});
+
+export const moveOrbToCenter = (enemy, px, py) => {
+  const { x, y, speed } = enemy;
+  if (hitTestOrb(center, center, x, y, speed - 3)) {
+    return { nextEnemies: [], hit: false };
+  }
+  return moveLinearOrb(enemy, px, py);
 };
