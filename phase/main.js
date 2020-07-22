@@ -78,7 +78,6 @@ const drawBoard = () => {
   clearCanvas();
   drawBackground();
   drawTape();
-  drawCenterDot();
   drawOutline();
   return {};
 };
@@ -157,6 +156,7 @@ const updateViews = ({
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
   eventView.update(() => ({ name: evt.name }));
+  drawCenterDot();
   return {};
 };
 
