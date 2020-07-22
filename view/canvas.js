@@ -68,10 +68,10 @@ export const drawTape = (rate = 1) => {
   canvasContext.restore();
 };
 
-export const drawGuide = (angle, rate = 1) => {
+export const drawGuide = (angle, rate = 1, color = 'red') => {
   canvasContext.save();
   canvasContext.beginPath();
-  canvasContext.strokeStyle = 'red';
+  canvasContext.strokeStyle = color;
   canvasContext.lineWidth = 1;
   canvasContext.moveTo(center, center);
   const r = rate * boardRadius;
