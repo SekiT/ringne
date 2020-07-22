@@ -16,8 +16,8 @@ const orbWait = new Map([
 ]);
 
 const orbParams = new Map([
-  [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.008 + level * 0.0015 })],
-  [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.01 + level * 0.002 })],
+  [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.01 + level * 0.0015 })],
+  [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.013 + level * 0.002 })],
   [modes.hard, (level) => ({ length: 7, width: 7, speed: 0.016 + level * 0.0028 })],
 ]);
 
@@ -37,13 +37,13 @@ const spawnOrbs = (mode, level, pa, odd) => {
 
 const eventDuration = new Map([
   [modes.easy, (level) => 200 + level * 10],
-  [modes.normal, (level) => 250 + level * 20],
+  [modes.normal, (level) => 250 + level * 25],
   [modes.hard, (level) => 300 + level * 25],
 ]);
 
 const eventReload = new Map([
   [modes.easy, (level) => 300 - level * 10],
-  [modes.normal, (level) => 300 - level * 20],
+  [modes.normal, (level) => 200 - level * 20],
   [modes.hard, () => 0],
 ]);
 
