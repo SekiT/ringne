@@ -22,7 +22,7 @@ const orbParams = new Map([
 ]);
 
 const spawnOrbs = (mode, level, pa, odd) => {
-  const angle = pa + (odd ? -1 : 1) * pi * (0.45 + 0.1 * random());
+  const angle = -pa + (odd ? 1 : -1) * pi * (0.3 + 0.4 * random());
   const { length, width, speed } = orbParams.get(mode)(level);
   const velocity = (odd ? -1 : 1) * speed;
   return [...Array(length + 1 - odd)].map((_, index) => (
