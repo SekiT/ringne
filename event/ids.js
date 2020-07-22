@@ -3,4 +3,5 @@ export default {
   rotate: {},
   gravity: {},
   swap: {},
+  mirror: {},
 };
