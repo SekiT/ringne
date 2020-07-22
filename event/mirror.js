@@ -21,7 +21,7 @@ const inputEffect = ({
   if ((t === 1 && playerInvincible === 0) || random() < 0.5) {
     drawPlayer(shadowX, shadowY);
   }
-  const hit = t === 1 && enemies.some(({
+  const hit = t === 1 && playerInvincible === 0 && enemies.some(({
     id, angle, radius, width,
   }) => {
     if (id === enemyIds.swimOrb) {
