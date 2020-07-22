@@ -10,19 +10,19 @@ import modes from './modes';
 const { pi, random } = dependencies.globals;
 
 const orbWait = new Map([
-  [modes.easy, (level) => 200 - level * 10],
-  [modes.normal, (level) => 175 - level * 10],
-  [modes.hard, (level) => 150 - level * 12],
+  [modes.easy, (level) => 200 - level * 20],
+  [modes.normal, (level) => 175 - level * 20],
+  [modes.hard, (level) => 150 - level * 18],
 ]);
 
 const orbParams = new Map([
-  [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.008 + level * 0.0008 })],
-  [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.01 + level * 0.001 })],
-  [modes.hard, (level) => ({ length: 7, width: 7, speed: 0.016 + level * 0.0014 })],
+  [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.008 + level * 0.0015 })],
+  [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.01 + level * 0.002 })],
+  [modes.hard, (level) => ({ length: 7, width: 7, speed: 0.016 + level * 0.0028 })],
 ]);
 
 const spawnOrbs = (mode, level, pa, odd) => {
-  const angle = pa + (odd ? -1 : 1) * pi * (0.4 + 0.2 * random());
+  const angle = pa + (odd ? -1 : 1) * pi * (0.45 + 0.1 * random());
   const { length, width, speed } = orbParams.get(mode)(level);
   const velocity = (odd ? -1 : 1) * speed;
   return [...Array(length + 1 - odd)].map((_, index) => (
@@ -51,18 +51,21 @@ const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level,
   enemies, evt, px, py, pa, playerInvincible,
 }) => {
   const lv = (level - 1) % 10;
-  const addSwimOrb = swimOrbTime >= orbWait.get(mode)(lv);
+  const addSwimOrb = swimOrbTime >= orbWait.get(mode)(lv % 5);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    addSwimOrb ? spawnOrbs(mode, lv, pa, swimOrbOdd) : [],
+    addSwimOrb ? spawnOrbs(mode, lv % 5, pa, swimOrbOdd) : [],
   ].flat();
   const { id, eventTime, duration } = evt;
   let nextEvt;
   let nextEvtTime;
   if (id === eventIds.none) {
-    if (evtTime === 30) {
+    if (lv < 5) {
+      nextEvt = none();
+      nextEvtTime = evtTime;
+    } else if (evtTime === 30) {
       nextEvt = mirror(eventDuration.get(mode)(lv));
       nextEvtTime = evtTime + 1;
     } else {
