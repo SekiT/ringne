@@ -1,8 +1,10 @@
 import { center, boardRadius } from '@/view/canvas';
 import { linearOrb } from '@/enemy/orb';
+import none from '@/event/none';
 import dependencies from 'dependencies';
 import modes from './modes';
-import { vanishByInvinciblePlayer } from './util';
+import { vanishByInvinciblePlayer, vanishOrAgeEnemies } from './util';
+import stage8 from './8';
 
 const {
   pi, cos, sin, atan2,
@@ -45,7 +47,11 @@ const stage7 = (orbTime = 0, angle = 0, colorId = 0) => (mode, level, levelUp, {
       : enemies,
     addOrb ? makeOrb(lv, px, py, angle, orbSize.get(mode), colors[colorId]) : [],
   ].flat();
-  return {
+  return levelUp && level % 10 === 1 ? {
+    enemies: vanishOrAgeEnemies(nextEnemies),
+    nextStage: stage8(),
+    evt: none(),
+  } : {
     enemies: nextEnemies,
     nextStage: stage7(
       addOrb ? 0 : orbTime + 1,

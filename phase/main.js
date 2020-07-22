@@ -38,15 +38,10 @@ const handlePause = ({ pause, pauseTime }) => ({
   } : false,
 });
 
-const runInputEffect = ({
-  evt, inner, outer, quick, brake, pa, pr, enemies,
-}) => (evt.waitTime >= evt.wait
-  ? {
-    state: evt.inputEffect({
-      inner, outer, quick, brake, pa, pr, enemies,
-    }, evt),
-  }
-  : {}
+const runInputEffect = ({ evt, ...state }) => (
+  evt.waitTime >= evt.wait
+    ? { state: evt.inputEffect(state, evt) }
+    : {}
 );
 
 const movePlayer = ({
@@ -79,11 +74,10 @@ const handleLevelUp = ({ practice, pa, level }) => {
   };
 };
 
-const drawBoard = ({ pa }) => {
+const drawBoard = () => {
   clearCanvas();
   drawBackground();
   drawTape();
-  drawGuide(pa);
   drawCenterDot();
   drawOutline();
   return {};
@@ -96,7 +90,10 @@ const playerPosition = ({ pa, pr }) => ({
   },
 });
 
-const drawPlayerIfNeeded = ({ playerInvincible, px, py }) => {
+const drawPlayerIfNeeded = ({
+  playerInvincible, pa, px, py,
+}) => {
+  drawGuide(pa);
   if (playerInvincible === 0 || random() < 0.5) {
     drawPlayer(px, py);
   }
@@ -229,10 +226,10 @@ export default (pauseTime = 0) => (previousState) => [
   getInputsIntoState,
   handleEscape,
   handlePause,
+  drawBoard,
   runInputEffect,
   movePlayer,
   handleLevelUp,
-  drawBoard,
   playerPosition,
   drawPlayerIfNeeded,
   runStage,

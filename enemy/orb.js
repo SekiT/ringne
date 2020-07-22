@@ -6,7 +6,7 @@ const {
   pi2, min, cos, sin,
 } = dependencies.globals;
 
-const hitTestOrb = (px, py, x, y, width) => {
+export const hitTestOrb = (px, py, x, y, width) => {
   const dx = px - x;
   const dy = py - y;
   const dr = width / 2 + 3;
