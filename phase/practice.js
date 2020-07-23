@@ -10,12 +10,13 @@ import stage5 from '@/stage/5';
 import stage6 from '@/stage/6';
 import stage7 from '@/stage/7';
 import stage8 from '@/stage/8';
+import stage9 from '@/stage/9';
 import dependencies from 'dependencies';
 import ids from './ids';
 
 const { min } = dependencies.globals;
 
-const stages = [stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8];
+const stages = [stage1, stage2, stage3, stage4, stage5, stage6, stage7, stage8, stage9];
 
 export default (time = 0, selected = null) => ({ mode }) => {
   stageButtonsView.update(() => ({ selected, opacity: min(time / 30, (60 - time) / 30) }));

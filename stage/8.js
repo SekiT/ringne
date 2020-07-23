@@ -6,6 +6,7 @@ import mirror from '@/event/mirror';
 import dependencies from 'dependencies';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies } from './util';
 import modes from './modes';
+import stage9 from './9';
 
 const { pi, random } = dependencies.globals;
 
@@ -81,7 +82,7 @@ const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level,
   }
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage8(),
+    nextStage: stage9(),
     evt: none(),
   } : {
     enemies: nextEnemies,
