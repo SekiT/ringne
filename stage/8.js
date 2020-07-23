@@ -18,7 +18,7 @@ const orbWait = new Map([
 const orbParams = new Map([
   [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.01 + level * 0.0015 })],
   [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.013 + level * 0.002 })],
-  [modes.hard, (level) => ({ length: 7, width: 8, speed: 0.016 + level * 0.0026 })],
+  [modes.hard, (level) => ({ length: 7, width: 8.5, speed: 0.016 + level * 0.0026 })],
 ]);
 
 const spawnOrbs = (mode, level, pa, odd) => {
