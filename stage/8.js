@@ -42,9 +42,9 @@ const craeteEvent = new Map([
 ]);
 
 const eventReload = new Map([
-  [modes.easy, (level) => 300 - level * 10],
-  [modes.normal, (level) => 200 - level * 20],
-  [modes.hard, () => 0],
+  [modes.easy, 200],
+  [modes.normal, 100],
+  [modes.hard, 0],
 ]);
 
 const nextEvent = makeNextEvent((mode, level) => craeteEvent.get(mode)(level), eventReload);
