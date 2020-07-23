@@ -1,5 +1,7 @@
 import { center } from '@/view/canvas';
 import enemyIds from '@/enemy/ids';
+import eventIds from '@/event/ids';
+import none from '@/event/none';
 import dependencies from 'dependencies';
 
 const { max, cos, sin } = dependencies.globals;
@@ -23,4 +25,21 @@ export const vanishByInvinciblePlayer = (playerInvincible, px, py) => (enemy) =>
     return dx * dx + dy * dy <= dr * dr ? [] : [enemy];
   }
   return [enemy];
+};
+
+export const makeNextEvent = (eventGenerator, eventReload) => (mode, level, evtTime, evt) => {
+  const { id, eventTime, duration } = evt;
+  if (id === eventIds.none) {
+    if (evtTime === 30) {
+      return {
+        nextEvt: eventGenerator(mode, level),
+        nextEvtTime: evtTime + 1,
+      };
+    }
+    return { nextEvt: evt, nextEvtTime: evtTime + 1 };
+  }
+  if (id !== eventIds.none && eventTime < duration) {
+    return { nextEvt: evt, nextEvtTime: evtTime + 1 };
+  }
+  return { nextEvt: none(), nextEvtTime: -eventReload.get(mode) };
 };

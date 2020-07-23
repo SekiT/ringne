@@ -3,9 +3,8 @@ import { swimOrb } from '@/enemy/orb';
 import rotate from '@/event/rotate';
 import none from '@/event/none';
 import dependencies from 'dependencies';
-import eventIds from '../event/ids';
 import modes from './modes';
-import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
+import { vanishOrAgeEnemies, vanishByInvinciblePlayer, makeNextEvent } from './util';
 import stage3 from './3';
 
 const { pi, pi2, random } = dependencies.globals;
@@ -34,29 +33,17 @@ const eventParams = new Map([
   [modes.hard, (level) => ({ speed: 0.05, rotateCount: level > 5 ? 4 : 2 })],
 ]);
 
-const eventReload = new Map([
-  [modes.easy, 600],
-  [modes.normal, 300],
-  [modes.hard, 0],
-]);
-
-const nextEvent = (mode, level, evtTime, evt) => {
-  const { id, eventTime, duration } = evt;
-  if (id === eventIds.none) {
-    if (evtTime === 30) {
-      const { speed, rotateCount } = eventParams.get(mode)(level);
-      return {
-        nextEvt: rotate((random() < 0.5 ? -1 : 1) * speed, (pi2 / speed) * rotateCount),
-        nextEvtTime: evtTime + 1,
-      };
-    }
-    return { nextEvt: evt, nextEvtTime: evtTime + 1 };
-  }
-  if (id === eventIds.rotate && eventTime < duration) {
-    return { nextEvt: evt, nextEvtTime: evtTime + 1 };
-  }
-  return { nextEvt: none(), nextEvtTime: -eventReload.get(mode) };
-};
+const nextEvent = makeNextEvent(
+  (mode, level) => {
+    const { speed, rotateCount } = eventParams.get(mode)(level);
+    return rotate((random() < 0.5 ? -1 : 1) * speed, (pi2 / speed) * rotateCount);
+  },
+  new Map([
+    [modes.easy, 600],
+    [modes.normal, 300],
+    [modes.hard, 0],
+  ]),
+);
 
 const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
