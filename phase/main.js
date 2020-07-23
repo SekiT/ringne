@@ -1,7 +1,6 @@
 import dependencies from 'dependencies';
 import {
-  center, boardRadius,
-  canvasContext, clearCanvas,
+  center, boardRadius, canvasContext,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import getInputs from '@/state/input';
@@ -75,7 +74,6 @@ const handleLevelUp = ({ practice, pa, level }) => {
 };
 
 const drawBoard = () => {
-  clearCanvas();
   drawBackground();
   drawTape();
   drawOutline();
