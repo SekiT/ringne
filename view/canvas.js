@@ -105,6 +105,7 @@ export const drawCenterDot = () => {
 };
 
 export const drawOutline = (angle = -pi2) => {
+  outlineContext.clearRect(0, 0, canvasWidth, canvasWidth);
   outlineContext.save();
   outlineContext.beginPath();
   outlineContext.setLineDash([10, 10]);
