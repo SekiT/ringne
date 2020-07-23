@@ -12,13 +12,13 @@ const { pi, random } = dependencies.globals;
 const orbWait = new Map([
   [modes.easy, (level) => 200 - level * 20],
   [modes.normal, (level) => 175 - level * 20],
-  [modes.hard, (level) => 150 - level * 18],
+  [modes.hard, (level) => 160 - level * 18],
 ]);
 
 const orbParams = new Map([
   [modes.easy, (level) => ({ length: 5, width: 8, speed: 0.01 + level * 0.0015 })],
   [modes.normal, (level) => ({ length: 5, width: 9, speed: 0.013 + level * 0.002 })],
-  [modes.hard, (level) => ({ length: 7, width: 7, speed: 0.016 + level * 0.0028 })],
+  [modes.hard, (level) => ({ length: 7, width: 8, speed: 0.016 + level * 0.0026 })],
 ]);
 
 const spawnOrbs = (mode, level, pa, odd) => {
@@ -60,7 +60,9 @@ const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level,
       : enemies,
     addSwimOrb ? spawnOrbs(mode, lv % 5, pa, swimOrbOdd) : [],
   ].flat();
-  const { nextEvt, nextEvtTime } = nextEvent(mode, lv, evtTime, evt);
+  const { nextEvt, nextEvtTime } = lv < 5
+    ? { nextEvt: evt, nextEvtTime: evtTime }
+    : nextEvent(mode, lv, evtTime, evt);
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
     nextStage: stage9(),
