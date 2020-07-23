@@ -35,14 +35,13 @@ const createEvent = new Map([
   [modes.hard, (level) => gravity(0.5 + level * 0.12, 200)],
 ]);
 
-const nextEvent = makeNextEvent(
-  (mode, level) => createEvent.get(mode)(level),
-  new Map([
-    [modes.easy, 300],
-    [modes.normal, 300],
-    [modes.hard, 0],
-  ]),
-);
+const eventReload = new Map([
+  [modes.easy, 300],
+  [modes.normal, 300],
+  [modes.hard, 0],
+]);
+
+const nextEvent = makeNextEvent((mode, level) => createEvent.get(mode)(level), eventReload);
 
 const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,

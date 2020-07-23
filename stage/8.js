@@ -1,10 +1,9 @@
 import { boardRadius } from '@/view/canvas';
 import { swimOrb } from '@/enemy/orb';
-import eventIds from '@/event/ids';
 import none from '@/event/none';
 import mirror from '@/event/mirror';
 import dependencies from 'dependencies';
-import { vanishByInvinciblePlayer, vanishOrAgeEnemies } from './util';
+import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 import modes from './modes';
 import stage9 from './9';
 
@@ -36,10 +35,10 @@ const spawnOrbs = (mode, level, pa, odd) => {
   ));
 };
 
-const eventDuration = new Map([
-  [modes.easy, (level) => 200 + level * 10],
-  [modes.normal, (level) => 250 + level * 25],
-  [modes.hard, (level) => 300 + level * 25],
+const craeteEvent = new Map([
+  [modes.easy, (level) => mirror(200 + level * 10)],
+  [modes.normal, (level) => mirror(250 + level * 25)],
+  [modes.hard, (level) => mirror(300 + level * 25)],
 ]);
 
 const eventReload = new Map([
@@ -47,6 +46,8 @@ const eventReload = new Map([
   [modes.normal, (level) => 200 - level * 20],
   [modes.hard, () => 0],
 ]);
+
+const nextEvent = makeNextEvent((mode, level) => craeteEvent.get(mode)(level), eventReload);
 
 const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
@@ -59,27 +60,7 @@ const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level,
       : enemies,
     addSwimOrb ? spawnOrbs(mode, lv % 5, pa, swimOrbOdd) : [],
   ].flat();
-  const { id, eventTime, duration } = evt;
-  let nextEvt;
-  let nextEvtTime;
-  if (id === eventIds.none) {
-    if (lv < 5) {
-      nextEvt = none();
-      nextEvtTime = evtTime;
-    } else if (evtTime === 30) {
-      nextEvt = mirror(eventDuration.get(mode)(lv));
-      nextEvtTime = evtTime + 1;
-    } else {
-      nextEvt = evt;
-      nextEvtTime = evtTime + 1;
-    }
-  } else if (eventTime < duration) {
-    nextEvt = evt;
-    nextEvtTime = evtTime + 1;
-  } else {
-    nextEvt = none();
-    nextEvtTime = -eventReload.get(mode)(lv);
-  }
+  const { nextEvt, nextEvtTime } = nextEvent(mode, lv, evtTime, evt);
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
     nextStage: stage9(),

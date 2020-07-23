@@ -33,16 +33,18 @@ const eventParams = new Map([
   [modes.hard, (level) => ({ speed: 0.05, rotateCount: level > 5 ? 4 : 2 })],
 ]);
 
+const eventReload = new Map([
+  [modes.easy, 600],
+  [modes.normal, 300],
+  [modes.hard, 0],
+]);
+
 const nextEvent = makeNextEvent(
   (mode, level) => {
     const { speed, rotateCount } = eventParams.get(mode)(level);
     return rotate((random() < 0.5 ? -1 : 1) * speed, (pi2 / speed) * rotateCount);
   },
-  new Map([
-    [modes.easy, 600],
-    [modes.normal, 300],
-    [modes.hard, 0],
-  ]),
+  eventReload,
 );
 
 const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {

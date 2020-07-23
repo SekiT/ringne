@@ -1,11 +1,10 @@
 import dependencies from 'dependencies';
 import { boardRadius } from '@/view/canvas';
-import eventIds from '@/event/ids';
 import none from '@/event/none';
 import swap from '@/event/swap';
 import { swimOrb } from '@/enemy/orb';
 import modes from './modes';
-import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
+import { vanishOrAgeEnemies, vanishByInvinciblePlayer, makeNextEvent } from './util';
 import stage7 from './7';
 
 const { pi, random } = dependencies.globals;
@@ -40,10 +39,13 @@ const eventReload = new Map([
   [modes.hard, 0],
 ]);
 
+const nextEvent = makeNextEvent((mode, level) => createEvent.get(mode)(level), eventReload);
+
 const stage6 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
   enemies, evt, px, py, pa, playerInvincible,
 }) => {
-  const addSwimOrb = swimOrbTime >= orbWait.get(mode)((level - 1) % 10);
+  const lv = (level - 1) % 10;
+  const addSwimOrb = swimOrbTime >= orbWait.get(mode)(lv);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
@@ -57,24 +59,7 @@ const stage6 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
       ),
     ] : [],
   ].flat();
-  const { id, eventTime, duration } = evt;
-  let nextEvt;
-  let nextEvtTime;
-  if (id === eventIds.none) {
-    if (evtTime === 30) {
-      nextEvt = createEvent.get(mode)((level - 1) % 10);
-      nextEvtTime = evtTime + 1;
-    } else {
-      nextEvt = evt;
-      nextEvtTime = evtTime + 1;
-    }
-  } else if (eventTime < duration) {
-    nextEvt = evt;
-    nextEvtTime = evtTime + 1;
-  } else {
-    nextEvt = none();
-    nextEvtTime = -eventReload.get(mode);
-  }
+  const { nextEvt, nextEvtTime } = nextEvent(mode, lv, evtTime, evt);
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
     nextStage: stage7(),
