@@ -40,7 +40,7 @@ const stage9 = (orbTime = 0, orbAngle = 0) => (mode, level, levelUp, {
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
     orbTime === wait / 2 ? spawnOrbs(mode, lv, orbAngle, true) : [],
-    orbTime >= wait && (mode !== modes.hard || lv > 5) ? spawnOrbs(mode, lv, orbAngle, false) : [],
+    orbTime >= wait && (mode !== modes.hard || lv >= 5) ? spawnOrbs(mode, lv, orbAngle, false) : [],
     mode === modes.hard && orbTime >= wait ? [swimOrb(-pa - 0.63, pr, 0.01, 6)] : [],
   ].flat();
   return levelUp && level % 10 === 1 ? {
