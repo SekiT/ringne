@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
@@ -25,18 +25,18 @@ const levelView = view(initialState, (render) => ({
   };
   const ap = appearance * 100;
   const ap2 = ap / 2;
-  const backgroundStyle = toCssText({
+  const backgroundStyle = {
     ...positionStyle,
     backgroundColor: '#966',
     clipPath: `polygon(100% 0, 50% 0, ${50 - ap2}% ${ap2}%, ${100 - ap}% ${ap}%)`,
-  });
-  const foregroundStyle = toCssText({
+  };
+  const foregroundStyle = {
     ...positionStyle,
     color: 'white',
     fontSize: `${w / 5}px`,
     margin: `${w / 10}px`,
     opacity: appearance,
-  });
+  };
   const progress = trunc((playerAngle / pi2) * 100);
   return render`
     <div style="${backgroundStyle}"></div>

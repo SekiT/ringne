@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import { buttonIds, pushClick } from '@/state/buttonClicks';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
@@ -14,7 +14,7 @@ const initialState = {
 
 const onClick = (number) => () => pushClick(buttonIds.stage, number);
 
-const titleStyle = (opacity, fontSize) => toCssText({
+const titleStyle = (opacity, fontSize) => ({
   display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
@@ -27,7 +27,7 @@ const titleStyle = (opacity, fontSize) => toCssText({
   opacity,
 });
 
-const containerStyle = (opacity) => toCssText({
+const containerStyle = (opacity) => ({
   display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
@@ -38,7 +38,7 @@ const containerStyle = (opacity) => toCssText({
   opacity,
 });
 
-const buttonStyle = (selected, fontSize) => toCssText({
+const buttonStyle = (selected, fontSize) => ({
   outline: 'none',
   border: `2px solid ${selected ? 'white' : 'transparent'}`,
   margin: `${fontSize / 4}px 0 ${fontSize / 2}px`,

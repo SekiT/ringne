@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
@@ -24,12 +24,12 @@ const eventView = view(initialState, (render) => ({
   };
   const ap = appearance * 100;
   const ap2 = ap / 2;
-  const backgroundStyle = toCssText({
+  const backgroundStyle = {
     ...positionStyle,
     backgroundColor: '#969',
     clipPath: `polygon(100% 50%, ${100 - ap2}% ${50 - ap2}%, ${100 - ap}% ${100 - ap}%, 100% 100%)`,
-  });
-  const textStyle = toCssText({
+  };
+  const textStyle = {
     position: 'absolute',
     top: `${w / 10}px`,
     right: `${w / 10}px`,
@@ -37,10 +37,10 @@ const eventView = view(initialState, (render) => ({
     fontSize: `${w / 5}px`,
     color: 'white',
     opacity: appearance,
-  });
+  };
   return render`
     <div style="${backgroundStyle}"></div>
-    <div style="${toCssText(positionStyle)}">
+    <div style="${positionStyle}">
       <div style="position:relative;width:100%;height:100%">
         <div style="${textStyle}">Event<br>${name || '-'}</div>
       </div>

@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import modes from '@/stage/modes';
 import { buttonIds, pushClick } from '@/state/buttonClicks';
 import windowSize from '@/subject/windowSize';
@@ -15,7 +15,7 @@ const initialState = {
 
 const onClick = (id) => () => pushClick(id);
 
-const containerStyle = (top, fontSize, opacity) => toCssText({
+const containerStyle = (top, fontSize, opacity) => ({
   display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
@@ -26,7 +26,7 @@ const containerStyle = (top, fontSize, opacity) => toCssText({
   fontFamily: 'serif',
 });
 
-const startButtonStyle = (fontSize, opacity) => toCssText({
+const startButtonStyle = (fontSize, opacity) => ({
   outline: 'none',
   border: 'none',
   margin: `${fontSize / 4}px 0 ${fontSize / 2}px`,

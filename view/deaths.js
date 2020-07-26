@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import dependencies from 'dependencies';
 
@@ -24,12 +24,12 @@ const deathsView = view(initialState, (render) => ({
   };
   const ap = appearance * 100;
   const ap2 = ap / 2;
-  const backgroundStyle = toCssText({
+  const backgroundStyle = {
     ...positionStyle,
     backgroundColor: '#669',
     clipPath: `polygon(50% 100%, ${50 + ap2}% ${100 - ap2}%, ${ap}% ${100 - ap}%, 0 100%)`,
-  });
-  const textStyle = toCssText({
+  };
+  const textStyle = {
     position: 'absolute',
     bottom: `${w / 10}px`,
     right: `${w / 10}px`,
@@ -37,10 +37,10 @@ const deathsView = view(initialState, (render) => ({
     fontSize: `${w / 5}px`,
     color: 'white',
     opacity: appearance,
-  });
+  };
   return render`
     <div style="${backgroundStyle}"></div>
-    <div style="${toCssText(positionStyle)}">
+    <div style="${positionStyle}">
       <div style="position:relative;width:100%;height:100%">
         <div style="${textStyle}">${deaths}<br>death${deaths > 1 ? 's' : ''}</div>
       </div>

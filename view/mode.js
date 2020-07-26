@@ -1,4 +1,4 @@
-import { view, toCssText } from '@/lib/view';
+import { view } from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import fps from '@/subject/fps';
 import modes from '@/stage/modes';
@@ -33,22 +33,22 @@ const modeView = view(initialState, (render) => ({
   };
   const ap = appearance * 100;
   const ap2 = ap / 2;
-  const backgroundStyle = toCssText({
+  const backgroundStyle = {
     ...positionStyle,
     backgroundColor: '#696',
     clipPath: `polygon(0 0, 0 50%, ${ap2}% ${50 + ap2}%, ${ap}% ${ap}%)`,
-  });
-  const textStyle = toCssText({
+  };
+  const textStyle = {
     position: 'absolute',
     bottom: `${w / 10}px`,
     left: `${w / 10}px`,
     color: 'white',
     fontSize: `${w / 5}px`,
     opacity: appearance,
-  });
+  };
   return render`
     <div style="${backgroundStyle}"></div>
-    <div style="${toCssText(positionStyle)}">
+    <div style="${positionStyle}">
       <div style="position:relative;width:100%;height:100%">
         <div style="${textStyle}">${modeToText.get(mode)}<br>${fpsText}FPS</div>
       </div>
