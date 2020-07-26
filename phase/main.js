@@ -118,7 +118,7 @@ const moveEnemies = ({ enemies, px, py }) => {
     const { nextEnemies, hit } = enemyIdToMotion.get(id)(enemy, px, py);
     enemyIdToRenderer.get(id)(canvasContext, enemy);
     return {
-      nextEnemies: [...acc.nextEnemies, ...nextEnemies],
+      nextEnemies: acc.nextEnemies.concat(nextEnemies),
       hit: acc.hit || hit,
     };
   }, { nextEnemies: [], hit: false });
@@ -241,7 +241,7 @@ export default (pauseTime = 0) => (previousState) => [
   const { state, returns } = fun(acc);
   return returns
     ? (arr.splice(index), returns)
-    : { ...acc, ...state };
+    : Object.assign(acc, state);
 }, {
   ...previousState,
   pauseTime,

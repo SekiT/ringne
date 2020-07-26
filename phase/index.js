@@ -22,7 +22,7 @@ const idToPhaseGenerator = new Map([
 const indexPhase = (phase, state) => () => {
   pushTime(now());
   const { nextId, nextArgs, stateUpdate } = phase(state);
-  return indexPhase(idToPhaseGenerator.get(nextId)(...nextArgs), { ...state, ...stateUpdate });
+  return indexPhase(idToPhaseGenerator.get(nextId)(...nextArgs), Object.assign(state, stateUpdate));
 };
 
 export default indexPhase;
