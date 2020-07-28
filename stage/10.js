@@ -5,6 +5,7 @@ import { landolt } from '@/enemy/landolt';
 import none from '@/event/none';
 import rotate from '@/event/rotate';
 import gravity from '@/event/gravity';
+import swap from '@/event/swap';
 import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
@@ -85,12 +86,23 @@ const spawnLandolt = (mode, pa) => {
   return landolt(x, y, -pa, 1, 0.03, speed, hole, width);
 };
 
+const swapSpeed = new Map([
+  [modes.easy, 1],
+  [modes.normal, 1.5],
+  [modes.hard, 2],
+]);
+
+const limeOrb = (enemy) => ({ ...enemy, color: 'lime' });
+
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
     return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
   }
   if (level === 3) {
     return { ...gravity(gravityForce.get(mode), infinity), wait: 60 };
+  }
+  if (level === 5) {
+    return { ...swap(swapSpeed.get(mode), 60), wait: 60 };
   }
   return none();
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
@@ -123,7 +135,7 @@ const stage10 = (
     nextStage: stage10(),
     evt: none(),
   } : {
-    enemies: nextEnemies,
+    enemies: levelUp && lv === 6 ? nextEnemies.map(limeOrb) : nextEnemies,
     nextStage: stage10(
       nextEvtTime,
       addSwimOrb ? 0 : swimOrbTime + 1,
