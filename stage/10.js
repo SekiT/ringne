@@ -11,7 +11,7 @@ import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 
 const {
-  pi, infinity, cos, sin, atan2, random,
+  pi, infinity, trunc, cos, sin, atan2, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -74,13 +74,13 @@ const landoltWait = new Map([
 
 const landoltParams = new Map([
   [modes.easy, { speed: 0.3, hole: pi / 1.2, width: 5 }],
-  [modes.normal, { speed: 0.3, hole: pi / 1.3, width: 6 }],
-  [modes.hard, { speed: 0.4, hole: pi / 2.3, width: 7 }],
+  [modes.normal, { speed: 0.35, hole: pi / 1.3, width: 6 }],
+  [modes.hard, { speed: 0.4, hole: pi / 2, width: 7 }],
 ]);
 
 const spawnLandolt = (mode, pa) => {
   const { speed, hole, width } = landoltParams.get(mode);
-  const a = -pa - pi * 0.8;
+  const a = -pa - pi * 0.7;
   const x = center + boardRadius * 0.5 * cos(a);
   const y = center + boardRadius * 0.5 * sin(a);
   return landolt(x, y, -pa, 1, 0.03, speed, hole, width);
@@ -109,6 +109,28 @@ const spawnAimedOrb = (angle, px, py, colorIndex) => {
   return linearOrb(x, y, a, 1, 6, 'white', colors[colorIndex]);
 };
 
+const wallOrbWait = new Map([
+  [modes.easy, 400],
+  [modes.normal, 350],
+  [modes.hard, 200],
+]);
+
+const wallOrbParams = new Map([
+  [modes.easy, { width: 6, speed: 0.08 }],
+  [modes.normal, { width: 7, speed: 0.013 }],
+  [modes.hard, { width: 8, speed: 0.017 }],
+]);
+
+const spawnWallOrbs = (mode, pa, pr, odd) => {
+  const { width, speed } = wallOrbParams.get(mode);
+  const d = width * 3.5;
+  const a = -pa - pi * 0.6;
+  const r = (pr + (odd ? width : 0)) % d;
+  return [...Array(trunc(boardRadius / d) + 1)].map((_, index) => (
+    swimOrb(a, r + index * d, speed, width, 0, 'gray')
+  ));
+};
+
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
     return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
@@ -117,7 +139,7 @@ const nextEvent = makeNextEvent((mode, level) => {
     return { ...gravity(gravityForce.get(mode), infinity), wait: 60 };
   }
   if (level === 5) {
-    return { ...swap(swapSpeed.get(mode), 60), wait: 60 };
+    return { ...swap(swapSpeed.get(mode), 30), wait: 60 };
   }
   return none();
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
@@ -128,14 +150,16 @@ const stage10 = (
   lazerTime = 0,
   landoltTime = 0,
   aimedOrbTime = 0, aimedOrbAngle = 0, aimedOrbColor = 0,
+  wallOrbTime = 0, wallOrbOdd = false,
 ) => (mode, level, levelUp, {
-  enemies, px, py, pa, playerInvincible, evt,
+  enemies, px, py, pa, pr, playerInvincible, evt,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode);
   const addLazer = lv >= 2 && lazerTime >= lazerWait.get(mode);
-  const addLandolt = lv >= 4 && landoltTime >= landoltWait.get(mode);
+  const addLandolt = lv === 4 && landoltTime >= landoltWait.get(mode);
   const addAimedOrb = lv >= 6 && aimedOrbTime >= aimedOrbWait.get(mode);
+  const addWallOrb = lv >= 7 && wallOrbTime >= wallOrbWait.get(mode);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
@@ -144,6 +168,7 @@ const stage10 = (
     addLazer ? spawnLazers(-pa) : [],
     addLandolt ? [spawnLandolt(mode, pa)] : [],
     addAimedOrb ? [spawnAimedOrb(aimedOrbAngle, px, py, aimedOrbColor)] : [],
+    addWallOrb ? spawnWallOrbs(mode, pa, pr, wallOrbOdd) : [],
   ].flat();
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
@@ -162,6 +187,8 @@ const stage10 = (
       addAimedOrb ? 0 : aimedOrbTime + 1,
       addAimedOrb ? aimedOrbAngle + 0.5 : aimedOrbAngle,
       addAimedOrb ? (aimedOrbColor + 1) % colors.length : aimedOrbColor,
+      addWallOrb ? 0 : wallOrbTime + 1,
+      addWallOrb ? !wallOrbOdd : wallOrbOdd,
     ),
     evt: nextEvt,
   };
