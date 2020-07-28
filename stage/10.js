@@ -10,7 +10,7 @@ import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 
 const {
-  pi, pi2, infinity, cos, sin, random,
+  pi, infinity, cos, sin, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -52,7 +52,11 @@ const lazerWait = new Map([
 
 const spawnLazers = (angle) => [...Array(4)].map((_, index) => {
   const a = angle + index * (pi / 2);
-  return lazer(center + boardRadius * cos(a), center + boardRadius * sin(a), a + 1.125 * pi);
+  return lazer(
+    center + boardRadius * cos(a),
+    center + boardRadius * sin(a),
+    a + 1.125 * pi,
+  );
 });
 
 const gravityForce = new Map([
@@ -75,9 +79,10 @@ const landoltParams = new Map([
 
 const spawnLandolt = (mode, pa) => {
   const { speed, hole, width } = landoltParams.get(mode);
-  const x = center + boardRadius * 0.5 * cos(pi - pa);
-  const y = center + boardRadius * 0.5 * sin(pi - pa);
-  return landolt(x, y, random() * pi2, 1, random() < 0.5 ? -0.03 : 0.03, speed, hole, width);
+  const a = -pa - pi * 0.8;
+  const x = center + boardRadius * 0.5 * cos(a);
+  const y = center + boardRadius * 0.5 * sin(a);
+  return landolt(x, y, -pa, 1, 0.03, speed, hole, width);
 };
 
 const nextEvent = makeNextEvent((mode, level) => {
@@ -91,21 +96,24 @@ const nextEvent = makeNextEvent((mode, level) => {
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
 
 const stage10 = (
-  evtTime = 30, orbTime = 0, lazerTime = 0, landoltTime = 0,
+  evtTime = 30,
+  swimOrbTime = 0,
+  lazerTime = 0,
+  landoltTime = 0,
 ) => (mode, level, levelUp, {
   enemies, px, py, pa, playerInvincible, evt,
 }) => {
   const lv = (level - 1) % 10;
-  const wait1 = swimOrbWait.get(mode);
-  const wait3 = lazerWait.get(mode);
-  const wait5 = landoltWait.get(mode);
+  const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode);
+  const addLazer = lv >= 2 && lazerTime >= lazerWait.get(mode);
+  const addLandolt = lv >= 4 && landoltTime >= landoltWait.get(mode);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    orbTime >= wait1 ? [spawnOrb(mode, pa)] : [],
-    lv >= 2 && lazerTime >= wait3 ? spawnLazers(random() * pi) : [],
-    lv >= 4 && landoltTime >= wait5 ? [spawnLandolt(mode, pa)] : [],
+    addSwimOrb ? [spawnOrb(mode, pa)] : [],
+    addLazer ? spawnLazers(-pa) : [],
+    addLandolt ? [spawnLandolt(mode, pa)] : [],
   ].flat();
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
@@ -118,9 +126,9 @@ const stage10 = (
     enemies: nextEnemies,
     nextStage: stage10(
       nextEvtTime,
-      orbTime >= wait1 ? 0 : orbTime + 1,
-      lv >= 2 && lazerTime >= wait3 ? 0 : lazerTime + 1,
-      lv >= 4 && landoltTime >= wait5 ? 0 : landoltTime + 1,
+      addSwimOrb ? 0 : swimOrbTime + 1,
+      addLazer ? 0 : lazerTime + 1,
+      addLandolt ? 0 : landoltTime + 1,
     ),
     evt: nextEvt,
   };
