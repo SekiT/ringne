@@ -46,9 +46,9 @@ const rotateSpeed = new Map([
 ]);
 
 const lazerWait = new Map([
-  [modes.easy, 350],
-  [modes.normal, 250],
-  [modes.hard, 200],
+  [modes.easy, 500],
+  [modes.normal, 350],
+  [modes.hard, 250],
 ]);
 
 const spawnLazers = (angle) => [...Array(4)].map((_, index) => {
