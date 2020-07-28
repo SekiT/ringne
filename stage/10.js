@@ -1,5 +1,5 @@
 import { center, boardRadius } from '@/view/canvas';
-import { swimOrb } from '@/enemy/orb';
+import { swimOrb, linearOrb } from '@/enemy/orb';
 import { lazer } from '@/enemy/lazer';
 import { landolt } from '@/enemy/landolt';
 import none from '@/event/none';
@@ -11,7 +11,7 @@ import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 
 const {
-  pi, infinity, cos, sin, random,
+  pi, infinity, cos, sin, atan2, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -94,6 +94,21 @@ const swapSpeed = new Map([
 
 const limeOrb = (enemy) => ({ ...enemy, color: 'lime' });
 
+const aimedOrbWait = new Map([
+  [modes.easy, 35],
+  [modes.normal, 20],
+  [modes.hard, 15],
+]);
+
+const colors = ['red', 'yellow', 'lime', 'cyan', 'blue', 'magenta'];
+
+const spawnAimedOrb = (angle, px, py, colorIndex) => {
+  const x = center + boardRadius * cos(angle);
+  const y = center + boardRadius * sin(angle);
+  const a = atan2(py - y, px - x);
+  return linearOrb(x, y, a, 1, 6, 'white', colors[colorIndex]);
+};
+
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
     return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
@@ -112,6 +127,7 @@ const stage10 = (
   swimOrbTime = 0,
   lazerTime = 0,
   landoltTime = 0,
+  aimedOrbTime = 0, aimedOrbAngle = 0, aimedOrbColor = 0,
 ) => (mode, level, levelUp, {
   enemies, px, py, pa, playerInvincible, evt,
 }) => {
@@ -119,6 +135,7 @@ const stage10 = (
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode);
   const addLazer = lv >= 2 && lazerTime >= lazerWait.get(mode);
   const addLandolt = lv >= 4 && landoltTime >= landoltWait.get(mode);
+  const addAimedOrb = lv >= 6 && aimedOrbTime >= aimedOrbWait.get(mode);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
@@ -126,6 +143,7 @@ const stage10 = (
     addSwimOrb ? [spawnOrb(mode, pa)] : [],
     addLazer ? spawnLazers(-pa) : [],
     addLandolt ? [spawnLandolt(mode, pa)] : [],
+    addAimedOrb ? [spawnAimedOrb(aimedOrbAngle, px, py, aimedOrbColor)] : [],
   ].flat();
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
@@ -141,6 +159,9 @@ const stage10 = (
       addSwimOrb ? 0 : swimOrbTime + 1,
       addLazer ? 0 : lazerTime + 1,
       addLandolt ? 0 : landoltTime + 1,
+      addAimedOrb ? 0 : aimedOrbTime + 1,
+      addAimedOrb ? aimedOrbAngle + 0.5 : aimedOrbAngle,
+      addAimedOrb ? (aimedOrbColor + 1) % colors.length : aimedOrbColor,
     ),
     evt: nextEvt,
   };
