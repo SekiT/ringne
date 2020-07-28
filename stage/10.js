@@ -11,7 +11,7 @@ import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 
 const {
-  pi, infinity, trunc, cos, sin, atan2, random,
+  pi, pi2, infinity, trunc, cos, sin, atan2, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -131,6 +131,32 @@ const spawnWallOrbs = (mode, pa, pr, odd) => {
   ));
 };
 
+const radialOrbWait = new Map([
+  [modes.easy, 150],
+  [modes.normal, 100],
+  [modes.hard, 80],
+]);
+
+const radialOrbParams = new Map([
+  [modes.easy, { speed: 0.8, length: 8 }],
+  [modes.normal, { speed: 0.9, length: 12 }],
+  [modes.hard, { speed: 1, length: 16 }],
+]);
+
+const spawnRadialOrbs = (mode, angle) => {
+  const { speed, length } = radialOrbParams.get(mode);
+  const da = pi2 / length;
+  return [...Array(length)].map((_, index) => linearOrb(
+    center,
+    center,
+    angle + index * da,
+    speed,
+    6,
+    'white',
+    'blue',
+  ));
+};
+
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
     return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
@@ -151,15 +177,17 @@ const stage10 = (
   landoltTime = 0,
   aimedOrbTime = 0, aimedOrbAngle = 0, aimedOrbColor = 0,
   wallOrbTime = 0, wallOrbOdd = false,
+  radialOrbTime = 0, radialOrbAngle = 0,
 ) => (mode, level, levelUp, {
   enemies, px, py, pa, pr, playerInvincible, evt,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode);
-  const addLazer = lv >= 2 && lazerTime >= lazerWait.get(mode);
+  const addLazer = lv >= 2 && lv <= 7 && lazerTime >= lazerWait.get(mode);
   const addLandolt = lv === 4 && landoltTime >= landoltWait.get(mode);
   const addAimedOrb = lv >= 6 && aimedOrbTime >= aimedOrbWait.get(mode);
   const addWallOrb = lv >= 7 && wallOrbTime >= wallOrbWait.get(mode);
+  const addRadialOrb = lv >= 8 && radialOrbTime >= radialOrbWait.get(mode);
   const nextEnemies = [
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
@@ -169,6 +197,7 @@ const stage10 = (
     addLandolt ? [spawnLandolt(mode, pa)] : [],
     addAimedOrb ? [spawnAimedOrb(aimedOrbAngle, px, py, aimedOrbColor)] : [],
     addWallOrb ? spawnWallOrbs(mode, pa, pr, wallOrbOdd) : [],
+    addRadialOrb ? spawnRadialOrbs(mode, radialOrbAngle) : [],
   ].flat();
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
@@ -189,6 +218,8 @@ const stage10 = (
       addAimedOrb ? (aimedOrbColor + 1) % colors.length : aimedOrbColor,
       addWallOrb ? 0 : wallOrbTime + 1,
       addWallOrb ? !wallOrbOdd : wallOrbOdd,
+      addRadialOrb ? 0 : radialOrbTime + 1,
+      addRadialOrb ? radialOrbAngle : radialOrbAngle - 0.3,
     ),
     evt: nextEvt,
   };
