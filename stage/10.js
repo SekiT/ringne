@@ -3,6 +3,7 @@ import { swimOrb } from '@/enemy/orb';
 import { lazer } from '@/enemy/lazer';
 import none from '@/event/none';
 import rotate from '@/event/rotate';
+import gravity from '@/event/gravity';
 import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
@@ -48,6 +49,12 @@ const lazerWait = new Map([
   [modes.hard, 200],
 ]);
 
+const gravityForce = new Map([
+  [modes.easy, 1],
+  [modes.normal, 1.3],
+  [modes.hard, 1.7],
+]);
+
 const spawnLazers = (angle) => [...Array(4)].map((_, index) => {
   const a = angle + index * (pi / 2);
   return lazer(center + boardRadius * cos(a), center + boardRadius * sin(a), a + 1.125 * pi);
@@ -55,10 +62,10 @@ const spawnLazers = (angle) => [...Array(4)].map((_, index) => {
 
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
-    return {
-      ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity),
-      wait: 60,
-    };
+    return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
+  }
+  if (level === 3) {
+    return { ...gravity(gravityForce.get(mode), infinity), wait: 60 };
   }
   return none();
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
@@ -78,7 +85,7 @@ const stage10 = (evtTime = 30, orbTime = 0, lazerTime = 0) => (mode, level, leve
   ].flat();
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
-    : { nextEvt: none(), nextEvtTime: evtTime };
+    : { nextEvt: none(), nextEvtTime: 0 };
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
     nextStage: stage10(),
