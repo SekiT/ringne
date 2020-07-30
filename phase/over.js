@@ -55,6 +55,8 @@ const drawResult = (mode, deaths, timeText, opacity) => {
   context.save();
   context.beginPath();
   context.fillStyle = `rgba(0, 0, 0, ${opacity})`;
+  context.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  context.shadowBlur = 10;
   context.font = `${canvasWidth / 20}px serif`;
   context.textAlign = 'center';
   context.fillText(`Mode: ${modeToText.get(mode)}`, center, center + canvasWidth * 0.1);
