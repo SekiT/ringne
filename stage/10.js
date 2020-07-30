@@ -6,6 +6,7 @@ import none from '@/event/none';
 import rotate from '@/event/rotate';
 import gravity from '@/event/gravity';
 import swap from '@/event/swap';
+import memorial from '@/event/memorial';
 import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
@@ -167,8 +168,21 @@ const nextEvent = makeNextEvent((mode, level) => {
   if (level === 5) {
     return { ...swap(swapSpeed.get(mode), mode === modes.hard ? 30 : 60), wait: 60 };
   }
+  if (level === 9) {
+    return memorial();
+  }
   return none();
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
+
+const handleLevelUp = (lv, enemies) => {
+  if (lv === 6) {
+    return enemies.map(limeOrb);
+  }
+  if (lv === 9) {
+    return vanishOrAgeEnemies(enemies);
+  }
+  return enemies;
+};
 
 const stage10 = (
   evtTime = 30,
@@ -188,10 +202,7 @@ const stage10 = (
   const addAimedOrb = lv >= 6 && aimedOrbTime >= aimedOrbWait.get(mode);
   const addWallOrb = lv >= 7 && wallOrbTime >= wallOrbWait.get(mode);
   const addRadialOrb = lv >= 8 && radialOrbTime >= radialOrbWait.get(mode);
-  const nextEnemies = [
-    playerInvincible > 0
-      ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
-      : enemies,
+  const addedEnemies = lv === 9 ? [] : [
     addSwimOrb ? [spawnOrb(mode, pa)] : [],
     addLazer ? spawnLazers(-pa) : [],
     addLandolt ? [spawnLandolt(mode, pa)] : [],
@@ -199,15 +210,15 @@ const stage10 = (
     addWallOrb ? spawnWallOrbs(mode, pa, pr, wallOrbOdd) : [],
     addRadialOrb ? spawnRadialOrbs(mode, radialOrbAngle) : [],
   ].flat();
+  const nextEnemies = (playerInvincible > 0
+    ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
+    : enemies
+  ).concat(addedEnemies);
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
     : { nextEvt: none(), nextEvtTime: 30 };
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage10(),
-    evt: none(),
-  } : {
-    enemies: levelUp && lv === 6 ? nextEnemies.map(limeOrb) : nextEnemies,
+  return {
+    enemies: levelUp ? handleLevelUp(lv, nextEnemies) : nextEnemies,
     nextStage: stage10(
       nextEvtTime,
       addSwimOrb ? 0 : swimOrbTime + 1,

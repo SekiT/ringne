@@ -4,4 +4,5 @@ export default {
   gravity: {},
   swap: {},
   mirror: {},
+  memorial: {},
 };
