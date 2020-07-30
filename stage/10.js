@@ -1,4 +1,5 @@
 import { center, boardRadius } from '@/view/canvas';
+import enemyIds from '@/enemy/ids';
 import { swimOrb, linearOrb } from '@/enemy/orb';
 import { lazer } from '@/enemy/lazer';
 import { landolt } from '@/enemy/landolt';
@@ -12,7 +13,7 @@ import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 
 const {
-  pi, pi2, infinity, trunc, cos, sin, atan2, random,
+  pi, pi2, infinity, max, trunc, cos, sin, atan2, random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -93,8 +94,6 @@ const swapSpeed = new Map([
   [modes.hard, 2],
 ]);
 
-const limeOrb = (enemy) => ({ ...enemy, color: 'lime' });
-
 const aimedOrbWait = new Map([
   [modes.easy, 35],
   [modes.normal, 20],
@@ -160,10 +159,10 @@ const spawnRadialOrbs = (mode, angle) => {
 
 const nextEvent = makeNextEvent((mode, level) => {
   if (level === 1) {
-    return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 60 };
+    return { ...rotate((random() < 0.5 ? -1 : 1) * rotateSpeed.get(mode), infinity), wait: 120 };
   }
   if (level === 3) {
-    return { ...gravity(gravityForce.get(mode), infinity), wait: 60 };
+    return { ...gravity(gravityForce.get(mode), infinity), wait: 120 };
   }
   if (level === 5) {
     return { ...swap(swapSpeed.get(mode), mode === modes.hard ? 30 : 60), wait: 60 };
@@ -176,7 +175,17 @@ const nextEvent = makeNextEvent((mode, level) => {
 
 const handleLevelUp = (lv, enemies) => {
   if (lv === 6) {
-    return enemies.map(limeOrb);
+    return enemies.map((enemy) => (
+      enemy.id === enemyIds.swimOrb ? { ...enemy, color: 'lime' } : enemy
+    ));
+  }
+  if (lv === 5) {
+    return enemies.filter(({ id }) => id !== enemyIds.landolt);
+  }
+  if (lv === 8) {
+    return enemies.map((enemy) => (
+      enemy.id === enemyIds.lazer ? { ...enemy, time: max(enemy.time, 155) } : enemy
+    ));
   }
   if (lv === 9) {
     return vanishOrAgeEnemies(enemies);
