@@ -4,10 +4,13 @@ import makeEvent from './makeEvent';
 
 const { pi2, infinity } = dependencies.globals;
 
-const inputEffect = ({ deaths, pa }, evt) => ({
-  pa: evt.props.done ? pa : pa - deaths * pi2,
-  evt: { ...evt, props: { done: true } },
-});
+const inputEffect = ({ deaths, pa }, evt) => {
+  const { props: { done, speed } } = evt;
+  return {
+    pa: done ? pa + speed : pa + speed - deaths * pi2,
+    evt: { ...evt, props: { done: true, speed: speed + 0.0001 } },
+  };
+};
 
 export default () => makeEvent({
   id: ids.memorial,
@@ -15,5 +18,5 @@ export default () => makeEvent({
   wait: 300,
   duration: infinity,
   inputEffect,
-  props: { done: false },
+  props: { done: false, speed: 0 },
 });
