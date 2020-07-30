@@ -25,10 +25,11 @@ export const canvasContext = canvasElement.getContext('2d');
 const outlineElement = canvasElement.cloneNode();
 const outlineContext = outlineElement.getContext('2d');
 
-export const canvasView = view({ width: 0 }, (render) => ({ width }) => {
+export const canvasView = view({ width: 0, opacity: 1 }, (render) => ({ width, opacity }) => {
   const additionalStyle = {
     width: `${width}px`,
     height: `${width}px`,
+    opacity,
   };
   Object.assign(canvasElement.style, additionalStyle);
   Object.assign(outlineElement.style, additionalStyle);

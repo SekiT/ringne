@@ -55,24 +55,6 @@ const movePlayer = ({
   },
 });
 
-const handleLevelUp = ({ practice, pa, level }) => {
-  const levelUp = pa >= pi2;
-  const nextLevel = level + (levelUp ? 1 : 0);
-  return practice && levelUp && nextLevel % 10 === 1 ? {
-    returns: {
-      nextId: ids.title,
-      nextArgs: [],
-      stateUpdate: {},
-    },
-  } : {
-    state: {
-      pa: pa - (levelUp ? pi2 : 0),
-      level: nextLevel,
-      levelUp,
-    },
-  };
-};
-
 const drawBoard = () => {
   drawBackground();
   drawTape();
@@ -86,6 +68,42 @@ const playerPosition = ({ pa, pr }) => ({
     py: center + pr * sin(-pa),
   },
 });
+
+const handleLevelUp = ({
+  practice, pa, pr, level, deaths, frames,
+}) => {
+  const levelUp = pa >= pi2;
+  const nextLevel = level + (levelUp ? 1 : 0);
+  if (practice && levelUp && nextLevel % 10 === 1) {
+    return {
+      returns: {
+        nextId: ids.title,
+        nextArgs: [],
+        stateUpdate: {},
+      },
+    };
+  }
+  if (level === 101 && deaths < 100) {
+    drawGuide(pa);
+    const { state: { px, py } } = playerPosition({ pa, pr });
+    drawPlayer(px, py);
+    drawCenterDot();
+    return {
+      returns: {
+        nextId: ids.over,
+        nextArgs: [],
+        stateUpdate: { frames: frames + 1 },
+      },
+    };
+  }
+  return {
+    state: {
+      pa: levelUp ? pa % pi2 : pa,
+      level: nextLevel,
+      levelUp,
+    },
+  };
+};
 
 const drawPlayerIfNeeded = ({
   playerInvincible, pa, px, py,
@@ -169,7 +187,7 @@ const handleDeath = (state) => {
   const {
     level, mode, practice, stage, evt,
     playerAngle, playerRadius, playerInvincible,
-    deaths, enemies,
+    deaths, frames, enemies,
     hit,
   } = state;
   if (hit && playerInvincible === 0) {
@@ -188,6 +206,7 @@ const handleDeath = (state) => {
           playerRadius,
           playerInvincible,
           deaths: deaths + 1,
+          frames: frames + 1,
           enemies,
         },
       },
@@ -200,7 +219,7 @@ const toNextFrame = ({
   pauseTime,
   level, mode, practice, stage, evt,
   playerAngle, playerRadius, playerInvincible,
-  deaths, enemies,
+  deaths, frames, enemies,
 }) => ({
   returns: {
     nextId: ids.main,
@@ -215,6 +234,7 @@ const toNextFrame = ({
       playerRadius,
       playerInvincible: max(playerInvincible - 1, 0),
       deaths,
+      frames: frames + 1,
       enemies,
     },
   },

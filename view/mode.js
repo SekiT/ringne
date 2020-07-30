@@ -15,7 +15,7 @@ const initialState = {
   w: 0,
 };
 
-const modeToText = new Map([
+export const modeToText = new Map([
   [modes.easy, 'EASY'],
   [modes.normal, 'NORMAL'],
   [modes.hard, 'HARD'],

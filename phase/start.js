@@ -61,6 +61,6 @@ export default (time = 0) => ({
   } : {
     nextId: ids.main,
     nextArgs: [],
-    stateUpdate: {},
+    stateUpdate: { frames: 0 },
   };
 };

@@ -13,5 +13,6 @@ export default () => ({
   playerRadius: boardRadius / 2,
   playerInvincible: 0,
   deaths: 0,
+  frames: 0,
   enemies: [],
 });

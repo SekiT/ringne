@@ -5,4 +5,5 @@ export default {
   main: {},
   pause: {},
   death: {},
+  over: {},
 };
