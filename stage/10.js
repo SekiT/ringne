@@ -165,7 +165,7 @@ const nextEvent = makeNextEvent((mode, level) => {
     return { ...gravity(gravityForce.get(mode), infinity), wait: 60 };
   }
   if (level === 5) {
-    return { ...swap(swapSpeed.get(mode), 30), wait: 60 };
+    return { ...swap(swapSpeed.get(mode), mode === modes.hard ? 30 : 60), wait: 60 };
   }
   return none();
 }, new Map([[modes.easy, 0], [modes.normal, 0], [modes.hard, 0]]));
