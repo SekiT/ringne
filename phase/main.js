@@ -1,6 +1,6 @@
 import dependencies from 'dependencies';
 import {
-  center, boardRadius, canvasContext,
+  center, boardRadius, canvasContext, clearCanvas,
   drawBackground, drawTape, drawGuide, drawPlayer, drawCenterDot, drawOutline, drawEventGauge,
 } from '@/view/canvas';
 import getInputs from '@/state/input';
@@ -15,6 +15,10 @@ import initialState from './initialState';
 const {
   pi2, cos, sin, min, max, random,
 } = dependencies.globals;
+
+const clearCanvasOrNot = ({ frames }) => (
+  (frames % 10 === 0 && clearCanvas(), {})
+);
 
 const getInputsIntoState = () => ({ state: getInputs() });
 
@@ -241,6 +245,7 @@ const toNextFrame = ({
 });
 
 export default (pauseTime = 0) => (previousState) => [
+  clearCanvasOrNot,
   getInputsIntoState,
   handleEscape,
   handlePause,
