@@ -135,7 +135,7 @@ const runAfterEffect = ({ evt }) => {
     eventTime, duration, waitTime, wait, afterEffect, props,
   } = evt;
   const eventActive = waitTime >= wait;
-  drawEventGauge(eventActive ? (1 - eventTime / duration) : waitTime / wait);
+  drawEventGauge(eventActive ? 1 - eventTime / duration : waitTime / wait);
   return {
     state: {
       evt: {
