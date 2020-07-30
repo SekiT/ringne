@@ -4,6 +4,7 @@ import none from '@/event/none';
 import dependencies from 'dependencies';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies } from './util';
 import modes from './modes';
+import stage10 from './10';
 
 const { pi, pi2, trunc } = dependencies.globals;
 
@@ -45,7 +46,7 @@ const stage9 = (orbTime = 0, orbAngle = 0) => (mode, level, levelUp, {
   ].flat();
   return levelUp && level % 10 === 1 ? {
     enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage9(),
+    nextStage: stage10(),
     evt: none(),
   } : {
     enemies: nextEnemies,
