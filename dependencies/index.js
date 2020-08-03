@@ -18,7 +18,7 @@ export default {
     random: Math.random,
     now: Date.now,
     window,
-    setTimeout,
+    requestAnimationFrame,
     document,
   },
 };

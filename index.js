@@ -1,5 +1,5 @@
 import dependencies from './dependencies';
-import { runPhase, idealTimeout } from './lib/runPhase';
+import runPhase from './lib/runPhase';
 import indexPhase from './phase/index';
 import initialState from './phase/initialState';
 import titlePhase from './phase/title';
@@ -25,4 +25,4 @@ bind(document.body)`
   ${modeButtonsView.render()}
 `;
 
-runPhase(indexPhase(titlePhase(), initialState()), idealTimeout);
+runPhase(indexPhase(titlePhase(), initialState()));

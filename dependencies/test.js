@@ -20,7 +20,7 @@ export default {
     atan2: Math.atan2,
     random: shadow(Math.random),
     now: shadow(Date.now),
-    setTimeout: shadow(setTimeout),
+    requestAnimationFrame: shadow(() => {}),
     window: shadow({
       innerWidth: 0,
       innerHeight: 0,
