@@ -8,7 +8,7 @@ const { min, trunc } = dependencies.globals;
 
 const initialState = {
   mode: modes.normal,
-  fps: 60,
+  fpsText: '60.00',
   appearance: 0,
   x: 0,
   y: 0,
