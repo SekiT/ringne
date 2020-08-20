@@ -43,9 +43,6 @@ const stage1 = (swimOrbTime = 0, linearOrbTime = 0) => (mode, level, levelUp, st
   const {
     enemies, evt, px, py, pa, playerInvincible,
   } = state;
-  if (levelUp && level === 11) {
-    return { enemies: vanishOrAgeEnemies(enemies), nextStage: stage2(), evt };
-  }
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(level);
   const addLinearOrb = addOrNotLinearOrb.get(mode)(level, linearOrbTime);
   const nextEnemies = [
@@ -73,7 +70,7 @@ const stage1 = (swimOrbTime = 0, linearOrbTime = 0) => (mode, level, levelUp, st
     ] : [],
   ].flat();
   return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(enemies), nextStage: stage2(), evt,
+    enemies: vanishOrAgeEnemies(nextEnemies), nextStage: stage2(), evt,
   } : {
     enemies: nextEnemies,
     nextStage: stage1(addSwimOrb ? 0 : swimOrbTime + 1, addLinearOrb ? 0 : linearOrbTime + 1),
