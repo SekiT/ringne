@@ -21,11 +21,11 @@
   "homepage": "https://sekit.github.io/ringne/",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.1",
-    "eslint": "^7.10.0",
+    "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.22.1",
-    "rollup": "^2.28.2",
+    "rollup": "^2.30.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
