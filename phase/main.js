@@ -83,7 +83,16 @@ const handleLevelUp = ({
       },
     };
   }
-  if (level === 101 && deaths < 100) {
+  if (level === 101) {
+    if (deaths >= 100) {
+      return {
+        returns: {
+          nextId: ids.title,
+          nextArgs: [],
+          stateUpdate: {},
+        },
+      };
+    }
     drawGuide(pa);
     const { state: { px, py } } = playerPosition({ pa, pr });
     drawPlayer(px, py);
