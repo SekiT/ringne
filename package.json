@@ -25,7 +25,7 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.22.1",
-    "rollup": "^2.33.3",
+    "rollup": "^2.34.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
