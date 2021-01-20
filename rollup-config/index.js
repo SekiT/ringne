@@ -1,5 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve';
-import { terser } from 'rollup-plugin-terser';
+import esbuild from 'rollup-plugin-esbuild';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import alias from './alias';
@@ -11,7 +11,7 @@ const commonPlugins = [
 ];
 
 const envDependentPlugins = process.env.PRODUCTION ? [
-  terser(),
+  esbuild({ minify: true }),
   unbreak(),
 ] : [
   serve({ contentBase: 'build', open: true }),
