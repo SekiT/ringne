@@ -1,4 +1,4 @@
-import { view } from '@/lib/view';
+import view from '@/lib/view';
 import modes from '@/stage/modes';
 import { buttonIds, pushClick } from '@/state/buttonClicks';
 import windowSize from '@/subject/windowSize';

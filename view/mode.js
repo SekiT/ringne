@@ -1,4 +1,4 @@
-import { view } from '@/lib/view';
+import view from '@/lib/view';
 import windowSize from '@/subject/windowSize';
 import fps from '@/subject/fps';
 import modes from '@/stage/modes';

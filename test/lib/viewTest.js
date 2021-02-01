@@ -1,7 +1,7 @@
 import { test } from 'tape';
 import dependencies from 'dependencies';
 import { mockFunction, resetMock } from '@/lib/shadow';
-import { view } from '@/lib/view';
+import view from '@/lib/view';
 
 const { hyperhtml } = dependencies;
 
