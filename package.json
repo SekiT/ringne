@@ -21,7 +21,7 @@
   "homepage": "https://sekit.github.io/ringne/",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.2",
-    "esbuild": "^0.8.46",
+    "esbuild": "^0.8.50",
     "eslint": "^7.20.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -32,9 +32,9 @@
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-serve": "^1.1.0",
-    "tape": "^5.1.1"
+    "tape": "^5.2.0"
   },
   "dependencies": {
-    "hyperhtml": "^2.33.0"
+    "hyperhtml": "^2.34.0"
   }
 }
