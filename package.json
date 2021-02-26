@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/SekiT/ringne/issues"
   },
-  "homepage": "https://sekit.github.io/ringne/",
+  "homepage": "https://SekiT.github.io/ringne/",
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-multi-entry": "^4.0.0",
