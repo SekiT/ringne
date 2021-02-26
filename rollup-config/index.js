@@ -1,4 +1,4 @@
-import resolve from 'rollup-plugin-node-resolve';
+import resolve from '@rollup/plugin-node-resolve';
 import esbuild from 'rollup-plugin-esbuild';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
