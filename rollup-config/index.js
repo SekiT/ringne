@@ -3,7 +3,7 @@ import esbuild from 'rollup-plugin-esbuild';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import alias from './alias';
-import unbreak from './unbreakTemplate';
+import minifyTemplate from './minifyTemplate';
 
 const commonPlugins = [
   resolve(),
@@ -12,7 +12,7 @@ const commonPlugins = [
 
 const envDependentPlugins = process.env.PRODUCTION ? [
   esbuild({ minify: true }),
-  unbreak(),
+  minifyTemplate(),
 ] : [
   serve({ contentBase: 'build', open: true }),
   livereload(),
