@@ -1,3 +1,4 @@
+import dependencies from 'dependencies';
 import levelView from '@/view/level';
 import modeView from '@/view/mode';
 import deathsView from '@/view/deaths';
@@ -9,7 +10,6 @@ import {
   drawBackground, drawTape, drawGuide, drawPlayer,
   drawCenterDot, drawOutline,
 } from '@/view/canvas';
-import dependencies from 'dependencies';
 import ids from './ids';
 
 const {

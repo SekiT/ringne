@@ -1,3 +1,4 @@
+import dependencies from 'dependencies';
 import {
   canvasContext as context, center, canvasWidth, clearCanvas,
 } from '@/view/canvas';
@@ -9,7 +10,6 @@ import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
 import stage1 from '@/stage/1';
-import dependencies from 'dependencies';
 import ids from './ids';
 import initialState from './initialState';
 

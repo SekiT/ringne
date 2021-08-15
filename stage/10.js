@@ -1,3 +1,4 @@
+import dependencies from 'dependencies';
 import { center, boardRadius } from '@/view/canvas';
 import enemyIds from '@/enemy/ids';
 import { swimOrb, linearOrb } from '@/enemy/orb';
@@ -8,7 +9,6 @@ import rotate from '@/event/rotate';
 import gravity from '@/event/gravity';
 import swap from '@/event/swap';
 import memorial from '@/event/memorial';
-import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies, makeNextEvent } from './util';
 

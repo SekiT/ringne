@@ -1,5 +1,5 @@
-import { canvasWidth } from '@/view/canvas';
 import dependencies from 'dependencies';
+import { canvasWidth } from '@/view/canvas';
 import ids from './ids';
 
 const {

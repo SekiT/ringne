@@ -1,6 +1,6 @@
+import dependencies from 'dependencies';
 import view from '@/lib/view';
 import windowSize from '@/subject/windowSize';
-import dependencies from 'dependencies';
 
 const { min } = dependencies.globals;
 

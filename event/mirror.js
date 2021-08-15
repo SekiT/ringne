@@ -1,8 +1,8 @@
+import dependencies from 'dependencies';
 import { center, drawPlayer, drawGuide } from '@/view/canvas';
 import enemyIds from '@/enemy/ids';
 import { hitTestOrb } from '@/enemy/orb';
 import { vanishByInvinciblePlayer } from '@/stage/util';
-import dependencies from 'dependencies';
 import ids from './ids';
 import makeEvent from './makeEvent';
 

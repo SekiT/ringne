@@ -1,5 +1,5 @@
-import { center, boardRadius } from '@/view/canvas';
 import dependencies from 'dependencies';
+import { center, boardRadius } from '@/view/canvas';
 import ids from './ids';
 
 const {

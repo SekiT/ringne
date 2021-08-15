@@ -1,8 +1,8 @@
+import dependencies from 'dependencies';
 import { center } from '@/view/canvas';
 import enemyIds from '@/enemy/ids';
 import eventIds from '@/event/ids';
 import none from '@/event/none';
-import dependencies from 'dependencies';
 
 const { max, cos, sin } = dependencies.globals;
 

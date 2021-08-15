@@ -1,3 +1,4 @@
+import dependencies from 'dependencies';
 import stageButtonsView from '@/view/title/stageButtons';
 import modeButtonsView from '@/view/title/modeButtons';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
@@ -12,7 +13,6 @@ import stage7 from '@/stage/7';
 import stage8 from '@/stage/8';
 import stage9 from '@/stage/9';
 import stage10 from '@/stage/10';
-import dependencies from 'dependencies';
 import ids from './ids';
 
 const { min } = dependencies.globals;

@@ -1,5 +1,5 @@
-import { pushTime } from '@/subject/fps';
 import dependencies from 'dependencies';
+import { pushTime } from '@/subject/fps';
 import ids from './ids';
 import title from './title';
 import start from './start';

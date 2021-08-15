@@ -1,6 +1,6 @@
+import dependencies from 'dependencies';
 import { center, boardRadius } from '@/view/canvas';
 import { swimOrb, linearOrb } from '@/enemy/orb';
-import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishOrAgeEnemies, vanishByInvinciblePlayer } from './util';
 import stage2 from './2';

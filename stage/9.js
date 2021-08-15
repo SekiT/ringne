@@ -1,7 +1,7 @@
+import dependencies from 'dependencies';
 import { center } from '@/view/canvas';
 import { swimOrb, linearOrb, orbToCenter } from '@/enemy/orb';
 import none from '@/event/none';
-import dependencies from 'dependencies';
 import { vanishByInvinciblePlayer, vanishOrAgeEnemies } from './util';
 import modes from './modes';
 import stage10 from './10';

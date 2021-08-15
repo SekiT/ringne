@@ -1,6 +1,6 @@
+import dependencies from 'dependencies';
 import { boardRadius } from '@/view/canvas';
 import enemyIds from '@/enemy/ids';
-import dependencies from 'dependencies';
 import makeEvent from './makeEvent';
 import ids from './ids';
 

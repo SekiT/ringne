@@ -1,8 +1,8 @@
+import dependencies from 'dependencies';
 import { boardRadius } from '@/view/canvas';
 import { swimOrb } from '@/enemy/orb';
 import rotate from '@/event/rotate';
 import none from '@/event/none';
-import dependencies from 'dependencies';
 import modes from './modes';
 import { vanishOrAgeEnemies, vanishByInvinciblePlayer, makeNextEvent } from './util';
 import stage3 from './3';

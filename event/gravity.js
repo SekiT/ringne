@@ -1,5 +1,5 @@
-import enemyIds from '@/enemy/ids';
 import dependencies from 'dependencies';
+import enemyIds from '@/enemy/ids';
 import makeEvent from './makeEvent';
 import ids from './ids';
 

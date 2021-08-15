@@ -1,3 +1,4 @@
+import dependencies from 'dependencies';
 import {
   canvasView, canvasContext as context, canvasWidth, center, boardRadius, clearCanvas,
 } from '@/view/canvas';
@@ -5,7 +6,6 @@ import levelView from '@/view/level';
 import modeView, { modeToText } from '@/view/mode';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
-import dependencies from 'dependencies';
 import ids from './ids';
 
 const { pi2, min, trunc } = dependencies.globals;

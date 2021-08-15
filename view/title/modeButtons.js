@@ -1,8 +1,8 @@
+import dependencies from 'dependencies';
 import view from '@/lib/view';
 import modes from '@/stage/modes';
 import { buttonIds, pushClick } from '@/state/buttonClicks';
 import windowSize from '@/subject/windowSize';
-import dependencies from 'dependencies';
 
 const { min } = dependencies.globals;
 
