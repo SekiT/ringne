@@ -1,9 +1,8 @@
 import dependencies from 'dependencies';
 import view from '@/lib/view';
-import windowSize from '@/subject/windowSize';
 
 const {
-  pi2, min, cos, sin, document,
+  pi2, cos, sin, document,
 } = dependencies.globals;
 
 export const boardRadius = 200;
@@ -18,6 +17,8 @@ Object.assign(canvasElement.style, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
+  width: 'min(70vw, 70vh)',
+  height: 'min(70vw, 70vh)',
 });
 
 export const canvasContext = canvasElement.getContext('2d');
@@ -25,20 +26,10 @@ export const canvasContext = canvasElement.getContext('2d');
 const outlineElement = canvasElement.cloneNode();
 const outlineContext = outlineElement.getContext('2d');
 
-export const canvasView = view({ width: 0, opacity: 1 }, (render) => ({ width, opacity }) => {
-  const additionalStyle = {
-    width: `${width}px`,
-    height: `${width}px`,
-    opacity,
-  };
-  Object.assign(canvasElement.style, additionalStyle);
-  Object.assign(outlineElement.style, additionalStyle);
+export const canvasView = view({ width: 0, opacity: 1 }, (render) => ({ opacity }) => {
+  canvasElement.style.opacity = opacity;
+  outlineElement.style.opacity = opacity;
   return render`${canvasElement}${outlineElement}`;
-});
-
-windowSize.subscribe(({ width: w, height: h }) => {
-  const width = min(w, h) * 0.7;
-  canvasView.update(() => ({ width }));
 });
 
 export const clearCanvas = () => {

@@ -1,27 +1,20 @@
-import dependencies from 'dependencies';
 import view from '@/lib/view';
-import windowSize from '@/subject/windowSize';
-
-const { min } = dependencies.globals;
 
 const initialState = {
   name: '-',
   appearance: 0,
-  x: 0,
-  y: 0,
-  w: 0,
 };
 
-const eventView = view(initialState, (render) => ({
-  name, appearance, x, y, w,
-}) => {
-  const positionStyle = {
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: `${w}px`,
-    height: `${w}px`,
-  };
+const canvasWidth = 'min(70vw, 70vh)';
+const positionStyle = {
+  position: 'absolute',
+  left: `calc(50vw + ${canvasWidth} * 0.325)`,
+  top: `calc(50vh - ${canvasWidth} * 0.525)`,
+  width: `calc(${canvasWidth} * 0.2)`,
+  height: `calc(${canvasWidth} * 0.2)`,
+};
+
+const eventView = view(initialState, (render) => ({ name, appearance }) => {
   const ap = appearance * 100;
   const ap2 = ap / 2;
   const backgroundStyle = {
@@ -31,10 +24,10 @@ const eventView = view(initialState, (render) => ({
   };
   const textStyle = {
     position: 'absolute',
-    top: `${w / 10}px`,
-    right: `${w / 10}px`,
+    top: `calc(${canvasWidth} * 0.02)`,
+    right: `calc(${canvasWidth} * 0.02)`,
     textAlign: 'right',
-    fontSize: `${w / 5}px`,
+    fontSize: `calc(${canvasWidth} * 0.04)`,
     color: 'white',
     opacity: appearance,
   };
@@ -49,12 +42,3 @@ const eventView = view(initialState, (render) => ({
 });
 
 export default eventView;
-
-windowSize.subscribe(({ width, height }) => {
-  const canvasWidth = min(width, height) * 0.7;
-  eventView.update(() => ({
-    x: (width + canvasWidth * 0.65) / 2,
-    y: (height - canvasWidth * 1.05) / 2,
-    w: canvasWidth * 0.2,
-  }));
-});

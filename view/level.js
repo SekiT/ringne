@@ -1,28 +1,26 @@
 import dependencies from 'dependencies';
 import view from '@/lib/view';
-import windowSize from '@/subject/windowSize';
 
-const { pi2, min, trunc } = dependencies.globals;
+const { pi2, trunc } = dependencies.globals;
 
 const initialState = {
   level: 1,
   playerAngle: 0,
   appearance: 0,
-  x: 0,
-  y: 0,
-  w: 0,
+};
+
+const canvasWidth = 'min(70vw, 70vh)';
+const positionStyle = {
+  position: 'absolute',
+  left: `calc(50vw - ${canvasWidth} * 0.525)`,
+  top: `calc(50vh - ${canvasWidth} * 0.525)`,
+  width: `calc(${canvasWidth} * 0.2)`,
+  height: `calc(${canvasWidth} * 0.2)`,
 };
 
 const levelView = view(initialState, (render) => ({
-  level, playerAngle, appearance, x, y, w,
+  level, playerAngle, appearance,
 }) => {
-  const positionStyle = {
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: `${w}px`,
-    height: `${w}px`,
-  };
   const ap = appearance * 100;
   const ap2 = ap / 2;
   const backgroundStyle = {
@@ -33,8 +31,8 @@ const levelView = view(initialState, (render) => ({
   const foregroundStyle = {
     ...positionStyle,
     color: 'white',
-    fontSize: `${w / 5}px`,
-    margin: `${w / 10}px`,
+    fontSize: `calc(${canvasWidth} * 0.04)`,
+    margin: `calc(${canvasWidth} * 0.02)`,
     opacity: appearance,
   };
   const progress = trunc((playerAngle / pi2) * 100);
@@ -45,12 +43,3 @@ const levelView = view(initialState, (render) => ({
 });
 
 export default levelView;
-
-windowSize.subscribe(({ width, height }) => {
-  const canvasWidth = min(width, height) * 0.7;
-  levelView.update(() => ({
-    x: (width - canvasWidth * 1.05) / 2,
-    y: (height - canvasWidth * 1.05) / 2,
-    w: canvasWidth * 0.2,
-  }));
-});

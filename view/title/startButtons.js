@@ -2,9 +2,8 @@ import dependencies from 'dependencies';
 import view from '@/lib/view';
 import modes from '@/stage/modes';
 import { buttonIds, pushClick } from '@/state/buttonClicks';
-import windowSize from '@/subject/windowSize';
 
-const { min, max } = dependencies.globals;
+const { max } = dependencies.globals;
 
 const initialState = {
   startOpacity: 0,
@@ -15,45 +14,40 @@ const initialState = {
 
 const onClick = (id) => () => pushClick(id);
 
-const containerStyle = (top, fontSize, opacity) => ({
+const fontSize = 'min(3vw, 3vh)';
+
+const containerStyle = (opacity) => ({
   display: opacity > 0 ? 'block' : 'none',
   position: 'absolute',
   left: '50%',
-  top: `${top}px`,
+  top: 'calc(50vh + min(10vw, 10vh))',
   transform: 'translate(-50%, 0)',
   textAlign: 'center',
-  lineHeight: `${fontSize * 1.5}px`,
+  lineHeight: `calc(${fontSize} * 1.5)`,
   fontFamily: 'serif',
 });
 
-const startButtonStyle = (fontSize, opacity) => ({
+const startButtonStyle = (opacity) => ({
   outline: 'none',
   border: 'none',
-  margin: `${fontSize / 4}px 0 ${fontSize / 2}px`,
-  fontSize: `${fontSize}px`,
+  margin: `calc(${fontSize} / 4) 0 calc(${fontSize} / 2)`,
+  fontSize,
   color: 'white',
   backgroundColor: 'transparent',
   opacity,
 });
 
 const startButtonsView = view(initialState, (render) => ({
-  startOpacity, practiceOpacity, top, fontSize,
+  startOpacity, practiceOpacity,
 }) => render`
-  <div style=${containerStyle(top, fontSize, max(startOpacity, practiceOpacity))}>
+  <div style=${containerStyle(max(startOpacity, practiceOpacity))}>
     <button
-      style=${startButtonStyle(fontSize, startOpacity)}
+      style=${startButtonStyle(startOpacity)}
       onClick=${onClick(buttonIds.start)}>Start Game</button><br>
     <button
-      style=${startButtonStyle(fontSize, practiceOpacity)}
+      style=${startButtonStyle(practiceOpacity)}
       onClick=${onClick(buttonIds.practice)}>Practice</button><br>
   </div>
 `);
 
 export default startButtonsView;
-
-windowSize.subscribe(({ width, height }) => {
-  const minWidth = min(width, height);
-  const top = height / 2 + minWidth * 0.1;
-  const fontSize = minWidth * 0.03;
-  startButtonsView.update(() => ({ top, fontSize }));
-});

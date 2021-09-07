@@ -1,18 +1,14 @@
 import dependencies from 'dependencies';
 import view from '@/lib/view';
-import windowSize from '@/subject/windowSize';
 import fps from '@/subject/fps';
 import modes from '@/stage/modes';
 
-const { min, trunc } = dependencies.globals;
+const { trunc } = dependencies.globals;
 
 const initialState = {
   mode: modes.normal,
   fpsText: '60.00',
   appearance: 0,
-  x: 0,
-  y: 0,
-  w: 0,
 };
 
 export const modeToText = new Map([
@@ -21,16 +17,18 @@ export const modeToText = new Map([
   [modes.hard, 'HARD'],
 ]);
 
+const canvasWidth = 'min(70vw, 70vh)';
+const positionStyle = {
+  position: 'absolute',
+  left: `calc(50vw - ${canvasWidth} * 0.525)`,
+  top: `calc(50vh + ${canvasWidth} * 0.325)`,
+  width: `calc(${canvasWidth} * 0.2)`,
+  height: `calc(${canvasWidth} * 0.2)`,
+};
+
 const modeView = view(initialState, (render) => ({
-  mode, fpsText, appearance, x, y, w,
+  mode, fpsText, appearance,
 }) => {
-  const positionStyle = {
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: `${w}px`,
-    height: `${w}px`,
-  };
   const ap = appearance * 100;
   const ap2 = ap / 2;
   const backgroundStyle = {
@@ -40,10 +38,10 @@ const modeView = view(initialState, (render) => ({
   };
   const textStyle = {
     position: 'absolute',
-    bottom: `${w / 10}px`,
-    left: `${w / 10}px`,
+    bottom: `calc(${canvasWidth} * 0.02)`,
+    left: `calc(${canvasWidth} * 0.02)`,
     color: 'white',
-    fontSize: `${w / 5}px`,
+    fontSize: `calc(${canvasWidth} * 0.04)`,
     opacity: appearance,
   };
   return render`
@@ -57,15 +55,6 @@ const modeView = view(initialState, (render) => ({
 });
 
 export default modeView;
-
-windowSize.subscribe(({ width, height }) => {
-  const canvasWidth = min(width, height) * 0.7;
-  modeView.update(() => ({
-    x: (width - canvasWidth * 1.05) / 2,
-    y: (height + canvasWidth * 0.65) / 2,
-    w: canvasWidth * 0.2,
-  }));
-});
 
 fps.subscribe((f) => modeView.update(() => {
   const fpsInt = trunc(f * 100);

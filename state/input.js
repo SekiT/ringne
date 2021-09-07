@@ -1,5 +1,4 @@
 import dependencies from 'dependencies';
-import windowSize from '@/subject/windowSize';
 
 const { window } = dependencies.globals;
 
@@ -38,16 +37,8 @@ const inputFromTouches = (ts, ww, wh) => {
   }, {});
 };
 
-let windowWidth = 0;
-let windowHeight = 0;
-
-windowSize.subscribe(({ width, height }) => {
-  windowWidth = width;
-  windowHeight = height;
-});
-
 export default () => {
-  const touchInputs = inputFromTouches(touches, windowWidth, windowHeight);
+  const touchInputs = inputFromTouches(touches, window.innerWidth, window.innerHeight);
   return {
     inner: keys.a || keys.ArrowLeft || touchInputs.left || false,
     outer: keys.d || keys.ArrowRight || touchInputs.right || false,

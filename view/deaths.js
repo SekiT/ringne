@@ -1,27 +1,20 @@
-import dependencies from 'dependencies';
 import view from '@/lib/view';
-import windowSize from '@/subject/windowSize';
-
-const { min } = dependencies.globals;
 
 const initialState = {
   deaths: 0,
   appearance: 0,
-  x: 0,
-  y: 0,
-  w: 0,
 };
 
-const deathsView = view(initialState, (render) => ({
-  deaths, appearance, x, y, w,
-}) => {
-  const positionStyle = {
-    position: 'absolute',
-    left: `${x}px`,
-    top: `${y}px`,
-    width: `${w}px`,
-    height: `${w}px`,
-  };
+const canvasWidth = 'min(70vw, 70vh)';
+const positionStyle = {
+  position: 'absolute',
+  left: `calc(50vw + ${canvasWidth} * 0.325)`,
+  top: `calc(50vh + ${canvasWidth} * 0.325)`,
+  width: `calc(${canvasWidth} * 0.2)`,
+  height: `calc(${canvasWidth} * 0.2)`,
+};
+
+const deathsView = view(initialState, (render) => ({ deaths, appearance }) => {
   const ap = appearance * 100;
   const ap2 = ap / 2;
   const backgroundStyle = {
@@ -31,10 +24,10 @@ const deathsView = view(initialState, (render) => ({
   };
   const textStyle = {
     position: 'absolute',
-    bottom: `${w / 10}px`,
-    right: `${w / 10}px`,
+    bottom: `calc(${canvasWidth} * 0.02)`,
+    right: `calc(${canvasWidth} * 0.02)`,
     textAlign: 'right',
-    fontSize: `${w / 5}px`,
+    fontSize: `calc(${canvasWidth} * 0.04)`,
     color: 'white',
     opacity: appearance,
   };
@@ -49,12 +42,3 @@ const deathsView = view(initialState, (render) => ({
 });
 
 export default deathsView;
-
-windowSize.subscribe(({ width, height }) => {
-  const canvasWidth = min(width, height) * 0.7;
-  deathsView.update(() => ({
-    x: (width + canvasWidth * 0.65) / 2,
-    y: (height + canvasWidth * 0.65) / 2,
-    w: canvasWidth * 0.2,
-  }));
-});
