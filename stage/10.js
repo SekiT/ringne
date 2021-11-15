@@ -198,9 +198,13 @@ const stage10 = (
   swimOrbTime = 0,
   lazerTime = 0,
   landoltTime = 0,
-  aimedOrbTime = 0, aimedOrbAngle = 0, aimedOrbColor = 0,
-  wallOrbTime = 0, wallOrbOdd = false,
-  radialOrbTime = 0, radialOrbAngle = 0,
+  aimedOrbTime = 0,
+  aimedOrbAngle = 0,
+  aimedOrbColor = 0,
+  wallOrbTime = 0,
+  wallOrbOdd = false,
+  radialOrbTime = 0,
+  radialOrbAngle = 0,
 ) => (mode, level, levelUp, {
   enemies, px, py, pa, pr, playerInvincible, evt,
 }) => {
