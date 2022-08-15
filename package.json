@@ -23,18 +23,18 @@
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "esbuild": "^0.14.53",
-    "eslint": "^8.21.0",
+    "esbuild": "^0.15.3",
+    "eslint": "^8.22.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
-    "rollup": "^2.77.2",
-    "rollup-plugin-esbuild": "^4.9.1",
+    "rollup": "^2.78.0",
+    "rollup-plugin-esbuild": "^4.9.2",
     "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-serve": "^2.0.0",
+    "rollup-plugin-serve": "^2.0.1",
     "tape": "^5.5.3"
   },
   "dependencies": {
-    "hyperhtml": "^2.34.0"
+    "hyperhtml": "^2.34.1"
   }
 }
