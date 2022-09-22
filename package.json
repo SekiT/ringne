@@ -23,7 +23,7 @@
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
-    "esbuild": "^0.15.7",
+    "esbuild": "^0.15.8",
     "eslint": "^8.23.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -32,7 +32,7 @@
     "rollup-plugin-esbuild": "^4.10.1",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^2.0.1",
-    "tape": "^5.6.0"
+    "tape": "^5.6.1"
   },
   "dependencies": {
     "hyperhtml": "^2.34.1"
