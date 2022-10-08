@@ -20,11 +20,11 @@
   },
   "homepage": "https://SekiT.github.io/ringne/",
   "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-alias": "^4.0.0",
     "@rollup/plugin-multi-entry": "^4.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "esbuild": "^0.15.10",
-    "eslint": "^8.24.0",
+    "eslint": "^8.25.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
@@ -35,6 +35,6 @@
     "tape": "^5.6.1"
   },
   "dependencies": {
-    "hyperhtml": "^2.34.1"
+    "hyperhtml": "^2.34.2"
   }
 }
