@@ -1,6 +1,5 @@
+import path from 'path';
 import alias from '@rollup/plugin-alias';
-
-const path = require('path');
 
 const cwd = process.cwd();
 
