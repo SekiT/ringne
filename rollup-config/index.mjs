@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import esbuild from 'rollup-plugin-esbuild';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-import alias from './alias';
+import alias from './alias.mjs';
 import minifyTemplate from './minifyTemplate.mjs';
 
 const commonPlugins = [

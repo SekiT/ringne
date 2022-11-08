@@ -4,10 +4,10 @@
   "description": "輪廻",
   "main": "index.js",
   "scripts": {
-    "start": "rollup -c ./rollup-config/index.js --watch",
-    "build": "rollup -c ./rollup-config/index.js --environment PRODUCTION",
+    "start": "rollup -c ./rollup-config/index.mjs --watch",
+    "build": "rollup -c ./rollup-config/index.mjs --environment PRODUCTION",
     "lint": "eslint . --fix",
-    "test": "rollup -c ./rollup-config/test.js | node"
+    "test": "rollup -c ./rollup-config/test.mjs | node"
   },
   "repository": {
     "type": "git",
