@@ -23,7 +23,7 @@
     "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-multi-entry": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
-    "esbuild": "^0.17.15",
+    "esbuild": "^0.17.16",
     "eslint": "^8.38.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
