@@ -11,12 +11,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4.0.0
+      with:
+        version: latest
+
     - name: Update and test
       run: |
-        npx npm-check-updates -u
-        npm i
-        npm test
-        npm run lint
+        pnpm up
+        pnpm i
+        pnpm test
+        pnpm run lint
 
     - name: Commit files
       run: |
