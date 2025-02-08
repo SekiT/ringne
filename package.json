@@ -28,8 +28,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.31.0",
-    "rollup": "^4.32.1",
-    "rollup-plugin-esbuild": "^6.1.1",
+    "rollup": "^4.34.6",
+    "rollup-plugin-esbuild": "^6.2.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^3.0.0",
     "tape": "^5.9.0"
