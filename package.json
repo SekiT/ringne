@@ -25,13 +25,10 @@
     "@eslint/js": "^9.36.0",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-multi-entry": "^6.0.1",
-    "@rollup/plugin-node-resolve": "^15.3.1",
-    "@stylistic/eslint-plugin": "^3.1.0",
-    "esbuild": "^0.20.2",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "esbuild": "^0.25.10",
     "eslint": "^9.36.0",
     "eslint-config-airbnb-extended": "^2.3.1",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "eslint-import-resolver-node": "^0.3.9",
     "eslint-plugin-import-x": "^4.16.1",
     "eslint-plugin-n": "^17.23.1",
     "globals": "^16.4.0",
@@ -42,7 +39,6 @@
     "tape": "^5.9.0"
   },
   "dependencies": {
-    "eslint-import-resolver-typescript": "^4.4.4",
     "hyperhtml": "^2.34.2"
   }
 }
