@@ -3,8 +3,8 @@ import esbuild from 'rollup-plugin-esbuild';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 
-import alias from './alias';
-import minifyTemplate from './minifyTemplate';
+import alias from './alias.mjs';
+import minifyTemplate from './minifyTemplate.mjs';
 
 const commonPlugins = [
   resolve(),

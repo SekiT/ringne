@@ -38,17 +38,6 @@ export default [
   ...jsConfig,
   ...nodeConfig,
   {
-    // Allow devDependencies in rollup-config and test directories
-    name: 'project/dev-files',
-    files: ['rollup-config/**/*', 'test/**/*'],
-    rules: {
-      'import-x/no-extraneous-dependencies': ['error', {
-        devDependencies: true,
-        optionalDependencies: false,
-      }],
-    },
-  },
-  {
     name: 'project/settings',
     languageOptions: {
       ecmaVersion: 'latest',
@@ -78,6 +67,27 @@ export default [
 
       // Allow anonymous default exports
       'import-x/no-anonymous-default-export': 'off',
+    },
+  },
+  {
+    // Allow devDependencies in rollup-config and test directories
+    name: 'project/dev-files',
+    files: ['rollup-config/**/*', 'test/**/*'],
+    rules: {
+      'import-x/no-extraneous-dependencies': ['error', {
+        devDependencies: true,
+        optionalDependencies: false,
+      }],
+    },
+  },
+  {
+    // Config files need .mjs extensions in their imports
+    name: 'project/config-files',
+    files: ['rollup-config/**/*'],
+    rules: {
+      'import-x/extensions': ['error', 'ignorePackages', {
+        mjs: 'always',
+      }],
     },
   },
 ];
