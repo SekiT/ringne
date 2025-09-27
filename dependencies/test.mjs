@@ -2,8 +2,8 @@ import { shadow } from '@/lib/shadow';
 
 export default {
   hyperhtml: {
-    wire: shadow(() => {}),
-    bind: shadow(() => {}),
+    wire: shadow(() => { }),
+    bind: shadow(() => { }),
   },
   globals: {
     infinity: Number.POSITIVE_INFINITY,
@@ -20,14 +20,14 @@ export default {
     atan2: Math.atan2,
     random: shadow(Math.random),
     now: shadow(Date.now),
-    requestAnimationFrame: shadow(() => {}),
+    requestAnimationFrame: shadow(() => { }),
     window: shadow({
       innerWidth: 0,
       innerHeight: 0,
-      addEventListener: () => {},
+      addEventListener: () => { },
     }),
     document: {
-      createElement: shadow(() => {}),
+      createElement: shadow(() => { }),
     },
   },
 };
