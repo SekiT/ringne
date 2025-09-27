@@ -46,7 +46,7 @@ const buttonStyle = (selected) => ({
   backgroundColor: 'transparent',
 });
 
-const modeButtonsView = view(initialState, (render) => ({
+const stageButtonsView = view(initialState, (render) => ({
   opacity, selected,
 }) => render`
   <div style=${titleStyle(opacity, fontSize)}>Select Level</div>
@@ -64,4 +64,4 @@ const modeButtonsView = view(initialState, (render) => ({
   </div>
 `);
 
-export default modeButtonsView;
+export default stageButtonsView;
