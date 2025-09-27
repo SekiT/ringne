@@ -1,0 +1,24 @@
+import ids from './ids';
+import makeEvent from './makeEvent';
+
+import { center } from '@/view/canvas';
+
+const afterEffect = (props, eventTime, context) => {
+  context.save();
+  context.resetTransform();
+  context.translate(center, center);
+  context.rotate(eventTime * props.speed);
+  context.translate(-center, -center);
+  context.drawImage(context.canvas, 0, 0);
+  context.restore();
+  return props;
+};
+
+export default (speed, duration) => makeEvent({
+  id: ids.rotate,
+  name: '流転',
+  wait: 300,
+  duration,
+  afterEffect,
+  props: { speed },
+});

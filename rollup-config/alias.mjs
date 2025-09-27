@@ -1,4 +1,5 @@
-import path from 'path';
+import path from 'node:path';
+
 import alias from '@rollup/plugin-alias';
 
 const cwd = process.cwd();
