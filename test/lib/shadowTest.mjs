@@ -10,7 +10,7 @@ import {
 const originalObjects = (originalArgument, originalReturned) => ({
   fun1: (x) => x === originalArgument && originalReturned,
   fun2: (x) => x === originalArgument && originalReturned,
-  Con(x) {
+  Con: function (x) {
     this.value = x === originalArgument && originalReturned;
   },
   obj: {
