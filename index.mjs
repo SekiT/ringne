@@ -1,4 +1,5 @@
-import dependencies from './dependencies';
+import dependencies from 'dependencies';
+
 import runPhase from './lib/runPhase';
 import indexPhase from './phase';
 import initialState from './phase/initialState';
