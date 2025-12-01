@@ -37,8 +37,8 @@ importers:
         specifier: ^9.39.1
         version: 9.39.1
       eslint-config-airbnb-extended:
-        specifier: ^2.3.2
-        version: 2.3.2(@stylistic/eslint-plugin@3.1.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.44.1(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.1))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.23.1(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)
+        specifier: ^2.3.3
+        version: 2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.44.1(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.1))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.23.1(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1)
       eslint-plugin-import-x:
         specifier: ^4.16.1
         version: 4.16.1(@typescript-eslint/utils@8.44.1(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.1)
@@ -923,11 +923,11 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-config-airbnb-extended@2.3.2:
-    resolution: {integrity: sha512-eXkRUdkXzZpyAKUF8iuXrgGxCoZlFIKRA6Hpa6d6vsF7seftGI+CgsjH811R5OaWbj63TWUET/mbiPmBZkgxwQ==}
+  eslint-config-airbnb-extended@2.3.3:
+    resolution: {integrity: sha512-1p/dQedg2lzPx/PlX5EpVlIY1UvZ5eflrO18rGs9DbhmVKCRv4/47irOekmPrrEGAZhbqrcmpzJIA+DE6yzHTQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@next/eslint-plugin-next': ^15.0.0
+      '@next/eslint-plugin-next': ^15.0.0 || ^16.0.0
       '@stylistic/eslint-plugin': ^3.0.0
       '@types/eslint-plugin-jsx-a11y': ^6.0.0
       eslint: ^9.0.0
@@ -2734,7 +2734,7 @@ snapshots:
       eslint: 9.39.1
       semver: 7.7.3
 
-  eslint-config-airbnb-extended@2.3.2(@stylistic/eslint-plugin@3.1.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.44.1(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.1))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.23.1(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1):
+  eslint-config-airbnb-extended@2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.44.1(eslint@9.39.1)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.1))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.23.1(eslint@9.39.1)(typescript@5.9.2))(eslint@9.39.1):
     dependencies:
       confusing-browser-globals: 1.0.11
       eslint: 9.39.1
