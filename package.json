@@ -32,7 +32,7 @@
     "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-n": "^17.24.0",
     "globals": "^16.5.0",
-    "rollup": "^4.60.0",
+    "rollup": "^4.60.1",
     "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^3.0.0",
