@@ -38,10 +38,10 @@ importers:
         version: 9.39.4
       eslint-config-airbnb-extended:
         specifier: ^2.3.3
-        version: 2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@5.9.2))(eslint@9.39.4)
+        version: 2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@5.9.2))(eslint@9.39.4)
       eslint-plugin-import-x:
-        specifier: ^4.17.0
-        version: 4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
+        specifier: ^4.17.1
+        version: 4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
       eslint-plugin-n:
         specifier: ^17.24.0
         version: 17.24.0(eslint@9.39.4)(typescript@5.9.2)
@@ -543,8 +543,8 @@ packages:
     resolution: {integrity: sha512-dTLI8PEXhjUC7B9Kre+u0XznO696BhXcTlOn0/6kf1fHaQW8+VjJAVHJ3eTI14ZapTxdkOmc80HblPQLaEeJdg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/types@8.62.0':
-    resolution: {integrity: sha512-KvAclkktORPvM54TgLgA4z9HIV1M8zOgw9ZVNXl9f/8dLYfXYX1wkMXP7qmabpijQRV5bHJLOmoyGQbLMaUYeg==}
+  '@typescript-eslint/types@8.62.1':
+    resolution: {integrity: sha512-ooCzJFaf+Hg+uG6fA3NRFGuFjlfNlDhBthbv4ZPU/0elCAFUfnyXUvf/WOpHz/jYwSmvU2GkR2LtyUfy1AxZ1Q==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@typescript-eslint/typescript-estree@8.57.0':
@@ -788,8 +788,8 @@ packages:
   brace-expansion@1.1.15:
     resolution: {integrity: sha512-EwOCDEex4quD37XhqM3omwtMoJjr//isUZz1JopUNWms+4Z2ViyM/k1YIRePpoVNnQhENnxtFjLaxNHrT7xIUg==}
 
-  brace-expansion@5.0.6:
-    resolution: {integrity: sha512-kLpxurY4Z4r9sgMsyG0Z9uzsBlgiU/EFKhj/h91/8yHu0edo7XuixOIH3VcJ8kkxs6/jPzoI6U9Vj3WqbMQ94g==}
+  brace-expansion@5.0.7:
+    resolution: {integrity: sha512-7oFy703dxfY3/NLxC1fh2SUCQ0H9rmAY+5EpDVfXjUTTs+HEwR2nYaqLv+GWcTsumwxPfiz6CzCNkwXwBUwqCA==}
     engines: {node: 18 || 20 || >=22}
 
   braces@3.0.3:
@@ -1068,8 +1068,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-import-x@4.17.0:
-    resolution: {integrity: sha512-aM7V25Bg6YuYxtEhwjafzfS0NTMds1D2PMQI0K4KqJxQJRtkP4CO+MQTWRdBq2qAnmPxTxLevhXUBtByxJqS1w==}
+  eslint-plugin-import-x@4.17.1:
+    resolution: {integrity: sha512-4cdstYkKCyjumM2Q9NSI03K8D2a9F4Ssz33K2lv2hQa4KmR9jPLwk3uWGtNvclfqBrPGfGuMBwsGMbe6dMRbfg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       '@typescript-eslint/utils': ^8.56.0
@@ -2249,7 +2249,7 @@ snapshots:
   '@typescript-eslint/types@8.57.0':
     optional: true
 
-  '@typescript-eslint/types@8.62.0': {}
+  '@typescript-eslint/types@8.62.1': {}
 
   '@typescript-eslint/typescript-estree@8.57.0(typescript@5.9.2)':
     dependencies:
@@ -2481,7 +2481,7 @@ snapshots:
       balanced-match: 1.0.2
       concat-map: 0.0.1
 
-  brace-expansion@5.0.6:
+  brace-expansion@5.0.7:
     dependencies:
       balanced-match: 4.0.4
 
@@ -2793,16 +2793,16 @@ snapshots:
       eslint: 9.39.4
       semver: 7.8.5
 
-  eslint-config-airbnb-extended@2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@5.9.2))(eslint@9.39.4):
+  eslint-config-airbnb-extended@2.3.3(@stylistic/eslint-plugin@3.1.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-typescript@4.4.4)(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@5.9.2))(eslint@9.39.4):
     dependencies:
       confusing-browser-globals: 1.0.11
       eslint: 9.39.4
       globals: 16.5.0
     optionalDependencies:
       '@stylistic/eslint-plugin': 3.1.0(eslint@9.39.4)(typescript@5.9.2)
-      eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4)
+      eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4)
       eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.4)
-      eslint-plugin-import-x: 4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
+      eslint-plugin-import-x: 4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
       eslint-plugin-n: 17.24.0(eslint@9.39.4)(typescript@5.9.2)
 
   eslint-import-context@0.1.9(unrs-resolver@1.12.2):
@@ -2821,7 +2821,7 @@ snapshots:
       - supports-color
     optional: true
 
-  eslint-import-resolver-typescript@4.4.4(eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4):
+  eslint-import-resolver-typescript@4.4.4(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4):
     dependencies:
       debug: 4.4.3
       eslint: 9.39.4
@@ -2833,7 +2833,7 @@ snapshots:
       unrs-resolver: 1.12.2
     optionalDependencies:
       eslint-plugin-import: 2.32.0(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.4)
-      eslint-plugin-import-x: 4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
+      eslint-plugin-import-x: 4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -2844,7 +2844,7 @@ snapshots:
     optionalDependencies:
       eslint: 9.39.4
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4)
+      eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4))(eslint-plugin-import@2.32.0)(eslint@9.39.4)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -2856,9 +2856,9 @@ snapshots:
       eslint: 9.39.4
       eslint-compat-utils: 0.5.1(eslint@9.39.4)
 
-  eslint-plugin-import-x@4.17.0(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4):
+  eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.57.0(eslint@9.39.4)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint@9.39.4):
     dependencies:
-      '@typescript-eslint/types': 8.62.0
+      '@typescript-eslint/types': 8.62.1
       comment-parser: 1.4.7
       debug: 4.4.3
       eslint: 9.39.4
@@ -3364,7 +3364,7 @@ snapshots:
 
   minimatch@10.2.5:
     dependencies:
-      brace-expansion: 5.0.6
+      brace-expansion: 5.0.7
 
   minimatch@3.1.5:
     dependencies:
