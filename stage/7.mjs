@@ -9,7 +9,10 @@ import none from '@/event/none';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, cos, sin, atan2,
+  pi,
+  cos,
+  sin,
+  atan2,
 } = dependencies.globals;
 
 const orbWait = new Map([
@@ -38,8 +41,13 @@ const makeOrb = (lv, px, py, angle, size, color) => {
     ];
 };
 
-const stage7 = (orbTime = 0, angle = 0, colorId = 0) => (mode, level, levelUp, {
-  enemies, px, py, playerInvincible, evt,
+const stage7 = (orbTime = 0, angle = 0, colorId = 0) =>
+(mode, level, levelUp, {
+  enemies,
+  px,
+  py,
+  playerInvincible,
+  evt,
 }) => {
   const lv = (level - 1) % 10;
   const addOrb = orbTime >= orbWait.get(mode)(lv % 5);
@@ -49,19 +57,21 @@ const stage7 = (orbTime = 0, angle = 0, colorId = 0) => (mode, level, levelUp, {
       : enemies,
     addOrb ? makeOrb(lv, px, py, angle, orbSize.get(mode), colors[colorId]) : [],
   ].flat();
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage8(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage7(
-      addOrb ? 0 : orbTime + 1,
-      angle + 0.02,
-      addOrb ? (colorId + 1) % colors.length : colorId,
-    ),
-    evt,
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage8(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage7(
+        addOrb ? 0 : orbTime + 1,
+        angle + 0.02,
+        addOrb ? (colorId + 1) % colors.length : colorId,
+      ),
+      evt,
+    };
 };
 
 export default stage7;

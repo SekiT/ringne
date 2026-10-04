@@ -2,7 +2,9 @@ import { test } from 'tape';
 
 import {
   mockConstructor,
-  mockFunction, mockFunctionSequence, mockPropertyGetter,
+  mockFunction,
+  mockFunctionSequence,
+  mockPropertyGetter,
   resetMock,
   shadow,
 } from '@/lib/shadow';
@@ -22,7 +24,10 @@ const originalObjects = (originalArgument, originalReturned) => ({
 test('shadow initially proxies functions', (t) => {
   const [originalArgument, originalReturned] = [{}, {}];
   const {
-    fun1, fun2, Con, obj,
+    fun1,
+    fun2,
+    Con,
+    obj,
   } = originalObjects(originalArgument, originalReturned);
   t.equal(shadow(fun1)(originalArgument), originalReturned);
   t.equal(shadow(fun2)(originalArgument), originalReturned);
@@ -45,8 +50,12 @@ test('mockFunction replaces implementation', (t) => {
 
 test('mockFunctionSequence replaces implementation n times', (t) => {
   const [
-    originalArgument, originalReturned,
-    mockedArgument1, mockedReturned1, mockedArgument2, mockedReturned2,
+    originalArgument,
+    originalReturned,
+    mockedArgument1,
+    mockedReturned1,
+    mockedArgument2,
+    mockedReturned2,
   ] = [{}, {}, {}, {}, {}, {}];
   const fun = shadow((x) => x === originalArgument && originalReturned);
   mockFunctionSequence(fun, [
@@ -66,10 +75,11 @@ test('mockFunctionSequence replaces implementation n times', (t) => {
 test('mockConstructor replaces constructor', (t) => {
   const [originalArgument, originalReturned, mockedArgument, mockedReturned] = [{}, {}, {}, {}];
   const Con = shadow(originalObjects(originalArgument, originalReturned).Con);
-  mockConstructor(Con, (OriginalConstructor) => function MockedConstructor(x) {
-    const { value } = new OriginalConstructor(originalArgument);
-    this.value = x === mockedArgument && value === originalReturned && mockedReturned;
-  });
+  mockConstructor(Con, (OriginalConstructor) =>
+    function MockedConstructor (x) {
+      const { value } = new OriginalConstructor(originalArgument);
+      this.value = x === mockedArgument && value === originalReturned && mockedReturned;
+    });
   t.equal(new Con(mockedArgument).value, mockedReturned);
   t.equal(new Con(mockedArgument).value, mockedReturned);
   t.end();
@@ -97,7 +107,10 @@ test('mockPropertyGetter replaces getter of the object', (t) => {
 test('resetMock clears single mock', (t) => {
   const [originalArgument, originalReturned] = [{}, {}];
   const {
-    fun1, fun2, Con, obj,
+    fun1,
+    fun2,
+    Con,
+    obj,
   } = originalObjects(originalArgument, originalReturned);
   const shade = {
     fun1: shadow(fun1),
@@ -109,10 +122,11 @@ test('resetMock clears single mock', (t) => {
   const mockFun = (originalFun) => (x) => (
     x === mockedArgument && originalFun(originalArgument) === originalReturned && mockedReturned
   );
-  const mockCon = (OriginalConstructor) => function MockedConstructor(x) {
-    const { value } = new OriginalConstructor(originalArgument);
-    this.value = x === mockedArgument && value === originalReturned && mockedReturned;
-  };
+  const mockCon = (OriginalConstructor) =>
+    function MockedConstructor (x) {
+      const { value } = new OriginalConstructor(originalArgument);
+      this.value = x === mockedArgument && value === originalReturned && mockedReturned;
+    };
   const mockObjGetter = (originalObj, key) => {
     if (key === 'child') {
       return originalObj[key] === originalReturned && mockedReturned;

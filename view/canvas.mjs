@@ -3,7 +3,10 @@ import dependencies from 'dependencies';
 import view from '@/lib/view';
 
 const {
-  pi2, cos, sin, document,
+  pi2,
+  cos,
+  sin,
+  document,
 } = dependencies.globals;
 
 export const boardRadius = 200;

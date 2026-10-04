@@ -6,8 +6,14 @@ import { enemyIdToRenderer } from '@/enemy/index';
 import {
   boardRadius,
   canvasContext as context,
-  center, clearCanvas,
-  drawBackground, drawCenterDot, drawEventGauge, drawGuide, drawOutline, drawTape,
+  center,
+  clearCanvas,
+  drawBackground,
+  drawCenterDot,
+  drawEventGauge,
+  drawGuide,
+  drawOutline,
+  drawTape,
 } from '@/view/canvas';
 
 const { pi2, cos, sin } = dependencies.globals;
@@ -36,12 +42,18 @@ const drawDeathMask = (x, y, time) => {
   context.restore();
 };
 
-export default (time = 0) => ({
+export default (time = 0) =>
+({
   playerAngle,
   playerRadius,
   enemies,
   evt: {
-    wait, waitTime, eventTime, duration, afterEffect, props,
+    wait,
+    waitTime,
+    eventTime,
+    duration,
+    afterEffect,
+    props,
   },
 }) => {
   clearCanvas();
@@ -57,17 +69,19 @@ export default (time = 0) => ({
   drawEventGauge(waitTime >= wait ? (1 - eventTime / duration) : waitTime / wait);
   drawDeathMask(px, py, time);
   afterEffect(props, eventTime, context);
-  return time < 90 ? {
-    nextId: ids.death,
-    nextArgs: [time + 1],
-    stateUpdate: {},
-  } : {
-    nextId: ids.main,
-    nextArgs: [],
-    stateUpdate: {
-      playerInvincible: 60,
-      playerAngle: 0,
-      playerRadius: boardRadius / 2,
-    },
-  };
+  return time < 90
+    ? {
+      nextId: ids.death,
+      nextArgs: [time + 1],
+      stateUpdate: {},
+    }
+    : {
+      nextId: ids.main,
+      nextArgs: [],
+      stateUpdate: {
+        playerInvincible: 60,
+        playerAngle: 0,
+        playerRadius: boardRadius / 2,
+      },
+    };
 };

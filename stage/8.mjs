@@ -51,8 +51,14 @@ const eventReload = new Map([
 
 const nextEvent = makeNextEvent((mode, level) => craeteEvent.get(mode)(level), eventReload);
 
-const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level, levelUp, {
-  enemies, evt, px, py, pa, playerInvincible,
+const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) =>
+(mode, level, levelUp, {
+  enemies,
+  evt,
+  px,
+  py,
+  pa,
+  playerInvincible,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= orbWait.get(mode)(lv % 5);
@@ -65,19 +71,21 @@ const stage8 = (swimOrbTime = 130, swimOrbOdd = 0, evtTime = 0) => (mode, level,
   const { nextEvt, nextEvtTime } = lv < 5
     ? { nextEvt: evt, nextEvtTime: evtTime }
     : nextEvent(mode, lv, evtTime, evt);
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage9(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage8(
-      addSwimOrb ? 0 : swimOrbTime + 1,
-      addSwimOrb ? 1 - swimOrbOdd : swimOrbOdd,
-      nextEvtTime,
-    ),
-    evt: nextEvt,
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage9(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage8(
+        addSwimOrb ? 0 : swimOrbTime + 1,
+        addSwimOrb ? 1 - swimOrbOdd : swimOrbOdd,
+        nextEvtTime,
+      ),
+      evt: nextEvt,
+    };
 };
 
 export default stage8;

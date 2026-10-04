@@ -46,9 +46,12 @@ const buttonStyle = (selected) => ({
   backgroundColor: 'transparent',
 });
 
-const stageButtonsView = view(initialState, (render) => ({
-  opacity, selected,
-}) => render`
+const stageButtonsView = view(initialState, (render) =>
+({
+  opacity,
+  selected,
+}) =>
+  render`
   <div style=${titleStyle(opacity, fontSize)}>Select Level</div>
   <div style=${containerStyle(opacity)}>
     <button style=${buttonStyle(selected === 1)} onClick=${onClick(1)}>Lv.1~10</button>

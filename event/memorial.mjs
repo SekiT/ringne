@@ -13,11 +13,12 @@ const inputEffect = ({ deaths, pa }, evt) => {
   };
 };
 
-export default () => makeEvent({
-  id: ids.memorial,
-  name: '回向',
-  wait: 300,
-  duration: infinity,
-  inputEffect,
-  props: { done: false, speed: 0 },
-});
+export default () =>
+  makeEvent({
+    id: ids.memorial,
+    name: '回向',
+    wait: 300,
+    duration: infinity,
+    inputEffect,
+    props: { done: false, speed: 0 },
+  });

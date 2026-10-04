@@ -28,11 +28,12 @@ const inputEffect = (state, { props: { gravity } }) => {
   };
 };
 
-export default (gravity, duration) => makeEvent({
-  id: ids.gravity,
-  name: '重力',
-  wait: 300,
-  duration,
-  inputEffect,
-  props: { gravity, lines: [] },
-});
+export default (gravity, duration) =>
+  makeEvent({
+    id: ids.gravity,
+    name: '重力',
+    wait: 300,
+    duration,
+    inputEffect,
+    props: { gravity, lines: [] },
+  });

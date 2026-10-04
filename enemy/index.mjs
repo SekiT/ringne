@@ -1,13 +1,7 @@
 import ids from './ids';
 import { moveLandolt, renderLandolt } from './landolt';
 import { moveLazer, renderLazer } from './lazer';
-import {
-  moveLinearOrb,
-  moveOrbToCenter,
-  moveSwimOrb,
-  renderLinearOrb,
-  renderSwimOrb,
-} from './orb';
+import { moveLinearOrb, moveOrbToCenter, moveSwimOrb, renderLinearOrb, renderSwimOrb } from './orb';
 
 export const enemyIdToMotion = new Map([
   [ids.swimOrb, moveSwimOrb],

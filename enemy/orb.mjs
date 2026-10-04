@@ -5,7 +5,11 @@ import ids from './ids';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, pi2, min, cos, sin,
+  pi,
+  pi2,
+  min,
+  cos,
+  sin,
 } = dependencies.globals;
 
 export const hitTestOrb = (px, py, x, y, width) => {
@@ -50,7 +54,11 @@ export const swimOrb = (angle, radius, speed, width, time = 0, color = 'lime') =
 });
 
 export const renderSwimOrb = (context, {
-  time, angle, radius, width, color,
+  time,
+  angle,
+  radius,
+  width,
+  color,
 }) => {
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
@@ -65,7 +73,11 @@ export const renderSwimOrb = (context, {
 
 export const moveSwimOrb = (enemy, px, py) => {
   const {
-    time, angle, radius, speed, width,
+    time,
+    angle,
+    radius,
+    speed,
+    width,
   } = enemy;
   const x = center + radius * cos(angle);
   const y = center + radius * sin(angle);
@@ -92,7 +104,12 @@ export const linearOrb = (x, y, angle, speed, width, fillColor, strokeColor, tim
 });
 
 export const renderLinearOrb = (context, {
-  time, x, y, width, fillColor, strokeColor,
+  time,
+  x,
+  y,
+  width,
+  fillColor,
+  strokeColor,
 }) => {
   if (time <= 30) {
     renderShadow(context, time, x, y, width, strokeColor);
@@ -105,7 +122,12 @@ export const renderLinearOrb = (context, {
 
 export const moveLinearOrb = (enemy, px, py) => {
   const {
-    time, x, y, angle, speed, width,
+    time,
+    x,
+    y,
+    angle,
+    speed,
+    width,
   } = enemy;
   if (time < 45) {
     return {
@@ -118,15 +140,20 @@ export const moveLinearOrb = (enemy, px, py) => {
   const dx = nextX - center;
   const dy = nextY - center;
   const dr = boardRadius + width / 2;
-  return dx * dx + dy * dy > dr * dr ? {
-    nextEnemies: [],
-    hit: false,
-  } : {
-    nextEnemies: [{
-      ...enemy, x: nextX, y: nextY, time: time + 1,
-    }],
-    hit: hitTestOrb(px, py, x, y, width),
-  };
+  return dx * dx + dy * dy > dr * dr
+    ? {
+      nextEnemies: [],
+      hit: false,
+    }
+    : {
+      nextEnemies: [{
+        ...enemy,
+        x: nextX,
+        y: nextY,
+        time: time + 1,
+      }],
+      hit: hitTestOrb(px, py, x, y, width),
+    };
 };
 
 export const orbToCenter = (angle, speed, width, fillColor, strokeColor, time = 0) => ({

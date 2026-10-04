@@ -2,23 +2,28 @@
   "name": "ringne",
   "version": "1.0.1",
   "description": "輪廻",
-  "main": "index.js",
-  "scripts": {
-    "start": "rollup -c ./rollup-config/index.mjs --watch",
-    "build": "rollup -c ./rollup-config/index.mjs --environment PRODUCTION",
-    "lint": "eslint . --fix",
-    "test": "rollup -c ./rollup-config/test.mjs | node"
+  "homepage": "https://SekiT.github.io/ringne/",
+  "bugs": {
+    "url": "https://github.com/SekiT/ringne/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SekiT/ringne.git"
   },
-  "author": "https://github.com/SekiT",
   "license": "WTFPL",
-  "bugs": {
-    "url": "https://github.com/SekiT/ringne/issues"
+  "author": "https://github.com/SekiT",
+  "main": "index.js",
+  "scripts": {
+    "start": "rollup -c ./rollup-config/index.mjs --watch",
+    "build": "rollup -c ./rollup-config/index.mjs --environment PRODUCTION",
+    "lint": "eslint .",
+    "format": "dprint fmt",
+    "format:check": "dprint check",
+    "test": "rollup -c ./rollup-config/test.mjs | node"
   },
-  "homepage": "https://SekiT.github.io/ringne/",
+  "dependencies": {
+    "hyperhtml": "^2.34.2"
+  },
   "devDependencies": {
     "@eslint/compat": "^1.4.1",
     "@eslint/eslintrc": "^3.3.6",
@@ -26,6 +31,7 @@
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@rollup/plugin-node-resolve": "^16.0.3",
+    "dprint": "0.60.1",
     "esbuild": "^0.28.2",
     "eslint": "^9.39.5",
     "eslint-config-airbnb-extended": "^2.3.3",
@@ -37,8 +43,5 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^3.0.0",
     "tape": "^5.10.2"
-  },
-  "dependencies": {
-    "hyperhtml": "^2.34.2"
   }
 }

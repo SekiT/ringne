@@ -7,7 +7,11 @@ import enemyIds from '@/enemy/ids';
 import { boardRadius } from '@/view/canvas';
 
 const {
-  pi, sqrt, cos, sin, atan2,
+  pi,
+  sqrt,
+  cos,
+  sin,
+  atan2,
 } = dependencies.globals;
 
 const disableInputs = {
@@ -28,7 +32,11 @@ const inputEffect = (state, { eventTime, duration, props: { speed } }) => {
     };
   }
   const {
-    inner, outer, quick, brake, enemies,
+    inner,
+    outer,
+    quick,
+    brake,
+    enemies,
   } = state;
   const inputX = outer - inner;
   const inputY = brake - quick;
@@ -65,11 +73,12 @@ const inputEffect = (state, { eventTime, duration, props: { speed } }) => {
   };
 };
 
-export default (speed, duration) => makeEvent({
-  id: ids.swap,
-  name: '遍憑',
-  wait: 300,
-  duration,
-  inputEffect,
-  props: { speed },
-});
+export default (speed, duration) =>
+  makeEvent({
+    id: ids.swap,
+    name: '遍憑',
+    wait: 300,
+    duration,
+    inputEffect,
+    props: { speed },
+  });

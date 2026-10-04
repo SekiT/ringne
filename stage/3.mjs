@@ -10,7 +10,10 @@ import none from '@/event/none';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, cos, sin, random,
+  pi,
+  cos,
+  sin,
+  random,
 } = dependencies.globals;
 
 const orbWait = new Map([
@@ -49,8 +52,13 @@ const lazerParams = new Map([
   }],
 ]);
 
-const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) => (mode, level, levelUp, {
-  enemies, px, py, pa, playerInvincible,
+const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) =>
+(mode, level, levelUp, {
+  enemies,
+  px,
+  py,
+  pa,
+  playerInvincible,
 }) => {
   const addSwimOrb = orbTime >= orbWait.get(mode)(level - 20);
   const { wait, radius, angle } = lazerParams.get(mode);
@@ -59,35 +67,41 @@ const stage3 = (orbTime = 0, lazerTime = 0, lazerAngle = pi / 3) => (mode, level
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    addSwimOrb ? [
-      swimOrb(
-        -pa + 0.4 + random() * pi * 1.6,
-        random() * boardRadius,
-        orbSpeed.get(mode)(),
-        orbSize.get(mode)(),
-      ),
-    ] : [],
-    addLazer ? [
-      lazer(
-        center + radius * boardRadius * cos(lazerAngle),
-        center + radius * boardRadius * sin(lazerAngle),
-        angle(lazerAngle),
-      ),
-    ] : [],
+    addSwimOrb
+      ? [
+        swimOrb(
+          -pa + 0.4 + random() * pi * 1.6,
+          random() * boardRadius,
+          orbSpeed.get(mode)(),
+          orbSize.get(mode)(),
+        ),
+      ]
+      : [],
+    addLazer
+      ? [
+        lazer(
+          center + radius * boardRadius * cos(lazerAngle),
+          center + radius * boardRadius * sin(lazerAngle),
+          angle(lazerAngle),
+        ),
+      ]
+      : [],
   ].flat();
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    evt: none(),
-    nextStage: stage4(),
-  } : {
-    enemies: nextEnemies,
-    evt: none(),
-    nextStage: stage3(
-      addSwimOrb ? 0 : orbTime + 1,
-      addLazer ? 0 : lazerTime + 1,
-      addLazer ? lazerAngle + pi / 3 : lazerAngle,
-    ),
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      evt: none(),
+      nextStage: stage4(),
+    }
+    : {
+      enemies: nextEnemies,
+      evt: none(),
+      nextStage: stage3(
+        addSwimOrb ? 0 : orbTime + 1,
+        addLazer ? 0 : lazerTime + 1,
+        addLazer ? lazerAngle + pi / 3 : lazerAngle,
+      ),
+    };
 };
 
 export default stage3;

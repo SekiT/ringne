@@ -27,8 +27,11 @@ const positionStyle = {
   height: `calc(${canvasWidth} * 0.2)`,
 };
 
-const modeView = view(initialState, (render) => ({
-  mode, fpsText, appearance,
+const modeView = view(initialState, (render) =>
+({
+  mode,
+  fpsText,
+  appearance,
 }) => {
   const ap = appearance * 100;
   const ap2 = ap / 2;
@@ -57,8 +60,10 @@ const modeView = view(initialState, (render) => ({
 
 export default modeView;
 
-fps.subscribe((f) => modeView.update(() => {
-  const fpsInt = trunc(f * 100);
-  const fpsText = `${trunc(fpsInt / 100)}.${(fpsInt % 100).toString().padStart(2, '0')}`;
-  return { fpsText };
-}));
+fps.subscribe((f) =>
+  modeView.update(() => {
+    const fpsInt = trunc(f * 100);
+    const fpsText = `${trunc(fpsInt / 100)}.${(fpsInt % 100).toString().padStart(2, '0')}`;
+    return { fpsText };
+  })
+);

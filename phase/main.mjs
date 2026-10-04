@@ -6,9 +6,16 @@ import initialState from './initialState';
 import { enemyIdToMotion, enemyIdToRenderer } from '@/enemy/index';
 import getInputs from '@/state/input';
 import {
-  boardRadius, canvasContext,
+  boardRadius,
+  canvasContext,
   center,
-  drawBackground, drawCenterDot, drawEventGauge, drawGuide, drawOutline, drawPlayer, drawTape,
+  drawBackground,
+  drawCenterDot,
+  drawEventGauge,
+  drawGuide,
+  drawOutline,
+  drawPlayer,
+  drawTape,
 } from '@/view/canvas';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
@@ -16,28 +23,37 @@ import levelView from '@/view/level';
 import modeView from '@/view/mode';
 
 const {
-  pi2, cos, sin, min, max, random,
+  pi2,
+  cos,
+  sin,
+  min,
+  max,
+  random,
 } = dependencies.globals;
 
 const getInputsIntoState = () => ({ state: getInputs() });
 
 const handleEscape = ({ escape, mode }) => ({
-  returns: escape ? {
-    nextId: ids.title,
-    nextArgs: [],
-    stateUpdate: {
-      ...initialState(),
-      mode,
-    },
-  } : false,
+  returns: escape
+    ? {
+      nextId: ids.title,
+      nextArgs: [],
+      stateUpdate: {
+        ...initialState(),
+        mode,
+      },
+    }
+    : false,
 });
 
 const handlePause = ({ pause, pauseTime }) => ({
-  returns: pause && pauseTime > 10 ? {
-    nextId: ids.pause,
-    nextArgs: [0],
-    stateUpdate: {},
-  } : false,
+  returns: pause && pauseTime > 10
+    ? {
+      nextId: ids.pause,
+      nextArgs: [0],
+      stateUpdate: {},
+    }
+    : false,
 });
 
 const runInputEffect = ({ evt, ...state }) => (
@@ -47,7 +63,12 @@ const runInputEffect = ({ evt, ...state }) => (
 );
 
 const movePlayer = ({
-  inner, outer, quick, brake, pa, pr,
+  inner,
+  outer,
+  quick,
+  brake,
+  pa,
+  pr,
 }) => ({
   state: {
     pa: pa + 0.007 + (quick - brake) * 0.005,
@@ -73,7 +94,12 @@ const playerPosition = ({ pa, pr }) => ({
 });
 
 const handleLevelUp = ({
-  practice, pa, pr, level, deaths, frames,
+  practice,
+  pa,
+  pr,
+  level,
+  deaths,
+  frames,
 }) => {
   const levelUp = pa >= pi2;
   const nextLevel = level + (levelUp ? 1 : 0);
@@ -118,7 +144,10 @@ const handleLevelUp = ({
 };
 
 const drawPlayerIfNeeded = ({
-  playerInvincible, pa, px, py,
+  playerInvincible,
+  pa,
+  px,
+  py,
 }) => {
   drawGuide(pa);
   if (playerInvincible === 0 || random() < 0.5) {
@@ -128,10 +157,26 @@ const drawPlayerIfNeeded = ({
 };
 
 const runStage = ({
-  mode, level, levelUp, stage, pa, pr, px, py, playerInvincible, enemies, evt,
+  mode,
+  level,
+  levelUp,
+  stage,
+  pa,
+  pr,
+  px,
+  py,
+  playerInvincible,
+  enemies,
+  evt,
 }) => {
   const stageResult = stage(mode, level, levelUp, {
-    px, py, pa, pr, playerInvincible, enemies, evt,
+    px,
+    py,
+    pa,
+    pr,
+    playerInvincible,
+    enemies,
+    evt,
   });
   return {
     state: {
@@ -162,7 +207,12 @@ const moveEnemies = ({ enemies, px, py }) => {
 
 const runAfterEffect = ({ evt }) => {
   const {
-    eventTime, duration, waitTime, wait, afterEffect, props,
+    eventTime,
+    duration,
+    waitTime,
+    wait,
+    afterEffect,
+    props,
   } = evt;
   const eventActive = waitTime >= wait;
   drawEventGauge(eventActive ? 1 - eventTime / duration : waitTime / wait);
@@ -179,7 +229,10 @@ const runAfterEffect = ({ evt }) => {
 };
 
 const updateViews = ({
-  mode, level, pa, evt,
+  mode,
+  level,
+  pa,
+  evt,
 }) => {
   levelView.update(() => ({ level, playerAngle: pa }));
   modeView.update(() => ({ mode }));
@@ -197,9 +250,17 @@ const renameShortVariables = ({ pa, pr }) => ({
 
 const handleDeath = (state) => {
   const {
-    level, mode, practice, stage, evt,
-    playerAngle, playerRadius, playerInvincible,
-    deaths, frames, enemies,
+    level,
+    mode,
+    practice,
+    stage,
+    evt,
+    playerAngle,
+    playerRadius,
+    playerInvincible,
+    deaths,
+    frames,
+    enemies,
     hit,
   } = state;
   if (hit && playerInvincible === 0) {
@@ -229,9 +290,17 @@ const handleDeath = (state) => {
 
 const toNextFrame = ({
   pauseTime,
-  level, mode, practice, stage, evt,
-  playerAngle, playerRadius, playerInvincible,
-  deaths, frames, enemies,
+  level,
+  mode,
+  practice,
+  stage,
+  evt,
+  playerAngle,
+  playerRadius,
+  playerInvincible,
+  deaths,
+  frames,
+  enemies,
 }) => ({
   returns: {
     nextId: ids.main,
@@ -252,31 +321,32 @@ const toNextFrame = ({
   },
 });
 
-export default (pauseTime = 0) => (previousState) => [
-  getInputsIntoState,
-  handleEscape,
-  handlePause,
-  drawBoard,
-  runInputEffect,
-  movePlayer,
-  handleLevelUp,
-  playerPosition,
-  drawPlayerIfNeeded,
-  runStage,
-  moveEnemies,
-  runAfterEffect,
-  updateViews,
-  renameShortVariables,
-  handleDeath,
-  toNextFrame,
-].reduce((acc, fun, index, arr) => {
-  const { state, returns } = fun(acc);
-  return returns
-    ? (arr.splice(index), returns)
-    : Object.assign(acc, state);
-}, {
-  ...previousState,
-  pauseTime,
-  pa: previousState.playerAngle,
-  pr: previousState.playerRadius,
-});
+export default (pauseTime = 0) => (previousState) =>
+  [
+    getInputsIntoState,
+    handleEscape,
+    handlePause,
+    drawBoard,
+    runInputEffect,
+    movePlayer,
+    handleLevelUp,
+    playerPosition,
+    drawPlayerIfNeeded,
+    runStage,
+    moveEnemies,
+    runAfterEffect,
+    updateViews,
+    renameShortVariables,
+    handleDeath,
+    toNextFrame,
+  ].reduce((acc, fun, index, arr) => {
+    const { state, returns } = fun(acc);
+    return returns
+      ? (arr.splice(index), returns)
+      : Object.assign(acc, state);
+  }, {
+    ...previousState,
+    pauseTime,
+    pa: previousState.playerAngle,
+    pr: previousState.playerRadius,
+  });

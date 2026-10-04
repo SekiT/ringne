@@ -33,8 +33,14 @@ const spawnOrbs = (mode, level, baseAngle, fromCenter) => {
   });
 };
 
-const stage9 = (orbTime = 0, orbAngle = 0) => (mode, level, levelUp, {
-  enemies, px, py, pa, pr, playerInvincible,
+const stage9 = (orbTime = 0, orbAngle = 0) =>
+(mode, level, levelUp, {
+  enemies,
+  px,
+  py,
+  pa,
+  pr,
+  playerInvincible,
 }) => {
   const lv = (level - 1) % 10;
   const wait = orbWait.get(mode)(lv);
@@ -46,18 +52,20 @@ const stage9 = (orbTime = 0, orbAngle = 0) => (mode, level, levelUp, {
     orbTime >= wait && (mode !== modes.hard || lv >= 5) ? spawnOrbs(mode, lv, orbAngle, false) : [],
     mode === modes.hard && orbTime >= wait ? [swimOrb(-pa - 0.63, pr, 0.01, 6)] : [],
   ].flat();
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage10(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage9(
-      orbTime >= wait ? 0 : orbTime + 1,
-      orbTime >= wait ? orbAngle + (pi / orbParams.get(mode)(lv).length) * 1.2 : orbAngle,
-    ),
-    evt: none(),
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage10(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage9(
+        orbTime >= wait ? 0 : orbTime + 1,
+        orbTime >= wait ? orbAngle + (pi / orbParams.get(mode)(lv).length) * 1.2 : orbAngle,
+      ),
+      evt: none(),
+    };
 };
 
 export default stage9;

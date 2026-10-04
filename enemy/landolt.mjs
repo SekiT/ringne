@@ -5,7 +5,11 @@ import ids from './ids';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, max, sqrt, cos, sin,
+  pi,
+  max,
+  sqrt,
+  cos,
+  sin,
 } = dependencies.globals;
 
 export const landolt = (x, y, angle, radius, angleSpeed, radiusSpeed, holeWidth, lineWidth) => ({
@@ -21,7 +25,12 @@ export const landolt = (x, y, angle, radius, angleSpeed, radiusSpeed, holeWidth,
 });
 
 export const renderLandolt = (context, {
-  x, y, angle, radius, holeWidth, lineWidth,
+  x,
+  y,
+  angle,
+  radius,
+  holeWidth,
+  lineWidth,
 }) => {
   context.save();
   context.beginPath();
@@ -63,7 +72,14 @@ const hitTest = (x, y, angle, radius, holeWidth, lineWidth, px, py) => {
 
 export const moveLandolt = (enemy, px, py) => {
   const {
-    x, y, angle, radius, angleSpeed, radiusSpeed, holeWidth, lineWidth,
+    x,
+    y,
+    angle,
+    radius,
+    angleSpeed,
+    radiusSpeed,
+    holeWidth,
+    lineWidth,
   } = enemy;
   return {
     nextEnemies: doesDisappear(x, y, radius, lineWidth) ? [] : [

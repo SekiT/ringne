@@ -8,7 +8,11 @@ import {
   center,
   clearCanvas,
   drawBackground,
-  drawCenterDot, drawGuide, drawOutline, drawPlayer, drawTape,
+  drawCenterDot,
+  drawGuide,
+  drawOutline,
+  drawPlayer,
+  drawTape,
 } from '@/view/canvas';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
@@ -16,7 +20,10 @@ import levelView from '@/view/level';
 import modeView from '@/view/mode';
 
 const {
-  pi2, min, max, trunc,
+  pi2,
+  min,
+  max,
+  trunc,
 } = dependencies.globals;
 
 const drawCount = (time) => {
@@ -32,8 +39,10 @@ const drawCount = (time) => {
   context.restore();
 };
 
-export default (time = 0) => ({
-  level, mode,
+export default (time = 0) =>
+({
+  level,
+  mode,
 }) => {
   if (time === 0) {
     levelView.update(() => ({ level }));
@@ -57,13 +66,15 @@ export default (time = 0) => ({
     drawCount(time);
   }
   drawOutline(-(time / 160) * pi2);
-  return time < 180 ? {
-    nextId: ids.start,
-    nextArgs: [time + 1],
-    stateUpdate: {},
-  } : {
-    nextId: ids.main,
-    nextArgs: [],
-    stateUpdate: { frames: 0 },
-  };
+  return time < 180
+    ? {
+      nextId: ids.start,
+      nextArgs: [time + 1],
+      stateUpdate: {},
+    }
+    : {
+      nextId: ids.main,
+      nextArgs: [],
+      stateUpdate: { frames: 0 },
+    };
 };

@@ -14,11 +14,12 @@ const afterEffect = (props, eventTime, context) => {
   return props;
 };
 
-export default (speed, duration) => makeEvent({
-  id: ids.rotate,
-  name: '流転',
-  wait: 300,
-  duration,
-  afterEffect,
-  props: { speed },
-});
+export default (speed, duration) =>
+  makeEvent({
+    id: ids.rotate,
+    name: '流転',
+    wait: 300,
+    duration,
+    afterEffect,
+    props: { speed },
+  });

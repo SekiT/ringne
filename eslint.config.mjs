@@ -12,7 +12,6 @@ const jsConfig = [
     name: 'js/config',
     ...js.configs.recommended,
   },
-  plugins.stylistic,
   {
     ...plugins.importX,
     settings: {
@@ -24,7 +23,7 @@ const jsConfig = [
       },
     },
   },
-  ...configs.base.recommended,
+  ...configs.base.recommended.filter(({ name }) => !name.startsWith('airbnb/config/stylistic')),
   rules.base.importsStrict,
 ];
 
