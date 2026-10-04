@@ -1,4 +1,10 @@
-minimumReleaseAge: 10080
 allowBuilds:
+  dprint: true
   esbuild: true
   unrs-resolver: true
+
+ignoredBuiltDependencies:
+  - esbuild
+  - unrs-resolver
+
+minimumReleaseAge: 10080
