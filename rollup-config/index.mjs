@@ -11,13 +11,15 @@ const commonPlugins = [
   alias('index'),
 ];
 
-const envDependentPlugins = process.env.PRODUCTION ? [
-  esbuild({ minify: true }),
-  minifyTemplate(),
-] : [
-  serve({ contentBase: 'build', open: true }),
-  livereload(),
-];
+const envDependentPlugins = process.env.PRODUCTION
+  ? [
+    esbuild({ minify: true }),
+    minifyTemplate(),
+  ]
+  : [
+    serve({ contentBase: 'build', open: true }),
+    livereload(),
+  ];
 
 export default {
   input: 'index.mjs',

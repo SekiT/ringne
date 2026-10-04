@@ -10,7 +10,10 @@ import none from '@/event/none';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, pi2, min, random,
+  pi,
+  pi2,
+  min,
+  random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -45,8 +48,14 @@ const eventReload = new Map([
 
 const nextEvent = makeNextEvent((mode, level) => createEvent.get(mode)(level), eventReload);
 
-const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
-  enemies, evt, px, py, pa, playerInvincible,
+const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) =>
+(mode, level, levelUp, {
+  enemies,
+  evt,
+  px,
+  py,
+  pa,
+  playerInvincible,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(lv);
@@ -55,32 +64,38 @@ const stage4 = (swimOrbTime = 0, linearOrbTime = 0, evtTime = 0) => (mode, level
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    addSwimOrb ? [
-      swimOrb(
-        -pa + 0.4 + random() * pi * 1.6,
-        boardRadius * min(0.7 + random() * 0.4, 1),
-        swimOrbSpeed.get(mode)(),
-        orbSize.get(mode)(),
-      ),
-    ] : [],
-    addLinearOrb ? new Array(10).fill(random() * pi2).map(
-      (a, i) => linearOrb(center, center, (i / 10) * pi2 + a, 2, 7, 'white', 'blue'),
-    ) : [],
+    addSwimOrb
+      ? [
+        swimOrb(
+          -pa + 0.4 + random() * pi * 1.6,
+          boardRadius * min(0.7 + random() * 0.4, 1),
+          swimOrbSpeed.get(mode)(),
+          orbSize.get(mode)(),
+        ),
+      ]
+      : [],
+    addLinearOrb
+      ? new Array(10).fill(random() * pi2).map(
+        (a, i) => linearOrb(center, center, (i / 10) * pi2 + a, 2, 7, 'white', 'blue'),
+      )
+      : [],
   ].flat();
   const { nextEvt, nextEvtTime } = nextEvent(mode, lv, evtTime, evt);
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage5(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage4(
-      addSwimOrb ? 0 : swimOrbTime + 1,
-      addLinearOrb ? 0 : linearOrbTime + 1,
-      nextEvtTime,
-    ),
-    evt: nextEvt,
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage5(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage4(
+        addSwimOrb ? 0 : swimOrbTime + 1,
+        addLinearOrb ? 0 : linearOrbTime + 1,
+        nextEvtTime,
+      ),
+      evt: nextEvt,
+    };
 };
 
 export default stage4;

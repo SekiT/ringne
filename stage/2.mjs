@@ -49,8 +49,14 @@ const nextEvent = makeNextEvent(
   eventReload,
 );
 
-const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
-  enemies, evt, px, py, pa, playerInvincible,
+const stage2 = (swimOrbTime = 0, evtTime = 0) =>
+(mode, level, levelUp, {
+  enemies,
+  evt,
+  px,
+  py,
+  pa,
+  playerInvincible,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode)(lv);
@@ -58,25 +64,29 @@ const stage2 = (swimOrbTime = 0, evtTime = 0) => (mode, level, levelUp, {
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    addSwimOrb ? [
-      swimOrb(
-        -pa + 0.4 + random() * pi * 1.6,
-        random() * boardRadius,
-        swimOrbSpeed.get(mode)(),
-        orbSize.get(mode)(),
-      ),
-    ] : [],
+    addSwimOrb
+      ? [
+        swimOrb(
+          -pa + 0.4 + random() * pi * 1.6,
+          random() * boardRadius,
+          swimOrbSpeed.get(mode)(),
+          orbSize.get(mode)(),
+        ),
+      ]
+      : [],
   ].flat();
   const { nextEvt, nextEvtTime } = nextEvent(mode, lv, evtTime, evt);
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage3(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage2(addSwimOrb ? 0 : swimOrbTime + 1, nextEvtTime),
-    evt: nextEvt,
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage3(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage2(addSwimOrb ? 0 : swimOrbTime + 1, nextEvtTime),
+      evt: nextEvt,
+    };
 };
 
 export default stage2;

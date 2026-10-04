@@ -5,7 +5,12 @@ import ids from './ids';
 import { canvasWidth } from '@/view/canvas';
 
 const {
-  document, min, max, abs, cos, sin,
+  document,
+  min,
+  max,
+  abs,
+  cos,
+  sin,
 } = dependencies.globals;
 
 export const lazer = (x, y, angle, time = 0) => ({
@@ -27,9 +32,16 @@ const hitTest = (px, py, x, y, angle, time) => {
   return projectedToAngle >= 0 && projectedToAngle <= length(time) && distance <= width(time) / 2;
 };
 
-export const moveLazer = ({
-  time, x, y, angle,
-}, px, py) => ({
+export const moveLazer = (
+  {
+    time,
+    x,
+    y,
+    angle,
+  },
+  px,
+  py,
+) => ({
   nextEnemies: time >= 185 ? [] : [lazer(x, y, angle, time + 1)],
   hit: time > 45 && time < 155 && hitTest(px, py, x, y, angle, time),
 });
@@ -96,7 +108,10 @@ const renderBeam = (context, x, y, time) => {
 };
 
 export const renderLazer = (context, {
-  time, x, y, angle,
+  time,
+  x,
+  y,
+  angle,
 }) => {
   if (time >= 15 && time <= 60) {
     renderLineInAdvance(context, x, y, angle);

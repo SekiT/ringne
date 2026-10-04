@@ -5,9 +5,7 @@ import initialState from './initialState';
 
 import stage1 from '@/stage/1';
 import { buttonIds, getClicks, resetClicks } from '@/state/buttonClicks';
-import {
-  canvasContext as context, canvasWidth, center, clearCanvas,
-} from '@/view/canvas';
+import { canvasContext as context, canvasWidth, center, clearCanvas } from '@/view/canvas';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
 import levelView from '@/view/level';
@@ -16,7 +14,10 @@ import modeButtonsView from '@/view/title/modeButtons';
 import startButtonsView from '@/view/title/startButtons';
 
 const {
-  min, max, round, random,
+  min,
+  max,
+  round,
+  random,
 } = dependencies.globals;
 
 const drawTitle = (opacity) => {
@@ -83,16 +84,18 @@ export default (time = 0) => ({ mode, level, practice }) => {
     };
   }
   resetClicks();
-  return time === 165 ? {
-    nextId: practice ? ids.practice : ids.start,
-    nextArgs: [],
-    stateUpdate: {
-      level: practice ? 1 : level,
-      stage: stage1(),
-    },
-  } : {
-    nextId: ids.title,
-    nextArgs: [time + 1],
-    stateUpdate: time === 0 ? { ...initialState(), mode } : {},
-  };
+  return time === 165
+    ? {
+      nextId: practice ? ids.practice : ids.start,
+      nextArgs: [],
+      stateUpdate: {
+        level: practice ? 1 : level,
+        stage: stage1(),
+      },
+    }
+    : {
+      nextId: ids.title,
+      nextArgs: [time + 1],
+      stateUpdate: time === 0 ? { ...initialState(), mode } : {},
+    };
 };

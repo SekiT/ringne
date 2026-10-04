@@ -10,7 +10,11 @@ import none from '@/event/none';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, pi2, cos, sin, random,
+  pi,
+  pi2,
+  cos,
+  sin,
+  random,
 } = dependencies.globals;
 
 const orbWait = new Map([
@@ -50,8 +54,13 @@ const makeLandolt = (mode, level, angle) => {
   return landolt(x, y, random() * pi2, 1, random() < 0.5 ? 0.03 : -0.03, speed, hole, width);
 };
 
-const stage5 = (swimOrbTime = 0, landoltTime = 100) => (mode, level, levelUp, {
-  enemies, pa, px, py, playerInvincible,
+const stage5 = (swimOrbTime = 0, landoltTime = 100) =>
+(mode, level, levelUp, {
+  enemies,
+  pa,
+  px,
+  py,
+  playerInvincible,
 }) => {
   const addSwimOrb = swimOrbTime >= orbWait.get(mode)(level - 40);
   const addLandolt = landoltTime >= landoltWait.get(mode)((level - 1) % 5);
@@ -59,25 +68,29 @@ const stage5 = (swimOrbTime = 0, landoltTime = 100) => (mode, level, levelUp, {
     playerInvincible > 0
       ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
       : enemies,
-    addSwimOrb ? [
-      swimOrb(
-        -pa + 0.4 + random() * pi * 1.6,
-        boardRadius * random(),
-        orbSpeed.get(mode)(),
-        orbSize.get(mode)(),
-      ),
-    ] : [],
+    addSwimOrb
+      ? [
+        swimOrb(
+          -pa + 0.4 + random() * pi * 1.6,
+          boardRadius * random(),
+          orbSpeed.get(mode)(),
+          orbSize.get(mode)(),
+        ),
+      ]
+      : [],
     addLandolt ? [makeLandolt(mode, level, pi - pa)] : [],
   ].flat();
-  return levelUp && level % 10 === 1 ? {
-    enemies: vanishOrAgeEnemies(nextEnemies),
-    nextStage: stage6(),
-    evt: none(),
-  } : {
-    enemies: nextEnemies,
-    nextStage: stage5(addSwimOrb ? 0 : swimOrbTime + 1, addLandolt ? 0 : landoltTime + 1),
-    evt: none(),
-  };
+  return levelUp && level % 10 === 1
+    ? {
+      enemies: vanishOrAgeEnemies(nextEnemies),
+      nextStage: stage6(),
+      evt: none(),
+    }
+    : {
+      enemies: nextEnemies,
+      nextStage: stage5(addSwimOrb ? 0 : swimOrbTime + 1, addLandolt ? 0 : landoltTime + 1),
+      evt: none(),
+    };
 };
 
 export default stage5;

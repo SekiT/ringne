@@ -19,8 +19,11 @@ const positionStyle = {
   height: `calc(${canvasWidth} * 0.2)`,
 };
 
-const levelView = view(initialState, (render) => ({
-  level, playerAngle, appearance,
+const levelView = view(initialState, (render) =>
+({
+  level,
+  playerAngle,
+  appearance,
 }) => {
   const ap = appearance * 100;
   const ap2 = ap / 2;

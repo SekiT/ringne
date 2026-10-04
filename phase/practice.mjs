@@ -51,13 +51,15 @@ export default (time = 0, selected = null) => ({ mode }) => {
     };
   }
   resetClicks();
-  return time < 60 ? {
-    nextId: ids.practice,
-    nextArgs: [time + 1, selected],
-    stateUpdate: {},
-  } : {
-    nextId: ids.start,
-    nextArgs: [],
-    stateUpdate: {},
-  };
+  return time < 60
+    ? {
+      nextId: ids.practice,
+      nextArgs: [time + 1, selected],
+      stateUpdate: {},
+    }
+    : {
+      nextId: ids.start,
+      nextArgs: [],
+      stateUpdate: {},
+    };
 };

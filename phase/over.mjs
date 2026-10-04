@@ -5,7 +5,10 @@ import ids from './ids';
 import {
   boardRadius,
   canvasContext as context,
-  canvasView, canvasWidth, center, clearCanvas,
+  canvasView,
+  canvasWidth,
+  center,
+  clearCanvas,
 } from '@/view/canvas';
 import deathsView from '@/view/deaths';
 import eventView from '@/view/event';
@@ -89,11 +92,13 @@ export default (time = 0, timeText = null) => ({ mode, deaths, frames }) => {
     const c2 = trunc((c1 + 102) / 2);
     const color1 = `rgb(${c1}, ${c1}, ${c1})`;
     const color2 = `rgb(${c2}, ${c2}, ${c2})`;
-    document.body.style.backgroundImage = `radial-gradient(circle closest-side,${[
-      `${color1} 60%`,
-      `${color2} 100%`,
-      '#666 200%',
-    ].join(', ')})`;
+    document.body.style.backgroundImage = `radial-gradient(circle closest-side,${
+      [
+        `${color1} 60%`,
+        `${color2} 100%`,
+        '#666 200%',
+      ].join(', ')
+    })`;
   }
   if (time === 420) {
     canvasView.update(() => ({ opacity: 1 }));

@@ -15,7 +15,15 @@ import swap from '@/event/swap';
 import { boardRadius, center } from '@/view/canvas';
 
 const {
-  pi, pi2, infinity, max, trunc, cos, sin, atan2, random,
+  pi,
+  pi2,
+  infinity,
+  max,
+  trunc,
+  cos,
+  sin,
+  atan2,
+  random,
 } = dependencies.globals;
 
 const swimOrbWait = new Map([
@@ -36,12 +44,13 @@ const swimOrbSpeed = new Map([
   [modes.hard, () => -0.016 * random()],
 ]);
 
-const spawnOrb = (mode, pa) => swimOrb(
-  -pa + 0.4 + random() * pi * 1.6,
-  random() * boardRadius,
-  swimOrbSpeed.get(mode)(),
-  swimOrbSize.get(mode)(),
-);
+const spawnOrb = (mode, pa) =>
+  swimOrb(
+    -pa + 0.4 + random() * pi * 1.6,
+    random() * boardRadius,
+    swimOrbSpeed.get(mode)(),
+    swimOrbSize.get(mode)(),
+  );
 
 const rotateSpeed = new Map([
   [modes.easy, 0.02],
@@ -55,14 +64,15 @@ const lazerWait = new Map([
   [modes.hard, 250],
 ]);
 
-const spawnLazers = (angle) => [...Array(4)].map((_, index) => {
-  const a = angle + index * (pi / 2);
-  return lazer(
-    center + boardRadius * cos(a),
-    center + boardRadius * sin(a),
-    a + 1.125 * pi,
-  );
-});
+const spawnLazers = (angle) =>
+  [...Array(4)].map((_, index) => {
+    const a = angle + index * (pi / 2);
+    return lazer(
+      center + boardRadius * cos(a),
+      center + boardRadius * sin(a),
+      a + 1.125 * pi,
+    );
+  });
 
 const gravityForce = new Map([
   [modes.easy, 1],
@@ -148,15 +158,17 @@ const radialOrbParams = new Map([
 const spawnRadialOrbs = (mode, angle) => {
   const { speed, length } = radialOrbParams.get(mode);
   const da = pi2 / length;
-  return [...Array(length)].map((_, index) => linearOrb(
-    center,
-    center,
-    angle + index * da,
-    speed,
-    6,
-    'white',
-    'blue',
-  ));
+  return [...Array(length)].map((_, index) =>
+    linearOrb(
+      center,
+      center,
+      angle + index * da,
+      speed,
+      6,
+      'white',
+      'blue',
+    )
+  );
 };
 
 const nextEvent = makeNextEvent((mode, level) => {
@@ -207,8 +219,15 @@ const stage10 = (
   wallOrbOdd = false,
   radialOrbTime = 0,
   radialOrbAngle = 0,
-) => (mode, level, levelUp, {
-  enemies, px, py, pa, pr, playerInvincible, evt,
+) =>
+(mode, level, levelUp, {
+  enemies,
+  px,
+  py,
+  pa,
+  pr,
+  playerInvincible,
+  evt,
 }) => {
   const lv = (level - 1) % 10;
   const addSwimOrb = swimOrbTime >= swimOrbWait.get(mode);
@@ -227,8 +246,7 @@ const stage10 = (
   ].flat();
   const nextEnemies = (playerInvincible > 0
     ? enemies.flatMap(vanishByInvinciblePlayer(playerInvincible, px, py))
-    : enemies
-  ).concat(addedEnemies);
+    : enemies).concat(addedEnemies);
   const { nextEvt, nextEvtTime } = lv % 2
     ? nextEvent(mode, lv, evtTime, evt)
     : { nextEvt: none(), nextEvtTime: 30 };

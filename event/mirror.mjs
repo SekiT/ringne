@@ -9,11 +9,18 @@ import { vanishByInvinciblePlayer } from '@/stage/util';
 import { center, drawGuide, drawPlayer } from '@/view/canvas';
 
 const {
-  pi, min, cos, sin, random,
+  pi,
+  min,
+  cos,
+  sin,
+  random,
 } = dependencies.globals;
 
 const inputEffect = ({
-  playerInvincible, pa, pr, enemies,
+  playerInvincible,
+  pa,
+  pr,
+  enemies,
 }, evt) => {
   const { time } = evt.props;
   const t = min(time / 60, 1);
@@ -24,7 +31,10 @@ const inputEffect = ({
     drawPlayer(shadowX, shadowY);
   }
   const hit = t === 1 && playerInvincible === 0 && enemies.some(({
-    id, angle, radius, width,
+    id,
+    angle,
+    radius,
+    width,
   }) => {
     if (id === enemyIds.swimOrb) {
       const ex = center + radius * cos(angle);
@@ -42,11 +52,12 @@ const inputEffect = ({
   };
 };
 
-export default (duration) => makeEvent({
-  id: ids.mirror,
-  name: '裏現',
-  wait: 300,
-  duration,
-  inputEffect,
-  props: { time: 0 },
-});
+export default (duration) =>
+  makeEvent({
+    id: ids.mirror,
+    name: '裏現',
+    wait: 300,
+    duration,
+    inputEffect,
+    props: { time: 0 },
+  });

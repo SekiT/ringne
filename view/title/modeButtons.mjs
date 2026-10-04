@@ -30,9 +30,13 @@ const buttonStyle = (selected) => ({
   backgroundColor: 'transparent',
 });
 
-const modeButtonsView = view(initialState, (render) => ({
-  opacity, mode, top,
-}) => render`
+const modeButtonsView = view(initialState, (render) =>
+({
+  opacity,
+  mode,
+  top,
+}) =>
+  render`
   <div style=${containerStyle(opacity, top)}>
     <button
       style=${buttonStyle(mode === modes.easy)}

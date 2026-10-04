@@ -38,9 +38,12 @@ const startButtonStyle = (opacity) => ({
   opacity,
 });
 
-const startButtonsView = view(initialState, (render) => ({
-  startOpacity, practiceOpacity,
-}) => render`
+const startButtonsView = view(initialState, (render) =>
+({
+  startOpacity,
+  practiceOpacity,
+}) =>
+  render`
   <div style=${containerStyle(max(startOpacity, practiceOpacity))}>
     <button
       style=${startButtonStyle(startOpacity)}
